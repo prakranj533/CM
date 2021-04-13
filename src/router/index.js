@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from "../views/Home";
+import CareerPathFinder from "../views/CareerPathFinder";
 import PageNotFound from "../views/PageNotFound";
 import ManageNodes from "../views/ManageNodes";
 
@@ -12,11 +13,15 @@ const router = new VueRouter({
     routes: [
         {
             path: "/",
-            redirect: "/home"
+            redirect: "/home",
         },
         {
             path: "/home",
             component: Home,
+        },
+        {
+            path: "/career-path-finder",
+            component: CareerPathFinder,
         },
         {
             path: "/manage-nodes",

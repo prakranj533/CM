@@ -1,0 +1,61 @@
+{
+    "394de7dc-3a6f-476d-a0cd-a4d3a6dd4b2d": {
+        "id": "394de7dc-3a6f-476d-a0cd-a4d3a6dd4b2d",
+        "name": "10th",
+        "paths": [
+            {
+                "to": "b88f4a46-b5fb-4557-ace7-9ea9c3eace2a",
+                "duration": 2,
+                "skills": "physics, chemistry, mathematics"
+            },
+            {
+                "to": "f9af5933-eb3b-4f26-ac12-079a7f686f5b",
+                "duration": 3,
+                "skills": ""
+            }
+        ]
+    },
+    "b88f4a46-b5fb-4557-ace7-9ea9c3eace2a": {
+        "id": "b88f4a46-b5fb-4557-ace7-9ea9c3eace2a",
+        "name": "12th Science",
+        "paths": [
+            {
+                "to": "17890bf1-95a7-4a40-a7d3-cfdc71ca8124",
+                "duration": 4,
+                "skills": "computer, programming"
+            },
+            {
+                "to": "f9af5933-eb3b-4f26-ac12-079a7f686f5b",
+                "duration": 2,
+                "skills": "Mathematics"
+            }
+        ]
+    },
+    "17890bf1-95a7-4a40-a7d3-cfdc71ca8124": {
+        "id": "17890bf1-95a7-4a40-a7d3-cfdc71ca8124",
+        "name": "Software Engineer (BE)",
+        "paths": [
+            {
+                "to": "bb59f913-b8bc-4fb4-9ee9-5ee063db3ad0",
+                "duration": 2,
+                "skills": ""
+            }
+        ]
+    },
+    "bb59f913-b8bc-4fb4-9ee9-5ee063db3ad0": {
+        "id": "bb59f913-b8bc-4fb4-9ee9-5ee063db3ad0",
+        "name": "ME",
+        "paths": []
+    },
+    "f9af5933-eb3b-4f26-ac12-079a7f686f5b": {
+        "id": "f9af5933-eb3b-4f26-ac12-079a7f686f5b",
+        "name": "Engineering Diploma",
+        "paths": [
+            {
+                "to": "17890bf1-95a7-4a40-a7d3-cfdc71ca8124",
+                "duration": 3,
+                "skills": ""
+            }
+        ]
+    }
+}

@@ -24,10 +24,10 @@
     <div class="mt-4 text-h4" v-if="sourceNodeId && destinationNodeId && paths.length == 0">Oops! No Path Found!</div>
     <div class="graph-container mt-8" v-if="paths.length">
       <v-row>
-        <v-col cols="6">
+        <v-col cols="12" sm="6">
           <Graph ref="graph" :nodeMap="sourceToDestinationNodeMap" :height="300" @nodeClicked="graphNodeClicked" />
         </v-col>
-        <v-col cols="6">
+        <v-col cols="12" sm="6">
           <v-simple-table>
             <template v-slot:default>
               <thead>

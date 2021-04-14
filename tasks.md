@@ -26,7 +26,7 @@
 
 ✓ 11. Create netlify account from github account and deploy build to it.
 
-12. Setup automatic build system to deploy code after pushing it to the main branch.
+✓ 12. Setup automatic build system to deploy code after pushing it to the main branch.
 
 <hr/>
 

@@ -23,29 +23,7 @@
     </div>
     <div class="mt-4 text-h4" v-if="sourceNodeId && destinationNodeId && paths.length == 0">Oops! No Path Found!</div>
     <div class="graph-container mt-8" v-if="paths.length">
-      <v-row>
-        <v-col cols="12" sm="6">
-          <Graph ref="graph" :nodeMap="sourceToDestinationNodeMap" :height="300" @nodeClicked="graphNodeClicked" />
-        </v-col>
-        <v-col cols="12" sm="6">
-          <v-simple-table>
-            <template v-slot:default>
-              <thead>
-                <tr>
-                  <th class="text-left">Name</th>
-                  <th class="text-left">Centrality</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="row in centralityTable" :key="row.id">
-                  <td>{{ row.name }}</td>
-                  <td>{{ row.centrality }}</td>
-                </tr>
-              </tbody>
-            </template>
-          </v-simple-table>
-        </v-col>
-      </v-row>
+      <Graph ref="graph" :nodeMap="sourceToDestinationNodeMap" :height="300" />
     </div>
     <div class="paths-container" v-if="paths.length">
       <div class="timeline-container">
@@ -98,8 +76,6 @@
 import nodeMap from "../data/nodeMap.json";
 import PathFinder from "../utils/PathFinder";
 import Graph from "../components/Graph";
-import nGraphGraphCreateGraph from "ngraph.graph";
-import nGraphCentrality from "ngraph.centrality";
 
 export default {
   name: "Home",
@@ -151,39 +127,10 @@ export default {
       }
       return {};
     },
-    centralityTable() {
-      const map = this.sourceToDestinationNodeMap;
-      const nodes = [];
-      const traverse = (id) => {
-        const node = map[id];
-        node.paths.forEach(({ to }) => {
-          nodes.push({ source: id, destination: to });
-          traverse(to);
-        });
-      };
-      if (Object.keys(map).length) {
-        traverse(this.sourceNodeId);
-        // ref - https://github.com/anvaka/ngraph.centrality#closeness-centrality
-        const g = nGraphGraphCreateGraph();
-        nodes.forEach((e) => g.addLink(e.source, e.destination));
-        const result = nGraphCentrality.closeness(g);
-        return Object.keys(result).reduce((finalResult, e) => {
-          const node = map[e];
-          finalResult.push({ id: node.id, name: node.name, centrality: result[e] });
-          return finalResult;
-        }, []);
-      }
-      return nodes;
-    },
   },
   watch: {
     sourceToDestinationNodeMap() {
       this.$refs.graph && this.$refs.graph.drawGraph();
-    },
-  },
-  methods: {
-    graphNodeClicked(nodeId) {
-      console.log(nodeId);
     },
   },
 };

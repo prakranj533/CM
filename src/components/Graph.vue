@@ -24,6 +24,9 @@ export default {
     highlighPath() {
       this.handlePathHighlighting();
     },
+    nodeMap() {
+      this.drawGraph();
+    }
   },
   mounted() {
     this.drawGraph();
@@ -126,6 +129,7 @@ export default {
             .classed("blur", false);
           links
             .classed("blur", true)
+            .classed("path-link", false)
             .filter(
               (d) =>
                 this.idsToHighlight.length &&
@@ -143,6 +147,7 @@ export default {
           links /* prettier-ignore */
             .classed("highlight", false)
             .classed("blur", false);
+          this.handlePathHighlighting();
         });
     },
     handlePathHighlighting() {
@@ -252,10 +257,10 @@ export default {
       }
       &.blur {
         line {
-          stroke-opacity: 0.2;
+          stroke-opacity: 0.1;
         }
         text {
-          opacity: 0.2;
+          opacity: 0.1;
           font-size: 10px;
           font-weight: normal;
         }
@@ -263,7 +268,7 @@ export default {
       &.path-link {
         line {
           stroke: #669df6;
-          stroke-opacity: 0.6;
+          stroke-opacity: 0.5;
           stroke-width: 4px;
         }
       }
@@ -298,12 +303,12 @@ export default {
       }
       &.blur {
         circle {
-          opacity: 0.2;
+          opacity: 0.1;
         }
         text {
           font-size: 9px;
           font-weight: normal;
-          opacity: 0.2;
+          opacity: 0.1;
         }
       }
     }

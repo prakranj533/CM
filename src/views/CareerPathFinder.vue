@@ -28,7 +28,7 @@
     <div class="paths-container" v-if="paths.length">
       <div class="timeline-container">
         <v-tabs v-model="pathModel">
-          <v-tab v-for="(path, index) in paths" :key="index">Path {{ index }}/{{ paths.length }}</v-tab>
+          <v-tab v-for="(path, index) in paths" :key="index">Path {{ index + 1 }}/{{ paths.length }}</v-tab>
         </v-tabs>
         <v-tabs-items v-model="pathModel">
           <v-tab-item v-for="(path, index) in paths" :key="index">
@@ -134,11 +134,6 @@ export default {
         return sourceToDestinationNodeMap;
       }
       return {};
-    },
-  },
-  watch: {
-    sourceToDestinationNodeMap() {
-      this.$refs.graph && this.$refs.graph.drawGraph();
     },
   },
 };

@@ -15,10 +15,22 @@ export default {
     nodeMap: Object,
     width: Number,
     height: Number,
+    highlighPath: {
+      type: Array,
+      default: () => [],
+    },
   },
   data: () => ({
     idsToHighlight: [],
   }),
+  watch: {
+    highlighPath() {
+      this.handlePathHighlighting();
+    },
+    nodeMap() {
+      this.drawGraph();
+    },
+  },
   mounted() {
     this.drawGraph();
   },
@@ -48,6 +60,7 @@ export default {
       const svg = d3.select("#graph-svg");
       svg.attr("width", width);
       svg.attr("height", height);
+      svg.on("click", () => d3.event.target.tagName !== "circle" && (this.idsToHighlight = []));
       const color = d3.scaleOrdinal(d3.schemeCategory10);
 
       /* prettier-ignore */
@@ -75,28 +88,15 @@ export default {
         .append("circle")
         .attr("fill", (d) => color(d.id))
         .attr("r", 6);
-      // .attr("onmouseover", "evt.target.setAttribute('r', 9);")
-      // .attr("onmouseout", "evt.target.setAttribute('r', 6);")
-      //   this.handleNodeHover(circles);
 
       nodes.append("text").text((d) => d.name);
-      nodes.on("click", (d) => this.handleNodeClick(d.id, nodes));
 
       const forceSimulation = this.getForceSimulation(width, height, data, links, nodes);
+
+      nodes.on("click", (d) => this.$emit("nodeClicked", d.id));
+      this.handleHover(links, nodes);
       this.handleNodeDrag(nodes, forceSimulation);
-    },
-    handleNodeClick(nodeId, nodes) {
-      this.idsToHighlight = [nodeId, ...this.nodeMap[nodeId].paths.map((e) => e.to)];
-      nodes.select("circle").attr("class", (d) => (this.idsToHighlight.includes(d.id) ? "highlight" : "blur"));
-      nodes.select("text").attr("class", (d) => (this.idsToHighlight.includes(d.id) ? "highlight" : "blur"));
-      //   circles
-      //     .on("mouseover", (d) => {
-      //       this.idsToHighlight = [d.id, ...this.nodeMap[d.id].paths.map((e) => e.to)];
-      //     })
-      //     .on("mouseout", () => {
-      //       this.idsToHighlight = [];
-      //     });
-      this.$emit("nodeClicked", nodeId);
+      this.handlePathHighlighting();
     },
     handleNodeDrag(nodes, forceSimulation) {
       const drag = d3
@@ -117,6 +117,49 @@ export default {
           d.fy = null;
         });
       nodes.call(drag);
+    },
+    handleHover(links, nodes) {
+      nodes
+        .select("circle")
+        .attr("onmouseover", "evt.target.setAttribute('r', 8)")
+        .attr("onmouseout", "evt.target.setAttribute('r', 6)")
+        .on("mouseover", (d) => {
+          this.idsToHighlight = [d.id, ...this.nodeMap[d.id].paths.map((e) => e.to)];
+          nodes
+            .classed("blur", true)
+            .filter((d) => this.idsToHighlight.includes(d.id))
+            .classed("highlight", true)
+            .classed("blur", false);
+          links
+            .classed("blur", true)
+            .classed("path-link", false)
+            .filter(
+              (d) =>
+                this.idsToHighlight.length &&
+                this.idsToHighlight[0] === d.source.id &&
+                this.idsToHighlight.includes(d.target.id)
+            )
+            .classed("highlight", true)
+            .classed("blur", false);
+        })
+        .on("mouseout", () => {
+          this.idsToHighlight = [];
+          nodes /* prettier-ignore */
+            .classed("highlight", false)
+            .classed("blur", false);
+          links /* prettier-ignore */
+            .classed("highlight", false)
+            .classed("blur", false);
+          this.handlePathHighlighting();
+        });
+    },
+    handlePathHighlighting() {
+      const svg = d3.select("#graph-svg");
+      const links = svg.select(".links").selectAll("g");
+      links
+        .classed("path-link", false)
+        .filter((d) => this.highlighPath.find((e) => e.source === d.source.id && e.target === d.target.id))
+        .classed("path-link", true);
     },
     getForceSimulation(width, height, data, links, nodes) {
       const density = 0.08680792891319207;
@@ -159,22 +202,23 @@ export default {
           const yMax = (height - NODE_RADIUS - scale.dy) / scale.factor;
           return (d.y = Math.max(yMin, Math.min(yMax, d.y)));
         };
-        const circle = nodes
+
+        nodes
           .select("circle")
           .attr("cx", (d) => getX(d))
           .attr("cy", (d) => getY(d));
 
-        const circleText = nodes
+        nodes
           .select("text")
           .attr("x", (d) => getX(d) - (d.name.length * 14) / 4)
           .attr("y", (d) => getY(d) - 8);
 
-        const highlight = (d) => this.idsToHighlight.includes(d.id);
-        if (this.idsToHighlight.length) {
-          circle.attr("r", (d) => (highlight(d) ? 9 : 6));
-          circle.attr("class", (d) => (highlight(d) ? "highlight" : "blur"));
-          circleText.attr("class", (d) => (highlight(d) ? "highlight" : "blur"));
-        }
+        // const highlight = (d) => this.idsToHighlight.includes(d.id);
+        // if (this.idsToHighlight.length) {
+        //   // circle.attr("r", (d) => (highlight(d) ? 9 : 6));
+        //   // circle.attr("class", (d) => (highlight(d) ? "highlight" : "blur"));
+        //   // circleText.attr("class", (d) => (highlight(d) ? "highlight" : "blur"));
+        // }
       };
     },
   },
@@ -187,67 +231,88 @@ export default {
 <style lang="scss">
 #graph-svg {
   .links {
-    line {
-      stroke: #000;
-      stroke-opacity: 0.25;
-      transition: opacity 150ms linear, stroke-opacity 150ms linear;
-      &.highlight {
-        opacity: 1;
+    g {
+      line {
+        stroke: lightgray;
         stroke-opacity: 1;
+        stroke-width: 1px;
+      }
+      text {
+        font-size: 9px;
+        /*** unselectable ****/
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+      &.highlight {
+        line {
+          stroke: rgb(10, 3, 3);
+          stroke-opacity: 1;
+        }
+        text {
+          opacity: 1;
+          font-size: 10px;
+          font-weight: bold;
+        }
       }
       &.blur {
-        opacity: 0.2;
-        stroke-opacity: 1;
+        line {
+          stroke-opacity: 0.1;
+        }
+        text {
+          opacity: 0.1;
+          font-size: 10px;
+          font-weight: normal;
+        }
       }
-    }
-    text {
-      font-size: 9px;
-      /*** unselectable ****/
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      -khtml-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      /*********************/
-      &.highlight {
-        opacity: 1;
-      }
-      &.blur {
-        opacity: 0.2;
+      &.path-link {
+        line {
+          stroke: #669df6;
+          stroke-opacity: 0.5;
+          stroke-width: 4px;
+        }
       }
     }
   }
   .nodes {
-    circle {
-      &:hover {
-        cursor: pointer;
+    g {
+      circle {
+        &:hover {
+          cursor: pointer;
+        }
       }
-      &.highlight {
-        opacity: 1;
-      }
-      &.blur {
-        opacity: 0.2;
-      }
-    }
-    text {
-      font-size: 12px;
-      /*** unselectable ****/
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      -khtml-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      /*********************/
-      &.highlight {
+      text {
         font-size: 12px;
-        font-weight: bold;
-        opacity: 1;
+        /*** unselectable ****/
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+      &.highlight {
+        circle {
+          opacity: 1;
+        }
+        text {
+          font-size: 12px;
+          font-weight: bold;
+          opacity: 1;
+        }
       }
       &.blur {
-        font-size: 10px;
-        opacity: 0.3;
+        circle {
+          opacity: 0.1;
+        }
+        text {
+          font-size: 9px;
+          font-weight: normal;
+          opacity: 0.1;
+        }
       }
     }
   }

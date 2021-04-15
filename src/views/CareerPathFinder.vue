@@ -23,12 +23,12 @@
     </div>
     <div class="mt-4 text-h4" v-if="sourceNodeId && destinationNodeId && paths.length == 0">Oops! No Path Found!</div>
     <div class="graph-container mt-8" v-if="paths.length">
-      <Graph ref="graph" :nodeMap="sourceToDestinationNodeMap" :height="300" />
+      <Graph ref="graph" :nodeMap="sourceToDestinationNodeMap" :highlighPath="currPath" :height="300" />
     </div>
     <div class="paths-container" v-if="paths.length">
       <div class="timeline-container">
         <v-tabs v-model="pathModel">
-          <v-tab v-for="(path, index) in paths" :key="index">Path {{ index }}/{{ paths.length }}</v-tab>
+          <v-tab v-for="(path, index) in paths" :key="index">Path {{ index + 1 }}/{{ paths.length }}</v-tab>
         </v-tabs>
         <v-tabs-items v-model="pathModel">
           <v-tab-item v-for="(path, index) in paths" :key="index">
@@ -95,11 +95,19 @@ export default {
       return this.allSourceNodes.filter((e) => e.id !== this.sourceNodeId);
     },
     paths() {
-      if (this.sourceNodeId && this.destinationNodeId) {
-        this.$el.click();
-        return this.pathFinder.getAllPaths(this.sourceNodeId, this.destinationNodeId);
-      }
-      return [];
+      return this.sourceNodeId && this.destinationNodeId
+        ? this.pathFinder.getAllPaths(this.sourceNodeId, this.destinationNodeId)
+        : [];
+    },
+    currPath() {
+      return this.paths.length
+        ? this.paths[this.pathModel]
+            .map((e) => e.id)
+            .reduce((t, e, i, a) => {
+              if (i < a.length - 1) t.push({ source: e, target: a[i + 1] });
+              return t;
+            }, [])
+        : [];
     },
     sourceToDestinationNodeMap() {
       if (this.paths.length) {
@@ -126,11 +134,6 @@ export default {
         return sourceToDestinationNodeMap;
       }
       return {};
-    },
-  },
-  watch: {
-    sourceToDestinationNodeMap() {
-      this.$refs.graph && this.$refs.graph.drawGraph();
     },
   },
 };

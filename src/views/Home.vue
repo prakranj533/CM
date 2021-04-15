@@ -25,7 +25,7 @@
       </v-col>
     </v-row>
     <div style="display: flex; justify-content: center" class="mt-12">
-      <v-btn text @click="goToCareerPathFinder">Career Path Finder</v-btn>
+      <v-btn color="primary" elevation="5" large @click="goToCareerPathFinder">Career Path Finder</v-btn>
     </div>
     <v-list-item-title class="my-8 text-center text-body-2">Feedback: lifelonglearning.in@gmail.com</v-list-item-title>
   </div>

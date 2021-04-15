@@ -80,7 +80,7 @@ export default {
       nodes.append("text").text((d) => d.name);
 
       nodes.on("click", (d) => this.handleNodeClick(d.id, nodes));
-      this.handleHover(nodes);
+      this.handleHover(links, nodes);
 
       const forceSimulation = this.getForceSimulation(width, height, data, links, nodes);
       this.handleNodeDrag(nodes, forceSimulation);
@@ -118,7 +118,7 @@ export default {
         });
       nodes.call(drag);
     },
-    handleHover(nodes) {
+    handleHover(links, nodes) {
       nodes
         .select("circle")
         .attr("onmouseover", "evt.target.setAttribute('r', 8)")
@@ -130,10 +130,23 @@ export default {
             .filter((d) => this.idsToHighlight.includes(d.id))
             .classed("highlight", true)
             .classed("blur", false);
+          links
+            .classed("blur", true)
+            .filter(
+              (d) =>
+                this.idsToHighlight.length &&
+                this.idsToHighlight[0] === d.source.id &&
+                this.idsToHighlight.includes(d.target.id)
+            )
+            .classed("highlight", true)
+            .classed("blur", false);
         })
         .on("mouseout", () => {
           this.idsToHighlight = [];
           nodes /* prettier-ignore */
+            .classed("highlight", false)
+            .classed("blur", false);
+          links /* prettier-ignore */
             .classed("highlight", false)
             .classed("blur", false);
         });
@@ -208,35 +221,38 @@ export default {
 <style lang="scss">
 #graph-svg {
   .links {
-    line {
-      stroke: #000;
-      stroke-opacity: 0.25;
-      transition: opacity 150ms linear, stroke-opacity 150ms linear;
-      // &.highlight {
-      //   opacity: 1;
-      //   stroke-opacity: 1;
-      // }
-      // &.blur {
-      //   opacity: 0.2;
-      //   stroke-opacity: 1;
-      // }
-    }
-    text {
-      font-size: 9px;
-      /*** unselectable ****/
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      -khtml-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      /*********************/
-      // &.highlight {
-      //   opacity: 1;
-      // }
-      // &.blur {
-      //   opacity: 0.2;
-      // }
+    g {
+      line {
+        stroke: lightgray;
+        stroke-opacity: 1;
+      }
+      text {
+        font-size: 9px;
+        /*** unselectable ****/
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+      &.highlight {
+        line {
+          stroke: black;
+          stroke-opacity: 1;
+        }
+        text {
+          opacity: 1;
+        }
+      }
+      &.blur {
+        line {
+          stroke-opacity: 0.2;
+        }
+        text {
+          opacity: 0.2;
+        }
+      }
     }
   }
   .nodes {

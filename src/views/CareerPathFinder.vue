@@ -23,7 +23,7 @@
     </div>
     <div class="mt-4 text-h4" v-if="sourceNodeId && destinationNodeId && paths.length == 0">Oops! No Path Found!</div>
     <div class="graph-container mt-8" v-if="paths.length">
-      <Graph ref="graph" :nodeMap="sourceToDestinationNodeMap" :height="300" />
+      <Graph ref="graph" :nodeMap="sourceToDestinationNodeMap" :highlighPath="currPath" :height="300" />
     </div>
     <div class="paths-container" v-if="paths.length">
       <div class="timeline-container">
@@ -100,6 +100,14 @@ export default {
         return this.pathFinder.getAllPaths(this.sourceNodeId, this.destinationNodeId);
       }
       return [];
+    },
+    currPath() {
+      return this.paths.length
+        ? this.paths[this.pathModel].map(e => e.id).reduce((t, e, i, a) => {
+            if (i < a.length - 1) t.push({ source: e, target: a[i + 1] });
+            return t;
+          }, [])
+        : [];
     },
     sourceToDestinationNodeMap() {
       if (this.paths.length) {

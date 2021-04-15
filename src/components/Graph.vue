@@ -15,10 +15,16 @@ export default {
     nodeMap: Object,
     width: Number,
     height: Number,
+    highlighPath: Array,
   },
   data: () => ({
     idsToHighlight: [],
   }),
+  watch: {
+    highlighPath() {
+      this.handlePathHighlighting();
+    },
+  },
   mounted() {
     this.drawGraph();
   },
@@ -151,6 +157,14 @@ export default {
             .classed("blur", false);
         });
     },
+    handlePathHighlighting() {
+      const svg = d3.select("#graph-svg");
+      const links = svg.select(".links").selectAll("g");
+      links
+        .classed("path-link", false)
+        .filter((d) => this.highlighPath.find((e) => e.source === d.source.id && e.target === d.target.id))
+        .classed("path-link", true);
+    },
     getForceSimulation(width, height, data, links, nodes) {
       const density = 0.08680792891319207;
       const nodeDistance = d3.scaleLinear().domain([0, 0.1]).range([25, 500]).clamp(true);
@@ -225,6 +239,7 @@ export default {
       line {
         stroke: lightgray;
         stroke-opacity: 1;
+        stroke-width: 1px;
       }
       text {
         font-size: 9px;
@@ -255,6 +270,13 @@ export default {
           opacity: 0.2;
           font-size: 10px;
           font-weight: normal;
+        }
+      }
+      &.path-link {
+        line {
+          stroke: #669df6;
+          stroke-opacity: 0.6;
+          stroke-width: 4px;
         }
       }
     }

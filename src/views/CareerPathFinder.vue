@@ -95,18 +95,18 @@ export default {
       return this.allSourceNodes.filter((e) => e.id !== this.sourceNodeId);
     },
     paths() {
-      if (this.sourceNodeId && this.destinationNodeId) {
-        this.$el.click();
-        return this.pathFinder.getAllPaths(this.sourceNodeId, this.destinationNodeId);
-      }
-      return [];
+      return this.sourceNodeId && this.destinationNodeId
+        ? this.pathFinder.getAllPaths(this.sourceNodeId, this.destinationNodeId)
+        : [];
     },
     currPath() {
       return this.paths.length
-        ? this.paths[this.pathModel].map(e => e.id).reduce((t, e, i, a) => {
-            if (i < a.length - 1) t.push({ source: e, target: a[i + 1] });
-            return t;
-          }, [])
+        ? this.paths[this.pathModel]
+            .map((e) => e.id)
+            .reduce((t, e, i, a) => {
+              if (i < a.length - 1) t.push({ source: e, target: a[i + 1] });
+              return t;
+            }, [])
         : [];
     },
     sourceToDestinationNodeMap() {

@@ -85,24 +85,12 @@ export default {
 
       nodes.append("text").text((d) => d.name);
 
-      nodes.on("click", (d) => this.handleNodeClick(d.id, nodes));
-      this.handleHover(links, nodes);
-
       const forceSimulation = this.getForceSimulation(width, height, data, links, nodes);
+
+      nodes.on("click", (d) => this.$emit("nodeClicked", d.id));
+      this.handleHover(links, nodes);
       this.handleNodeDrag(nodes, forceSimulation);
-    },
-    handleNodeClick() {
-      // this.idsToHighlight = [nodeId, ...this.nodeMap[nodeId].paths.map((e) => e.to)];
-      // nodes.select("circle").attr("class", (d) => (this.idsToHighlight.includes(d.id) ? "highlight" : "blur"));
-      // nodes.select("text").attr("class", (d) => (this.idsToHighlight.includes(d.id) ? "highlight" : "blur"));
-      //   circles
-      //     .on("mouseover", (d) => {
-      //       this.idsToHighlight = [d.id, ...this.nodeMap[d.id].paths.map((e) => e.to)];
-      //     })
-      //     .on("mouseout", () => {
-      //       this.idsToHighlight = [];
-      //     });
-      // this.$emit("nodeClicked", nodeId);
+      this.handlePathHighlighting();
     },
     handleNodeDrag(nodes, forceSimulation) {
       const drag = d3

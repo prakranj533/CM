@@ -15,7 +15,10 @@ export default {
     nodeMap: Object,
     width: Number,
     height: Number,
-    highlighPath: Array,
+    highlighPath: {
+      type: Array,
+      default: () => [],
+    },
   },
   data: () => ({
     idsToHighlight: [],
@@ -26,7 +29,7 @@ export default {
     },
     nodeMap() {
       this.drawGraph();
-    }
+    },
   },
   mounted() {
     this.drawGraph();

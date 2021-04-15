@@ -238,11 +238,13 @@ export default {
       }
       &.highlight {
         line {
-          stroke: black;
+          stroke: rgb(10, 3, 3);
           stroke-opacity: 1;
         }
         text {
           opacity: 1;
+          font-size: 10px;
+          font-weight: bold;
         }
       }
       &.blur {
@@ -251,6 +253,8 @@ export default {
         }
         text {
           opacity: 0.2;
+          font-size: 10px;
+          font-weight: normal;
         }
       }
     }
@@ -288,6 +292,7 @@ export default {
         }
         text {
           font-size: 9px;
+          font-weight: normal;
           opacity: 0.2;
         }
       }

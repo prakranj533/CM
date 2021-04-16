@@ -1,29 +1,23 @@
 <template>
   <div class="home">
     <div class="text-h5 text-center">Probabilistic Career Maps</div>
-    <v-row>
-      <v-col cols="12" sm="6">
-        <Graph ref="graph" :nodeMap="nodeMap" :height="320" />
-      </v-col>
-      <v-col cols="12" sm="6">
-        <v-simple-table class="centrality-table mt-6">
-          <template v-slot:default>
-            <thead>
-              <tr>
-                <th class="text-left">Name</th>
-                <th class="text-left">Centrality</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="row in centralityTable" :key="row.id">
-                <td>{{ row.name }}</td>
-                <td>{{ parseFloat(row.centrality.toFixed(3)) }}</td>
-              </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
-      </v-col>
-    </v-row>
+    <Graph ref="graph" :nodeMap="nodeMap" :height="900" />
+    <v-simple-table class="centrality-table mt-6">
+      <template v-slot:default>
+        <thead>
+          <tr>
+            <th class="text-left">Name</th>
+            <th class="text-left">Centrality</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="row in centralityTable" :key="row.id">
+            <td>{{ row.name }}</td>
+            <td>{{ parseFloat(row.centrality.toFixed(3)) }}</td>
+          </tr>
+        </tbody>
+      </template>
+    </v-simple-table>
     <div style="display: flex; justify-content: center" class="mt-12">
       <v-btn color="primary" elevation="5" large @click="goToCareerPathFinder">Career Path Finder</v-btn>
     </div>
@@ -36,6 +30,8 @@ import nodeMap from "../data/nodeMap.json";
 import Graph from "../components/Graph";
 import nGraphGraphCreateGraph from "ngraph.graph";
 import nGraphCentrality from "ngraph.centrality";
+
+const lllDefaultNode = "ad2ec013-a9d6-42ee-9401-aa09b0a69c5f";
 
 export default {
   name: "Home",
@@ -55,7 +51,7 @@ export default {
         });
       };
       if (Object.keys(map).length) {
-        traverse("394de7dc-3a6f-476d-a0cd-a4d3a6dd4b2d");
+        traverse(lllDefaultNode);
         // ref - https://github.com/anvaka/ngraph.centrality#betweenness-centrality
         const g = nGraphGraphCreateGraph();
         nodes.forEach((e) => g.addLink(e.source, e.destination));
@@ -79,7 +75,7 @@ export default {
 
 <style>
 .centrality-table {
-  max-width: 440px;
+  max-height: 440px !important;
   overflow: auto;
 }
 </style>

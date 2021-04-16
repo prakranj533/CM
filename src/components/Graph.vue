@@ -73,7 +73,8 @@ export default {
         .append("g");
 
       links.append("line");
-      links.append("text").text((d) => `(${d.duration} years)`);
+      links.append("text")
+        .text((d) => d.duration);
 
       /* prettier-ignore */
       const nodes = svg
@@ -89,7 +90,8 @@ export default {
         .attr("fill", (d) => color(d.id))
         .attr("r", 6);
 
-      nodes.append("text").text((d) => d.name);
+      nodes.append("text")
+        .text((d) => d.name);
 
       const forceSimulation = this.getForceSimulation(width, height, data, links, nodes);
 
@@ -105,7 +107,6 @@ export default {
           if (!d3.event.active) forceSimulation.alphaTarget(0.3).restart();
           d.fx = d.x;
           d.fy = d.y;
-          // setActiveNode(d);
         })
         .on("drag", (d) => {
           d.fx = d3.event.x;
@@ -167,7 +168,7 @@ export default {
       /* prettier-ignore */
       const forceSimulation = d3.forceSimulation()
         .force("charge", d3.forceManyBody().distanceMax(nodeDistance(density)))
-        .force("link", d3.forceLink().distance(() => 100).id((d) => d.id))
+        .force("link", d3.forceLink().distance(() => 50).id((d) => d.id))
         .force("center", d3.forceCenter(width / 2, height / 2));
       forceSimulation
         .nodes(data.nodes)
@@ -285,7 +286,7 @@ export default {
         }
       }
       text {
-        font-size: 12px;
+        font-size: 10px;
         /*** unselectable ****/
         -webkit-touch-callout: none;
         -webkit-user-select: none;
@@ -299,7 +300,7 @@ export default {
           opacity: 1;
         }
         text {
-          font-size: 12px;
+          font-size: 10px;
           font-weight: bold;
           opacity: 1;
         }

@@ -31,8 +31,6 @@ import Graph from "../components/Graph";
 import nGraphGraphCreateGraph from "ngraph.graph";
 import nGraphCentrality from "ngraph.centrality";
 
-const lllDefaultNode = "03ddc985-0c72-4651-8889-7d1cb4936749";
-
 export default {
   name: "Home",
   components: { Graph },
@@ -51,7 +49,8 @@ export default {
         });
       };
       if (Object.keys(map).length) {
-        traverse(lllDefaultNode);
+        const nodeIdOf8th = Object.values(map).find(e => "8th" === e.name).id;
+        traverse(nodeIdOf8th);
         // ref - https://github.com/anvaka/ngraph.centrality#betweenness-centrality
         const g = nGraphGraphCreateGraph();
         nodes.forEach((e) => g.addLink(e.source, e.destination));

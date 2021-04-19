@@ -168,7 +168,7 @@ export default {
       /* prettier-ignore */
       const forceSimulation = d3.forceSimulation()
         .force("charge", d3.forceManyBody().distanceMax(nodeDistance(density)))
-        .force("link", d3.forceLink().distance(() => 50).id((d) => d.id))
+        .force("link", d3.forceLink().distance(() => 100).id((d) => d.id))
         .force("center", d3.forceCenter(width / 2, height / 2));
       forceSimulation
         .nodes(data.nodes)
@@ -192,15 +192,16 @@ export default {
 
         const NODE_RADIUS = 9;
         const scale = { factor: 1, init: 1, dx: 0, dy: 0 };
+        const GRAPH_PADDING = .05;
 
         const getX = (d) => {
-          const xMin = (NODE_RADIUS - scale.dx) / scale.factor;
-          const xMax = (width - NODE_RADIUS - scale.dx) / scale.factor;
+          const xMin = (NODE_RADIUS + width * GRAPH_PADDING - scale.dx) / scale.factor;
+          const xMax = (width * (1 - GRAPH_PADDING) - NODE_RADIUS - scale.dx) / scale.factor;
           return (d.x = Math.max(xMin, Math.min(xMax, d.x)));
         };
         const getY = (d) => {
-          var yMin = (NODE_RADIUS - scale.dy) / scale.factor;
-          const yMax = (height - NODE_RADIUS - scale.dy) / scale.factor;
+          var yMin = (NODE_RADIUS + height * GRAPH_PADDING - scale.dy) / scale.factor;
+          const yMax = (height * (1 - GRAPH_PADDING) - NODE_RADIUS - scale.dy) / scale.factor;
           return (d.y = Math.max(yMin, Math.min(yMax, d.y)));
         };
 

@@ -38,7 +38,7 @@
             <v-timeline align-top dense>
               <v-timeline-item v-for="(entry, index) in path" :key="index" small fill-dot>
                 <div class="text-body-1 font-weight-medium">{{ entry.name }}</div>
-                <div class="caption">{{ index == 0 ? "Start" : `${entry.duration} year` }}</div>
+                <div class="caption">{{ index == 0 ? "Start" : entry.duration }}</div>
                 <div class="caption" v-if="entry.skills.length">Skills - {{ entry.skills.join(", ") }}</div>
               </v-timeline-item>
             </v-timeline>

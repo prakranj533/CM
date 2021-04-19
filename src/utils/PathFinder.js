@@ -8,18 +8,21 @@ export default class PathFinder {
         this.allPaths = [];
         this.sourceNodeId = sourceNodeId;
         this.destinationNodeId = destinationNodeId;
-        this.findPath(this.sourceNodeId, [], { duration: 0, skills: "" });
-        const formatPath = path => path.map(e => ({ ...e, name: this.nodeMap[e.id].name }));
-        return this.allPaths.map(formatPath);
+        try {
+            this.findPath(this.sourceNodeId, [], { duration: "", skills: "" });
+            const formatPath = path => path.map(e => ({ ...e, name: this.nodeMap[e.id].name }));
+            return this.allPaths.map(formatPath);
+        } catch (e) {
+            console.log(e);
+        }
+        return [];
     }
 
     findPath(currNodeId, visitedNodes, path) {
-        this.nodeMap[currNodeId].paths.map(path => this.nodeMap[path.to].name);
         if (!visitedNodes.includes(e => e.id === currNodeId)) {
             const updatedVisitedNodes = [...visitedNodes, {
                 id: currNodeId,
                 duration: path.duration,
-                totalDuration: (visitedNodes.length ? visitedNodes[visitedNodes.length - 1].totalDuration : 0) + path.duration,
                 skills: path.skills.split(",").filter(e => e)
             }];
             if (currNodeId === this.destinationNodeId)

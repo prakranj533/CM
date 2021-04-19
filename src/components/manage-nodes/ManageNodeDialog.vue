@@ -130,7 +130,7 @@ export default {
       radioGroupModel: "new",
       childNodeName: "",
       childNodeId: "",
-      duration: 2,
+      duration: "",
       skills: "",
       editedNodeName: "",
       destinationNodeId: "",
@@ -144,7 +144,7 @@ export default {
           this.radioGroupModel = "new";
           this.childNodeName = "";
           this.childNodeId = "";
-          this.duration = 2;
+          this.duration = "";
           this.skills = "";
         }
       },
@@ -201,7 +201,7 @@ export default {
       const parentNode = this.nodeMap[this.config.nodeId];
       parentNode.paths.push({
         to: childNodeId,
-        duration: parseInt(this.duration),
+        duration: this.duration,
         skills: this.skills,
       });
       this.notify();

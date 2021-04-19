@@ -1,29 +1,23 @@
 <template>
   <div class="home">
     <div class="text-h5 text-center">Probabilistic Career Maps</div>
-    <v-row>
-      <v-col cols="12" sm="6">
-        <Graph ref="graph" :nodeMap="nodeMap" :height="320" />
-      </v-col>
-      <v-col cols="12" sm="6">
-        <v-simple-table class="centrality-table mt-6">
-          <template v-slot:default>
-            <thead>
-              <tr>
-                <th class="text-left">Name</th>
-                <th class="text-left">Centrality</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="row in centralityTable" :key="row.id">
-                <td>{{ row.name }}</td>
-                <td>{{ parseFloat(row.centrality.toFixed(3)) }}</td>
-              </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
-      </v-col>
-    </v-row>
+    <Graph ref="graph" :nodeMap="nodeMap" :height="900" />
+    <v-simple-table class="centrality-table mt-6">
+      <template v-slot:default>
+        <thead>
+          <tr>
+            <th class="text-left">Name</th>
+            <th class="text-left">Centrality</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="row in centralityTable" :key="row.id">
+            <td>{{ row.name }}</td>
+            <td>{{ parseFloat(row.centrality.toFixed(3)) }}</td>
+          </tr>
+        </tbody>
+      </template>
+    </v-simple-table>
     <div style="display: flex; justify-content: center" class="mt-12">
       <v-btn color="primary" elevation="5" large @click="goToCareerPathFinder">Career Path Finder</v-btn>
     </div>
@@ -55,11 +49,12 @@ export default {
         });
       };
       if (Object.keys(map).length) {
-        traverse("394de7dc-3a6f-476d-a0cd-a4d3a6dd4b2d");
+        const nodeIdOf8th = Object.values(map).find(e => "8th" === e.name).id;
+        traverse(nodeIdOf8th);
         // ref - https://github.com/anvaka/ngraph.centrality#betweenness-centrality
         const g = nGraphGraphCreateGraph();
         nodes.forEach((e) => g.addLink(e.source, e.destination));
-        const result = nGraphCentrality.betweenness(g);
+        let result = nGraphCentrality.betweenness(g);
         return Object.keys(result).reduce((finalResult, e) => {
           const node = map[e];
           finalResult.push({ id: node.id, name: node.name, centrality: result[e] });
@@ -79,7 +74,7 @@ export default {
 
 <style>
 .centrality-table {
-  max-width: 440px;
+  max-height: 440px !important;
   overflow: auto;
 }
 </style>

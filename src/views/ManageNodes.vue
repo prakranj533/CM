@@ -4,7 +4,7 @@
       <v-spacer></v-spacer>
       <v-btn text @click="downloadNodeMap">Download Node Map</v-btn>
     </v-list-item>
-    <Graph ref="graph" :nodeMap="nodeMap" @nodeClicked="nodeClicked" />
+    <Graph ref="graph" :nodeMap="nodeMap" @nodeClicked="nodeClicked" :height="900" />
     <ManageNodeDialog :nodeMap="nodeMap" :config="createNodeDialogConfig" @updated="nodeMapUpdated" />
   </div>
 </template>

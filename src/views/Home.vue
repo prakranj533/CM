@@ -54,7 +54,7 @@ export default {
         // ref - https://github.com/anvaka/ngraph.centrality#betweenness-centrality
         const g = nGraphGraphCreateGraph();
         nodes.forEach((e) => g.addLink(e.source, e.destination));
-        let result = nGraphCentrality.closeness(g);
+        let result = nGraphCentrality.betweenness(g);
         return Object.keys(result).reduce((finalResult, e) => {
           const node = map[e];
           finalResult.push({ id: node.id, name: node.name, centrality: result[e] });

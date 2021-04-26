@@ -33,12 +33,12 @@
         <v-tabs-items v-model="pathModel">
           <v-tab-item v-for="(path, index) in paths" :key="index">
             <div class="mt-4 text-body-1 font-weight-bold">
-              Total Duration: {{ path.reduce((t, e) => t + e.duration, 0) }} years
+              Total Duration: {{ parseFloat(path.filter(e => e.duration).reduce((t, e) => t + parseFloat(e.duration), 0).toFixed(2)).toString() }} years
             </div>
             <v-timeline align-top dense>
               <v-timeline-item v-for="(entry, index) in path" :key="index" small fill-dot>
                 <div class="text-body-1 font-weight-medium">{{ entry.name }}</div>
-                <div class="caption">{{ index == 0 ? "Start" : entry.duration }}</div>
+                <div class="caption">{{ index == 0 ? "Start" : entry.duration + " years" }}</div>
                 <div class="caption" v-if="entry.skills.length">Skills - {{ entry.skills.join(", ") }}</div>
               </v-timeline-item>
             </v-timeline>
@@ -108,6 +108,9 @@ export default {
               return t;
             }, [])
         : [];
+    },
+    totalDuration() {
+      return this.paths[this.pathModel].map(e => e.duration);
     },
     sourceToDestinationNodeMap() {
       if (this.paths.length) {

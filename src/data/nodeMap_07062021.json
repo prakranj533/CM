@@ -1,0 +1,2443 @@
+{
+  "5651d2ba-ed23-4dcc-a94f-8d6c8601fb39": {
+    "id": "5651d2ba-ed23-4dcc-a94f-8d6c8601fb39",
+    "name": "8th",
+    "paths": [
+      {
+        "to": "f933a352-3dba-4124-b711-103258b21826",
+        "duration": "0.25",
+        "skills": "Basics of Photoshop, Natural and Artificial Lighting"
+      },
+      {
+        "to": "6f5e9bd1-fe04-41c0-aa2f-a326a6dafdac",
+        "duration": "0.16",
+        "skills": "Photoshop Interface, Photoshop CC"
+      },
+      {
+        "to": "a959a5a7-ed6f-4cae-bd3e-48ec66521086",
+        "duration": "2",
+        "skills": ""
+      }
+    ]
+  },
+  "f933a352-3dba-4124-b711-103258b21826": {
+    "id": "f933a352-3dba-4124-b711-103258b21826",
+    "name": "Photo Editing",
+    "paths": []
+  },
+  "6f5e9bd1-fe04-41c0-aa2f-a326a6dafdac": {
+    "id": "6f5e9bd1-fe04-41c0-aa2f-a326a6dafdac",
+    "name": "Photoshop Master (2 months)",
+    "paths": []
+  },
+  "a959a5a7-ed6f-4cae-bd3e-48ec66521086": {
+    "id": "a959a5a7-ed6f-4cae-bd3e-48ec66521086",
+    "name": "10th (S.S.C.)",
+    "paths": [
+      {
+        "to": "e5de8efc-f5ed-4db9-9147-37034fbd4347",
+        "duration": "3",
+        "skills": ""
+      },
+      {
+        "to": "0c460dc4-45be-40b0-8032-c2cc57b6afc2",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "7e0d74b0-bbc6-4293-acd7-b0fb68c8cfaf",
+        "duration": "",
+        "skills": "Integrity, Ability to Perform Under Pressure, physical fitness, \nEndurance"
+      },
+      {
+        "to": "b6abb72d-f204-4ad6-982d-3be4130fa90d",
+        "duration": "",
+        "skills": "Physical fitness, Endurance, Age 18-21,"
+      },
+      {
+        "to": "245e3187-8a20-49f2-9c80-a398d1c4a964",
+        "duration": "",
+        "skills": "Group Y Musician Trade, \nOpen Rally Bharti (Eng-50%, overall 50%)"
+      },
+      {
+        "to": "46691f33-dc4f-4aee-be2d-123ea3564361",
+        "duration": "",
+        "skills": "Security and background checks, Physical fitness, \nMedical fitness"
+      },
+      {
+        "to": "d611a350-af85-4bed-a4c7-ea44d1db46ec",
+        "duration": "2",
+        "skills": "Classroom Management, Art History Concepts, \nFilm Editing Software, Curriculum Development"
+      },
+      {
+        "to": "b739af83-8cb0-4ee6-89e6-74911677f416",
+        "duration": "3",
+        "skills": "Knowledge of art materials, Golden Proportions Art, \nRule of Perspective, Ability to draw from life, Constructive drawing"
+      },
+      {
+        "to": "3f0719d1-3c42-43b5-8216-451ce2aa8c30",
+        "duration": "1",
+        "skills": "Experience in graphic designs, \nbasic knowledge of advertising principles"
+      },
+      {
+        "to": "853f9e33-c0c6-42ad-a1b5-b92f3feff518",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "07710133-28bd-4693-8b69-df3f3ef94a1f",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "066a29dd-383a-4e88-9c63-d64af6eaeed9",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "41ddcff4-a262-46e6-88f0-391d9581286b",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "c056c481-4497-493d-98f3-05805433b7d1",
+        "duration": "3",
+        "skills": ""
+      },
+      {
+        "to": "05d7397b-4519-4110-9f4e-7e3b7047c541",
+        "duration": "",
+        "skills": "Age 18-25, SSC Matric Exam"
+      },
+      {
+        "to": "20c3562a-4224-4d31-977f-7f557b25175e",
+        "duration": "",
+        "skills": "SSC Matric Exam"
+      },
+      {
+        "to": "2bc69997-6767-4d5c-a777-3b42f908630d",
+        "duration": "3",
+        "skills": "physical fitness, stamina"
+      },
+      {
+        "to": "075d7568-0bb9-437a-924a-0cd5d8b03b61",
+        "duration": "1",
+        "skills": "Ear Training, Chords, Intervals, Tone, Rhythm"
+      },
+      {
+        "to": "920640af-7696-4022-9793-d1d65dac74d4",
+        "duration": "1",
+        "skills": "managing project plans, reports, and any related paperwork,\nSafety of the crew, watching the construction process"
+      },
+      {
+        "to": "52dbea97-a144-4ef3-a7ce-63bf2bb518cf",
+        "duration": "2",
+        "skills": "Age min 15, Core subjects Physics, Chemistry, Mathematics, \nEnglish, 10th min 50% marks"
+      },
+      {
+        "to": "e6dc201b-a79e-490c-a5f3-7136288712f0",
+        "duration": "1",
+        "skills": ""
+      },
+      {
+        "to": "7937dfc5-1f14-40c8-9ea0-80edf21efe83",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "0b2c39f3-250f-445c-94a9-d8b1669ffe48",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "0a5c1d4d-a4e7-49a4-abf5-ab8be3393009",
+        "duration": "1",
+        "skills": ""
+      },
+      {
+        "to": "84f30127-6fc2-48b1-a25e-0ca47644811a",
+        "duration": "0.5",
+        "skills": ""
+      },
+      {
+        "to": "593fa372-43cd-44ac-8dfd-c350d4107779",
+        "duration": "1",
+        "skills": ""
+      }
+    ]
+  },
+  "e5de8efc-f5ed-4db9-9147-37034fbd4347": {
+    "id": "e5de8efc-f5ed-4db9-9147-37034fbd4347",
+    "name": "Engineering Diploma",
+    "paths": [
+      {
+        "to": "9f221158-e21d-43d0-85b4-9fb6284f3ec3",
+        "duration": "",
+        "skills": "Critical thinking, Problem solving, Mathematical Skills"
+      },
+      {
+        "to": "8ebea4ee-1279-4bfc-8a58-f197640b58fe",
+        "duration": "4",
+        "skills": "Strong in Mathematics, science, \nHighly analytical and detail-oriented"
+      },
+      {
+        "to": "144fdcb2-6c0b-49a6-92a8-b25c2fda54a8",
+        "duration": "",
+        "skills": "12th with PCM 45% marks, Eng 45%, or Diploma Holder, or\nGraduate Engineer"
+      },
+      {
+        "to": "893a687b-1893-47aa-8966-47a215af21b1",
+        "duration": "",
+        "skills": "12th with PCM, 3 year Diploma in Engineering / Technology"
+      },
+      {
+        "to": "b0be884c-653e-4048-8c78-8949479f82dc",
+        "duration": "",
+        "skills": "Indian Citizen, Age 18-37, Graduate"
+      },
+      {
+        "to": "13c3cb8e-bf3a-4fe3-bba1-118006c2cfa2",
+        "duration": "3",
+        "skills": "10+2 with compulsory PCM"
+      }
+    ]
+  },
+  "9f221158-e21d-43d0-85b4-9fb6284f3ec3": {
+    "id": "9f221158-e21d-43d0-85b4-9fb6284f3ec3",
+    "name": "Government Contractor (Civil/Electrical)",
+    "paths": []
+  },
+  "8ebea4ee-1279-4bfc-8a58-f197640b58fe": {
+    "id": "8ebea4ee-1279-4bfc-8a58-f197640b58fe",
+    "name": "Degree Engineering (B.E.)",
+    "paths": []
+  },
+  "144fdcb2-6c0b-49a6-92a8-b25c2fda54a8": {
+    "id": "144fdcb2-6c0b-49a6-92a8-b25c2fda54a8",
+    "name": "Associate Membership of Institution of Engineers(A.M.I.E.)",
+    "paths": []
+  },
+  "893a687b-1893-47aa-8966-47a215af21b1": {
+    "id": "893a687b-1893-47aa-8966-47a215af21b1",
+    "name": "Institution of Electronics & Telecommunication Engineers (I.E.T.E.)",
+    "paths": [
+      {
+        "to": "f04613ab-a181-4dc3-a60b-65b85143140c",
+        "duration": "",
+        "skills": "Reading-Writing in Marathi,\nReading-Writing in English,\nNewspaper knowledge"
+      },
+      {
+        "to": "e26e44fb-de88-4497-a5f5-b8514033137c",
+        "duration": "",
+        "skills": "NCERT books"
+      }
+    ]
+  },
+  "f04613ab-a181-4dc3-a60b-65b85143140c": {
+    "id": "f04613ab-a181-4dc3-a60b-65b85143140c",
+    "name": "MPSC (Exam)",
+    "paths": []
+  },
+  "e26e44fb-de88-4497-a5f5-b8514033137c": {
+    "id": "e26e44fb-de88-4497-a5f5-b8514033137c",
+    "name": "UPSC (Exam)",
+    "paths": []
+  },
+  "b0be884c-653e-4048-8c78-8949479f82dc": {
+    "id": "b0be884c-653e-4048-8c78-8949479f82dc",
+    "name": "R.T.O. Inspector Exam",
+    "paths": []
+  },
+  "13c3cb8e-bf3a-4fe3-bba1-118006c2cfa2": {
+    "id": "13c3cb8e-bf3a-4fe3-bba1-118006c2cfa2",
+    "name": "Merchant Navy",
+    "paths": [
+      {
+        "to": "54ead7ba-859c-4087-aec6-ad20c41b90d3",
+        "duration": "4",
+        "skills": ""
+      }
+    ]
+  },
+  "0c460dc4-45be-40b0-8032-c2cc57b6afc2": {
+    "id": "0c460dc4-45be-40b0-8032-c2cc57b6afc2",
+    "name": "LIC Agent",
+    "paths": []
+  },
+  "7e0d74b0-bbc6-4293-acd7-b0fb68c8cfaf": {
+    "id": "7e0d74b0-bbc6-4293-acd7-b0fb68c8cfaf",
+    "name": "Army",
+    "paths": []
+  },
+  "b6abb72d-f204-4ad6-982d-3be4130fa90d": {
+    "id": "b6abb72d-f204-4ad6-982d-3be4130fa90d",
+    "name": "Navy",
+    "paths": []
+  },
+  "245e3187-8a20-49f2-9c80-a398d1c4a964": {
+    "id": "245e3187-8a20-49f2-9c80-a398d1c4a964",
+    "name": "Air Force (Defence)",
+    "paths": []
+  },
+  "46691f33-dc4f-4aee-be2d-123ea3564361": {
+    "id": "46691f33-dc4f-4aee-be2d-123ea3564361",
+    "name": "Police Department Exam",
+    "paths": [
+      {
+        "to": "0826d80a-d5b8-496b-8168-04b970d1bbbe",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "860f463a-e62d-4d8c-877b-c83b93cd40f1",
+        "duration": "",
+        "skills": "Age 18-22, Only Indian Male can apply, 50% marks in 10+2"
+      },
+      {
+        "to": "76c68a7f-15b6-4f85-a5f3-168b045453ff",
+        "duration": "",
+        "skills": ""
+      }
+    ]
+  },
+  "0826d80a-d5b8-496b-8168-04b970d1bbbe": {
+    "id": "0826d80a-d5b8-496b-8168-04b970d1bbbe",
+    "name": "Police Constable Airmen",
+    "paths": []
+  },
+  "860f463a-e62d-4d8c-877b-c83b93cd40f1": {
+    "id": "860f463a-e62d-4d8c-877b-c83b93cd40f1",
+    "name": "Navik",
+    "paths": []
+  },
+  "76c68a7f-15b6-4f85-a5f3-168b045453ff": {
+    "id": "76c68a7f-15b6-4f85-a5f3-168b045453ff",
+    "name": "Soldier",
+    "paths": []
+  },
+  "d611a350-af85-4bed-a4c7-ea44d1db46ec": {
+    "id": "d611a350-af85-4bed-a4c7-ea44d1db46ec",
+    "name": "Art Teacher Diploma",
+    "paths": []
+  },
+  "b739af83-8cb0-4ee6-89e6-74911677f416": {
+    "id": "b739af83-8cb0-4ee6-89e6-74911677f416",
+    "name": "Fine Art",
+    "paths": []
+  },
+  "3f0719d1-3c42-43b5-8216-451ce2aa8c30": {
+    "id": "3f0719d1-3c42-43b5-8216-451ce2aa8c30",
+    "name": "Commercial Art Diploma",
+    "paths": []
+  },
+  "853f9e33-c0c6-42ad-a1b5-b92f3feff518": {
+    "id": "853f9e33-c0c6-42ad-a1b5-b92f3feff518",
+    "name": "ITI",
+    "paths": [
+      {
+        "to": "6306f90d-90f8-4891-8b94-8daf0321a7f5",
+        "duration": "1",
+        "skills": "safely use hand and power tools, interpreting blueprints"
+      },
+      {
+        "to": "b21d4a4f-e0ce-4edf-9583-93d31087ecae",
+        "duration": "2",
+        "skills": "strong knowledge of welding, metal properties, manual tools,\nprocedures"
+      },
+      {
+        "to": "24ee9766-791c-4261-abb2-65b76855f5d5",
+        "duration": "1",
+        "skills": "Technical writing, Simulation, modeling, and analysis"
+      },
+      {
+        "to": "d78be144-49f9-40a7-8851-45d2a2a32501",
+        "duration": "1",
+        "skills": "making shorthand notes, subsequent transcription"
+      },
+      {
+        "to": "a3d154cc-b910-4cd4-add2-d166f971aae1",
+        "duration": "1",
+        "skills": "Certified Diesel Mechanic, Well-versed in Auto Repair software, \nGarage Partner and AutoRepair Cloud, \nDiesel Diagnostic Software Eaton Transmission"
+      },
+      {
+        "to": "bd877c9e-2bf7-4b47-ba2f-bf7ac8ddcdb2",
+        "duration": "2",
+        "skills": "Develop 2D mechanical equipmen, \ndesign data into accurate 3D models"
+      },
+      {
+        "to": "ff98cf44-5538-4dcb-809f-046175f90f24",
+        "duration": "1",
+        "skills": "Repair pumps like centrifugal, \nmeasures essential parts like cylinder"
+      },
+      {
+        "to": "bb2a6503-c8b0-40cb-ad02-afdc7e48053e",
+        "duration": "1",
+        "skills": "Hand Stitches, Seams with seam finishes, Darts, Pleats, \nTucks, Sleeves, Frill, Collar"
+      },
+      {
+        "to": "03a5227f-3806-40f4-8a05-a57b26964371",
+        "duration": "1",
+        "skills": "knowledge of designing, pattern cutting, \ntemplate making of different types of footwear"
+      },
+      {
+        "to": "3a0e2679-c18c-4f9e-a175-4f14f81ffc88",
+        "duration": "1",
+        "skills": "observing safety, fire safety equipments, \noperating different furnace, melting point temperature"
+      },
+      {
+        "to": "51a01e90-c698-4fe9-b171-37d2f60dd951",
+        "duration": "1",
+        "skills": "Basic principle of repairing work, \nrepairing technique of furniture, door, window, rack etc"
+      },
+      {
+        "to": "d1da7774-e858-40a5-939e-6a045abc4205",
+        "duration": "3",
+        "skills": "create gauges, cutting tools, machine tools, molds, dies, \nfixtures, jigs, tools in manufacturing process"
+      },
+      {
+        "to": "1377bf3b-edfe-4f11-bb9f-77e7daf5f9f9",
+        "duration": "",
+        "skills": ""
+      }
+    ]
+  },
+  "6306f90d-90f8-4891-8b94-8daf0321a7f5": {
+    "id": "6306f90d-90f8-4891-8b94-8daf0321a7f5",
+    "name": "ITI Fitter",
+    "paths": []
+  },
+  "b21d4a4f-e0ce-4edf-9583-93d31087ecae": {
+    "id": "b21d4a4f-e0ce-4edf-9583-93d31087ecae",
+    "name": "ITI Welder",
+    "paths": []
+  },
+  "24ee9766-791c-4261-abb2-65b76855f5d5": {
+    "id": "24ee9766-791c-4261-abb2-65b76855f5d5",
+    "name": "ITI Machinist",
+    "paths": []
+  },
+  "d78be144-49f9-40a7-8851-45d2a2a32501": {
+    "id": "d78be144-49f9-40a7-8851-45d2a2a32501",
+    "name": "ITI Stenographer",
+    "paths": []
+  },
+  "a3d154cc-b910-4cd4-add2-d166f971aae1": {
+    "id": "a3d154cc-b910-4cd4-add2-d166f971aae1",
+    "name": "ITI Diesel Mechanic",
+    "paths": []
+  },
+  "bd877c9e-2bf7-4b47-ba2f-bf7ac8ddcdb2": {
+    "id": "bd877c9e-2bf7-4b47-ba2f-bf7ac8ddcdb2",
+    "name": "ITI Draughtsman (Mechanical) Engineering",
+    "paths": []
+  },
+  "ff98cf44-5538-4dcb-809f-046175f90f24": {
+    "id": "ff98cf44-5538-4dcb-809f-046175f90f24",
+    "name": "ITI Pump Operator",
+    "paths": []
+  },
+  "bb2a6503-c8b0-40cb-ad02-afdc7e48053e": {
+    "id": "bb2a6503-c8b0-40cb-ad02-afdc7e48053e",
+    "name": "ITI Dress Making",
+    "paths": []
+  },
+  "03a5227f-3806-40f4-8a05-a57b26964371": {
+    "id": "03a5227f-3806-40f4-8a05-a57b26964371",
+    "name": "ITI Manufacture Foot Wear",
+    "paths": []
+  },
+  "3a0e2679-c18c-4f9e-a175-4f14f81ffc88": {
+    "id": "3a0e2679-c18c-4f9e-a175-4f14f81ffc88",
+    "name": "ITI Foundry Man Engineering",
+    "paths": []
+  },
+  "51a01e90-c698-4fe9-b171-37d2f60dd951": {
+    "id": "51a01e90-c698-4fe9-b171-37d2f60dd951",
+    "name": "ITI Carpenter Engineering",
+    "paths": []
+  },
+  "d1da7774-e858-40a5-939e-6a045abc4205": {
+    "id": "d1da7774-e858-40a5-939e-6a045abc4205",
+    "name": "ITI Tool & Die Maker Engineering",
+    "paths": []
+  },
+  "1377bf3b-edfe-4f11-bb9f-77e7daf5f9f9": {
+    "id": "1377bf3b-edfe-4f11-bb9f-77e7daf5f9f9",
+    "name": "Other ITI courses",
+    "paths": []
+  },
+  "07710133-28bd-4693-8b69-df3f3ef94a1f": {
+    "id": "07710133-28bd-4693-8b69-df3f3ef94a1f",
+    "name": "Railway Ticket Collector (T.C.)",
+    "paths": []
+  },
+  "066a29dd-383a-4e88-9c63-d64af6eaeed9": {
+    "id": "066a29dd-383a-4e88-9c63-d64af6eaeed9",
+    "name": "Commerce Clerk Exam",
+    "paths": []
+  },
+  "41ddcff4-a262-46e6-88f0-391d9581286b": {
+    "id": "41ddcff4-a262-46e6-88f0-391d9581286b",
+    "name": "12th (H.S.C.)",
+    "paths": [
+      {
+        "to": "b23cd60b-ffbe-45a9-b69d-32c65160c68a",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "1ccf23c3-43e7-4f48-9276-c43a183d3690",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "b963c2cc-06f0-45b1-b2a7-5fd831c95f48",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "5c288833-0bc7-4e93-9c4f-5d72e6c6f636",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "ba780abd-951a-4ac4-8cda-ac71181c42bd",
+        "duration": "1",
+        "skills": "Cultural awareness, Clear idea of the products, Flexibility"
+      },
+      {
+        "to": "d9ac7646-0223-4e71-b788-6be2dad10ba9",
+        "duration": "2",
+        "skills": "Basic Lab skills, Lab safety, collecting, \npreparing and/or testing samples, recording and analysing data"
+      },
+      {
+        "to": "8eb8944f-fdf3-4f0b-bfc8-fa81f72ce7f1",
+        "duration": "",
+        "skills": "10th pass, Min age 18 yr, \nLIC Agents' pre-licensing test by IRDA"
+      },
+      {
+        "to": "953b9964-c59c-42cf-b01e-339819a42c18",
+        "duration": "3",
+        "skills": "Food and beverage management, Competency in all areas, \nCommercial acumen"
+      },
+      {
+        "to": "bdc7938a-b9f9-4176-9a83-b2d1a9364ce2",
+        "duration": "1",
+        "skills": "Min age-16 yr, Class 2 Medical certificate, \nmedically fit by DGCA guidelines"
+      }
+    ]
+  },
+  "c056c481-4497-493d-98f3-05805433b7d1": {
+    "id": "c056c481-4497-493d-98f3-05805433b7d1",
+    "name": "Bank Insurance",
+    "paths": []
+  },
+  "05d7397b-4519-4110-9f4e-7e3b7047c541": {
+    "id": "05d7397b-4519-4110-9f4e-7e3b7047c541",
+    "name": "Clerical Exam",
+    "paths": []
+  },
+  "20c3562a-4224-4d31-977f-7f557b25175e": {
+    "id": "20c3562a-4224-4d31-977f-7f557b25175e",
+    "name": "Other Government Clerical Grade Exam",
+    "paths": [
+      {
+        "to": "ceebfee9-ff82-4da9-9cdd-84147eedcb73",
+        "duration": "",
+        "skills": "SSC Matric Exam"
+      }
+    ]
+  },
+  "ceebfee9-ff82-4da9-9cdd-84147eedcb73": {
+    "id": "ceebfee9-ff82-4da9-9cdd-84147eedcb73",
+    "name": "Governement Clerk",
+    "paths": []
+  },
+  "2bc69997-6767-4d5c-a777-3b42f908630d": {
+    "id": "2bc69997-6767-4d5c-a777-3b42f908630d",
+    "name": "Diploma in Dance",
+    "paths": []
+  },
+  "075d7568-0bb9-437a-924a-0cd5d8b03b61": {
+    "id": "075d7568-0bb9-437a-924a-0cd5d8b03b61",
+    "name": "Diploma in Music",
+    "paths": []
+  },
+  "920640af-7696-4022-9793-d1d65dac74d4": {
+    "id": "920640af-7696-4022-9793-d1d65dac74d4",
+    "name": "Certified Building Supervisor",
+    "paths": []
+  },
+  "52dbea97-a144-4ef3-a7ce-63bf2bb518cf": {
+    "id": "52dbea97-a144-4ef3-a7ce-63bf2bb518cf",
+    "name": "Diploma in Farm Management (Animal Husbandary)",
+    "paths": []
+  },
+  "e6dc201b-a79e-490c-a5f3-7136288712f0": {
+    "id": "e6dc201b-a79e-490c-a5f3-7136288712f0",
+    "name": "Medical Laboratory Technician Certificate Course (MLT)",
+    "paths": []
+  },
+  "7937dfc5-1f14-40c8-9ea0-80edf21efe83": {
+    "id": "7937dfc5-1f14-40c8-9ea0-80edf21efe83",
+    "name": "Various Diploma Courses",
+    "paths": [
+      {
+        "to": "e92f5205-4c20-4d96-a668-f5748111d48f",
+        "duration": "1",
+        "skills": ""
+      },
+      {
+        "to": "0f57c060-9686-4ad6-b6d3-19c522d69bc5",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "2c9abff6-8b27-4191-aa1d-cff5ca50a7bd",
+        "duration": "1",
+        "skills": ""
+      },
+      {
+        "to": "9bdfb1e1-0731-478e-b558-5f2a9e08b512",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "8d7d484d-e0ee-4c6d-ac09-52fc754731ad",
+        "duration": "2",
+        "skills": ""
+      }
+    ]
+  },
+  "e92f5205-4c20-4d96-a668-f5748111d48f": {
+    "id": "e92f5205-4c20-4d96-a668-f5748111d48f",
+    "name": "Interior Designing Diploma",
+    "paths": []
+  },
+  "0f57c060-9686-4ad6-b6d3-19c522d69bc5": {
+    "id": "0f57c060-9686-4ad6-b6d3-19c522d69bc5",
+    "name": "Stenography",
+    "paths": []
+  },
+  "2c9abff6-8b27-4191-aa1d-cff5ca50a7bd": {
+    "id": "2c9abff6-8b27-4191-aa1d-cff5ca50a7bd",
+    "name": "Private Secretary Practice",
+    "paths": []
+  },
+  "9bdfb1e1-0731-478e-b558-5f2a9e08b512": {
+    "id": "9bdfb1e1-0731-478e-b558-5f2a9e08b512",
+    "name": "Beauty Culture & Hair Dressing",
+    "paths": []
+  },
+  "8d7d484d-e0ee-4c6d-ac09-52fc754731ad": {
+    "id": "8d7d484d-e0ee-4c6d-ac09-52fc754731ad",
+    "name": "Garment Technology",
+    "paths": []
+  },
+  "0b2c39f3-250f-445c-94a9-d8b1669ffe48": {
+    "id": "0b2c39f3-250f-445c-94a9-d8b1669ffe48",
+    "name": "MS-CIT Course",
+    "paths": [
+      {
+        "to": "abc264c1-d0a7-4d09-8da9-a0b4b6cf6c0c",
+        "duration": "0.25",
+        "skills": "Computer and technical skills,\nAccuracy, Attention to detail,\nProficient typing"
+      }
+    ]
+  },
+  "abc264c1-d0a7-4d09-8da9-a0b4b6cf6c0c": {
+    "id": "abc264c1-d0a7-4d09-8da9-a0b4b6cf6c0c",
+    "name": "Data Entry Operator",
+    "paths": []
+  },
+  "0a5c1d4d-a4e7-49a4-abf5-ab8be3393009": {
+    "id": "0a5c1d4d-a4e7-49a4-abf5-ab8be3393009",
+    "name": "Post Graduate Diploma in Computer Application (PGDCA)",
+    "paths": []
+  },
+  "84f30127-6fc2-48b1-a25e-0ca47644811a": {
+    "id": "84f30127-6fc2-48b1-a25e-0ca47644811a",
+    "name": "Certificate in Desktop Publishing (DTP)",
+    "paths": []
+  },
+  "593fa372-43cd-44ac-8dfd-c350d4107779": {
+    "id": "593fa372-43cd-44ac-8dfd-c350d4107779",
+    "name": "Graphics",
+    "paths": []
+  },
+  "b23cd60b-ffbe-45a9-b69d-32c65160c68a": {
+    "id": "b23cd60b-ffbe-45a9-b69d-32c65160c68a",
+    "name": "12th Commerce",
+    "paths": [
+      {
+        "to": "48b0ce01-0eb1-48c6-818e-6d1a767841d0",
+        "duration": "",
+        "skills": "Expert in Excel, Tally, Standards in Accounting"
+      },
+      {
+        "to": "80605f16-f982-43cd-a581-c94819640231",
+        "duration": "3",
+        "skills": "Numeracy skills"
+      },
+      {
+        "to": "d298d316-0e82-41b2-b95e-00df2b5bb775",
+        "duration": "3",
+        "skills": "Ability to read the country’s economy"
+      },
+      {
+        "to": "a19c7ced-3a30-4933-8b01-179e40f95c13",
+        "duration": "1",
+        "skills": ""
+      },
+      {
+        "to": "4c17639b-dd59-4be5-91d7-49f9ccee7475",
+        "duration": "3",
+        "skills": ""
+      },
+      {
+        "to": "5c288833-0bc7-4e93-9c4f-5d72e6c6f636",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "b6cafa95-9fc3-4ccd-8152-cbae0743cf55",
+        "duration": "",
+        "skills": "Patience, Empathy, Listening Capacity, \nClarity in Communicating"
+      }
+    ]
+  },
+  "1ccf23c3-43e7-4f48-9276-c43a183d3690": {
+    "id": "1ccf23c3-43e7-4f48-9276-c43a183d3690",
+    "name": "12th Science",
+    "paths": [
+      {
+        "to": "4af4b372-e61c-483c-af86-6c90acc9e33d",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "ab4d77dd-aba5-4d2a-b5d5-7126bc7098d3",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "0d2814f5-b7f2-46a0-9495-ab3c35cdaae9",
+        "duration": "2",
+        "skills": ""
+      }
+    ]
+  },
+  "b963c2cc-06f0-45b1-b2a7-5fd831c95f48": {
+    "id": "b963c2cc-06f0-45b1-b2a7-5fd831c95f48",
+    "name": "12th Arts",
+    "paths": [
+      {
+        "to": "5c288833-0bc7-4e93-9c4f-5d72e6c6f636",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "9701d299-baa8-4ab5-8e47-65f3c16c3ec2",
+        "duration": "3",
+        "skills": ""
+      },
+      {
+        "to": "f69282c5-2bd7-4287-bf7e-b7ec070cdff7",
+        "duration": "3",
+        "skills": ""
+      },
+      {
+        "to": "3d2a8c18-a7e3-4ce9-ab95-b3057a219a4f",
+        "duration": "1",
+        "skills": ""
+      },
+      {
+        "to": "e92f5205-4c20-4d96-a668-f5748111d48f",
+        "duration": "1",
+        "skills": ""
+      },
+      {
+        "to": "4ee089d9-e02a-4620-a775-988c1bb8457a",
+        "duration": "3",
+        "skills": ""
+      },
+      {
+        "to": "d298d316-0e82-41b2-b95e-00df2b5bb775",
+        "duration": "3",
+        "skills": ""
+      },
+      {
+        "to": "0a9a6024-98fd-4223-90ee-ccf05eaf7514",
+        "duration": "1",
+        "skills": ""
+      },
+      {
+        "to": "4f361862-a8d2-4149-94cc-0d4a255a14e7",
+        "duration": "",
+        "skills": ""
+      }
+    ]
+  },
+  "5c288833-0bc7-4e93-9c4f-5d72e6c6f636": {
+    "id": "5c288833-0bc7-4e93-9c4f-5d72e6c6f636",
+    "name": "D.Ed.",
+    "paths": [
+      {
+        "to": "8b42a815-cea2-44f8-a473-1a74ca1e628e",
+        "duration": "",
+        "skills": ""
+      }
+    ]
+  },
+  "48b0ce01-0eb1-48c6-818e-6d1a767841d0": {
+    "id": "48b0ce01-0eb1-48c6-818e-6d1a767841d0",
+    "name": "Chartered Accountant (CPT)",
+    "paths": []
+  },
+  "80605f16-f982-43cd-a581-c94819640231": {
+    "id": "80605f16-f982-43cd-a581-c94819640231",
+    "name": "B.Com",
+    "paths": [
+      {
+        "to": "7b5cb984-5592-4eb5-b10c-487b57b4200d",
+        "duration": "2",
+        "skills": "Critical thinking, teamwork, Leadership, Time management"
+      },
+      {
+        "to": "765e78a5-1de1-44a2-a108-ec39079cc532",
+        "duration": "",
+        "skills": "BBA, Economics/Finance, Accounting, RBI/ SBI/ IBPS Exam"
+      },
+      {
+        "to": "ff3635bc-d70a-4883-ad57-95a926a9cd84",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "7b95bcab-3768-4291-9772-7adb77195d3a",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "b4df55aa-8136-43da-9379-b2f8a9b24c74",
+        "duration": "5",
+        "skills": "Logical and Analytical Rationale, Extensive Legal Research, \nPublic Speaking"
+      },
+      {
+        "to": "48b0ce01-0eb1-48c6-818e-6d1a767841d0",
+        "duration": "",
+        "skills": "Expert in Excel, Tally, Standards in Accounting"
+      },
+      {
+        "to": "d121006f-94c2-43d8-9963-510298f6456e",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "1af1960d-706c-40bd-84a1-693b83be2df3",
+        "duration": "1",
+        "skills": ""
+      },
+      {
+        "to": "a19c7ced-3a30-4933-8b01-179e40f95c13",
+        "duration": "1",
+        "skills": ""
+      },
+      {
+        "to": "b1779511-a2b5-4bde-a82d-3f181f06947d",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "7380601e-8434-48fb-a842-0c2c650b005e",
+        "duration": "3",
+        "skills": "Languages like C, C++, Java, .Net, DS, Database, \nLatest technology"
+      },
+      {
+        "to": "1740a5d7-5f10-4201-a53d-1356cf739c2f",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "39d3ab92-b971-4cae-8bdf-65c14f535998",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "17f42015-ae11-4237-8898-333301f71bed",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "25d9cb7e-e497-4f3f-9a48-4e646ea5e5f8",
+        "duration": "0.125",
+        "skills": ""
+      },
+      {
+        "to": "ce6282d6-6b9f-494f-adb3-a44887dc983c",
+        "duration": "",
+        "skills": ""
+      }
+    ]
+  },
+  "d298d316-0e82-41b2-b95e-00df2b5bb775": {
+    "id": "d298d316-0e82-41b2-b95e-00df2b5bb775",
+    "name": "B.B.A.",
+    "paths": [
+      {
+        "to": "7b5cb984-5592-4eb5-b10c-487b57b4200d",
+        "duration": "2",
+        "skills": "Critical thinking, teamwork, Leadership, Time management"
+      },
+      {
+        "to": "7b5cb984-5592-4eb5-b10c-487b57b4200d",
+        "duration": "2",
+        "skills": "Critical thinking, teamwork, Leadership, Time management"
+      }
+    ]
+  },
+  "7b5cb984-5592-4eb5-b10c-487b57b4200d": {
+    "id": "7b5cb984-5592-4eb5-b10c-487b57b4200d",
+    "name": "M.B.A.",
+    "paths": [
+      {
+        "to": "9f569936-ed17-4c5c-9306-18b930bcf39c",
+        "duration": "2",
+        "skills": "Stress Management, Communication, Negotiation"
+      },
+      {
+        "to": "cba0833e-187b-4506-b2e6-631b2b96500e",
+        "duration": "2",
+        "skills": "Financial Reporting, Technology"
+      },
+      {
+        "to": "564b1732-5200-48c9-a1e6-1a4d39174495",
+        "duration": "2",
+        "skills": "Decision Making, Communication"
+      },
+      {
+        "to": "322ec8ed-7bf5-4eea-86f4-bd839e6d9999",
+        "duration": "2",
+        "skills": "Supply Chain Management, Logistics,\nDistribution and Material Movement"
+      },
+      {
+        "to": "78c1bd40-7693-4788-8884-9c0a2c662623",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "5eb1e22e-24f0-48bb-b8b8-f9a15ee41745",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "bad8b8be-79b9-4ca5-9f15-ded6289fad93",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "b07050b9-e90c-4cb3-b72a-b43ccadb0764",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "3d4b1fbf-ce4f-466d-b7a5-a9462ff37427",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "3b8263e6-ce9d-4444-8631-9c5b5b62aa40",
+        "duration": "2",
+        "skills": "SQL, SPSS, SAS, Sage, Mathematica, Excel"
+      },
+      {
+        "to": "52a8eaf9-2ba7-49eb-92aa-d34769af3e6d",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "33511930-34c1-4b3f-b1bc-4d670b428290",
+        "duration": "",
+        "skills": "MBA, Advance Excel Sheets"
+      },
+      {
+        "to": "3fc0ceb8-a114-4390-b6a9-bfc4f978eaf2",
+        "duration": "",
+        "skills": "MBA, Market Demand, Practical knowledge, \nEconomics 101"
+      },
+      {
+        "to": "33511930-34c1-4b3f-b1bc-4d670b428290",
+        "duration": "",
+        "skills": "MBA, Advance Excel Sheets"
+      },
+      {
+        "to": "3fc0ceb8-a114-4390-b6a9-bfc4f978eaf2",
+        "duration": "",
+        "skills": "MBA, Market Demand, Practical knowledge, \nEconomics 101"
+      }
+    ]
+  },
+  "a19c7ced-3a30-4933-8b01-179e40f95c13": {
+    "id": "a19c7ced-3a30-4933-8b01-179e40f95c13",
+    "name": "C.S. Foundation",
+    "paths": []
+  },
+  "4c17639b-dd59-4be5-91d7-49f9ccee7475": {
+    "id": "4c17639b-dd59-4be5-91d7-49f9ccee7475",
+    "name": "B.C.A. (12th Commerce + Maths)",
+    "paths": []
+  },
+  "b6cafa95-9fc3-4ccd-8152-cbae0743cf55": {
+    "id": "b6cafa95-9fc3-4ccd-8152-cbae0743cf55",
+    "name": "Call Center",
+    "paths": []
+  },
+  "9f569936-ed17-4c5c-9306-18b930bcf39c": {
+    "id": "9f569936-ed17-4c5c-9306-18b930bcf39c",
+    "name": "Marketing",
+    "paths": []
+  },
+  "cba0833e-187b-4506-b2e6-631b2b96500e": {
+    "id": "cba0833e-187b-4506-b2e6-631b2b96500e",
+    "name": "Finance",
+    "paths": []
+  },
+  "564b1732-5200-48c9-a1e6-1a4d39174495": {
+    "id": "564b1732-5200-48c9-a1e6-1a4d39174495",
+    "name": "HR",
+    "paths": []
+  },
+  "322ec8ed-7bf5-4eea-86f4-bd839e6d9999": {
+    "id": "322ec8ed-7bf5-4eea-86f4-bd839e6d9999",
+    "name": "Logistics Management",
+    "paths": []
+  },
+  "78c1bd40-7693-4788-8884-9c0a2c662623": {
+    "id": "78c1bd40-7693-4788-8884-9c0a2c662623",
+    "name": "Business Management",
+    "paths": []
+  },
+  "5eb1e22e-24f0-48bb-b8b8-f9a15ee41745": {
+    "id": "5eb1e22e-24f0-48bb-b8b8-f9a15ee41745",
+    "name": "Operations Management",
+    "paths": []
+  },
+  "bad8b8be-79b9-4ca5-9f15-ded6289fad93": {
+    "id": "bad8b8be-79b9-4ca5-9f15-ded6289fad93",
+    "name": "Rural Management",
+    "paths": []
+  },
+  "b07050b9-e90c-4cb3-b72a-b43ccadb0764": {
+    "id": "b07050b9-e90c-4cb3-b72a-b43ccadb0764",
+    "name": "Health Care Management",
+    "paths": []
+  },
+  "3d4b1fbf-ce4f-466d-b7a5-a9462ff37427": {
+    "id": "3d4b1fbf-ce4f-466d-b7a5-a9462ff37427",
+    "name": "Information Technology (IT)",
+    "paths": []
+  },
+  "3b8263e6-ce9d-4444-8631-9c5b5b62aa40": {
+    "id": "3b8263e6-ce9d-4444-8631-9c5b5b62aa40",
+    "name": "Business Analytics",
+    "paths": []
+  },
+  "52a8eaf9-2ba7-49eb-92aa-d34769af3e6d": {
+    "id": "52a8eaf9-2ba7-49eb-92aa-d34769af3e6d",
+    "name": "Event Management",
+    "paths": []
+  },
+  "33511930-34c1-4b3f-b1bc-4d670b428290": {
+    "id": "33511930-34c1-4b3f-b1bc-4d670b428290",
+    "name": "Manager",
+    "paths": []
+  },
+  "3fc0ceb8-a114-4390-b6a9-bfc4f978eaf2": {
+    "id": "3fc0ceb8-a114-4390-b6a9-bfc4f978eaf2",
+    "name": "Businessman",
+    "paths": []
+  },
+  "765e78a5-1de1-44a2-a108-ec39079cc532": {
+    "id": "765e78a5-1de1-44a2-a108-ec39079cc532",
+    "name": "Bank",
+    "paths": []
+  },
+  "ff3635bc-d70a-4883-ad57-95a926a9cd84": {
+    "id": "ff3635bc-d70a-4883-ad57-95a926a9cd84",
+    "name": "Insurance Probationary",
+    "paths": []
+  },
+  "7b95bcab-3768-4291-9772-7adb77195d3a": {
+    "id": "7b95bcab-3768-4291-9772-7adb77195d3a",
+    "name": "Development Officer Exam",
+    "paths": []
+  },
+  "b4df55aa-8136-43da-9379-b2f8a9b24c74": {
+    "id": "b4df55aa-8136-43da-9379-b2f8a9b24c74",
+    "name": "L.L.B.",
+    "paths": [
+      {
+        "to": "ab2def87-4ef6-44c8-b92e-0f6773d2a381",
+        "duration": "2",
+        "skills": "Law degree JD/ LLB, Language proficiency"
+      },
+      {
+        "to": "ab2def87-4ef6-44c8-b92e-0f6773d2a381",
+        "duration": "2",
+        "skills": ""
+      }
+    ]
+  },
+  "ab2def87-4ef6-44c8-b92e-0f6773d2a381": {
+    "id": "ab2def87-4ef6-44c8-b92e-0f6773d2a381",
+    "name": "L.L.M.",
+    "paths": []
+  },
+  "d121006f-94c2-43d8-9963-510298f6456e": {
+    "id": "d121006f-94c2-43d8-9963-510298f6456e",
+    "name": "B.Ed.",
+    "paths": [
+      {
+        "to": "49b77c19-a1ae-43e4-ab77-5670fbb0ce1d",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "49b77c19-a1ae-43e4-ab77-5670fbb0ce1d",
+        "duration": "2",
+        "skills": "B.Ed / BA B.Ed / B.Sc B.Ed / B.El.Ed. / D.El.Ed"
+      }
+    ]
+  },
+  "49b77c19-a1ae-43e4-ab77-5670fbb0ce1d": {
+    "id": "49b77c19-a1ae-43e4-ab77-5670fbb0ce1d",
+    "name": "M.Ed.",
+    "paths": [
+      {
+        "to": "8b42a815-cea2-44f8-a473-1a74ca1e628e",
+        "duration": "",
+        "skills": ""
+      }
+    ]
+  },
+  "8b42a815-cea2-44f8-a473-1a74ca1e628e": {
+    "id": "8b42a815-cea2-44f8-a473-1a74ca1e628e",
+    "name": "Teacher",
+    "paths": []
+  },
+  "1af1960d-706c-40bd-84a1-693b83be2df3": {
+    "id": "1af1960d-706c-40bd-84a1-693b83be2df3",
+    "name": "Bachelor in Library Science",
+    "paths": [
+      {
+        "to": "8bf73ab8-ccd6-4c5a-822a-1c5b48196410",
+        "duration": "",
+        "skills": ""
+      }
+    ]
+  },
+  "8bf73ab8-ccd6-4c5a-822a-1c5b48196410": {
+    "id": "8bf73ab8-ccd6-4c5a-822a-1c5b48196410",
+    "name": "Librarian",
+    "paths": []
+  },
+  "b1779511-a2b5-4bde-a82d-3f181f06947d": {
+    "id": "b1779511-a2b5-4bde-a82d-3f181f06947d",
+    "name": "Import Export Diploma",
+    "paths": []
+  },
+  "7380601e-8434-48fb-a842-0c2c650b005e": {
+    "id": "7380601e-8434-48fb-a842-0c2c650b005e",
+    "name": "M.C.A.",
+    "paths": [
+      {
+        "to": "688f5b5e-01e4-4b59-bf5f-c86fc4622aac",
+        "duration": "",
+        "skills": "Languages like C, C++, Java, .Net, DS, Database, \nLatest technology, Networking"
+      },
+      {
+        "to": "688f5b5e-01e4-4b59-bf5f-c86fc4622aac",
+        "duration": "",
+        "skills": ""
+      }
+    ]
+  },
+  "1740a5d7-5f10-4201-a53d-1356cf739c2f": {
+    "id": "1740a5d7-5f10-4201-a53d-1356cf739c2f",
+    "name": "M.C.M.",
+    "paths": [
+      {
+        "to": "688f5b5e-01e4-4b59-bf5f-c86fc4622aac",
+        "duration": "",
+        "skills": "Languages like C, C++, Java, .Net, DS, Database, \nLatest technology, Networking"
+      },
+      {
+        "to": "688f5b5e-01e4-4b59-bf5f-c86fc4622aac",
+        "duration": "",
+        "skills": ""
+      }
+    ]
+  },
+  "688f5b5e-01e4-4b59-bf5f-c86fc4622aac": {
+    "id": "688f5b5e-01e4-4b59-bf5f-c86fc4622aac",
+    "name": "Software Job (IT)",
+    "paths": []
+  },
+  "39d3ab92-b971-4cae-8bdf-65c14f535998": {
+    "id": "39d3ab92-b971-4cae-8bdf-65c14f535998",
+    "name": "MPSC",
+    "paths": [
+      {
+        "to": "2c9aee7d-34b4-4dba-83a8-fb494598f721",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "c198998f-fe1c-4909-9dc5-2508fd567d6d",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "e5787dc1-3172-4cc2-a2c9-0523af47269d",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "7f836eac-a555-47a1-bf2f-aaa489d44b40",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "2c9aee7d-34b4-4dba-83a8-fb494598f721",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "2c9aee7d-34b4-4dba-83a8-fb494598f721",
+        "duration": "",
+        "skills": ""
+      }
+    ]
+  },
+  "17f42015-ae11-4237-8898-333301f71bed": {
+    "id": "17f42015-ae11-4237-8898-333301f71bed",
+    "name": "UPSC",
+    "paths": [
+      {
+        "to": "2c9aee7d-34b4-4dba-83a8-fb494598f721",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "c198998f-fe1c-4909-9dc5-2508fd567d6d",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "e5787dc1-3172-4cc2-a2c9-0523af47269d",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "7f836eac-a555-47a1-bf2f-aaa489d44b40",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "2c9aee7d-34b4-4dba-83a8-fb494598f721",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "2c9aee7d-34b4-4dba-83a8-fb494598f721",
+        "duration": "",
+        "skills": ""
+      }
+    ]
+  },
+  "2c9aee7d-34b4-4dba-83a8-fb494598f721": {
+    "id": "2c9aee7d-34b4-4dba-83a8-fb494598f721",
+    "name": "IAS",
+    "paths": []
+  },
+  "c198998f-fe1c-4909-9dc5-2508fd567d6d": {
+    "id": "c198998f-fe1c-4909-9dc5-2508fd567d6d",
+    "name": "IPS",
+    "paths": []
+  },
+  "e5787dc1-3172-4cc2-a2c9-0523af47269d": {
+    "id": "e5787dc1-3172-4cc2-a2c9-0523af47269d",
+    "name": "Deputy Superintendent of Police (DSP)",
+    "paths": []
+  },
+  "7f836eac-a555-47a1-bf2f-aaa489d44b40": {
+    "id": "7f836eac-a555-47a1-bf2f-aaa489d44b40",
+    "name": "Deputy Commissioner of Police (DC)",
+    "paths": []
+  },
+  "25d9cb7e-e497-4f3f-9a48-4e646ea5e5f8": {
+    "id": "25d9cb7e-e497-4f3f-9a48-4e646ea5e5f8",
+    "name": "Computer Courses (Tally)",
+    "paths": []
+  },
+  "ce6282d6-6b9f-494f-adb3-a44887dc983c": {
+    "id": "ce6282d6-6b9f-494f-adb3-a44887dc983c",
+    "name": "Indian Military Academy",
+    "paths": []
+  },
+  "4af4b372-e61c-483c-af86-6c90acc9e33d": {
+    "id": "4af4b372-e61c-483c-af86-6c90acc9e33d",
+    "name": "12th Science With PCMB",
+    "paths": [
+      {
+        "to": "ab8ff105-0f83-4bcf-ae12-81fbff96a279",
+        "duration": "3",
+        "skills": "10+2 with PCM pass 40-50% marks, Dairy Development, \nFluid Mechanics, Microbiology"
+      },
+      {
+        "to": "6c986a65-846e-4169-b660-1c5751313550",
+        "duration": "4",
+        "skills": "Knowledge of Medicine, Maintaining Pharmacy Equipment,\nSoftware Proficiency: OP Robot and Bar-Code Station"
+      },
+      {
+        "to": "2f320e37-f9fe-4c2e-98f8-9fb622d8f8b4",
+        "duration": "4",
+        "skills": "Background of Maths, Science PCB, English, social studies, \ncomputer literacy, humanities"
+      },
+      {
+        "to": "157392b4-96ea-4ab3-8611-3e1d28000edc",
+        "duration": "3",
+        "skills": "knowledge of biology, PCR, ELISA, DNA cloning, \nWestern Blot, Gel-electrophoresis, Microbial Techniques"
+      },
+      {
+        "to": "ee5dcdf9-7a3c-4452-a9d0-10311b64d3f9",
+        "duration": "4",
+        "skills": "tech-based skills on irrigation, use of pesticide, \ntechniques of cultivation, harvest, storage, transport"
+      }
+    ]
+  },
+  "ab8ff105-0f83-4bcf-ae12-81fbff96a279": {
+    "id": "ab8ff105-0f83-4bcf-ae12-81fbff96a279",
+    "name": "B.Sc in Dairy Technology",
+    "paths": [
+      {
+        "to": "7b5cb984-5592-4eb5-b10c-487b57b4200d",
+        "duration": "2",
+        "skills": "Critical thinking, teamwork, Leadership, Time management"
+      }
+    ]
+  },
+  "6c986a65-846e-4169-b660-1c5751313550": {
+    "id": "6c986a65-846e-4169-b660-1c5751313550",
+    "name": "Bachelor of Pharmacy",
+    "paths": [
+      {
+        "to": "7b5cb984-5592-4eb5-b10c-487b57b4200d",
+        "duration": "2",
+        "skills": "Critical thinking, teamwork, Leadership, Time management"
+      },
+      {
+        "to": "4bdb8b40-116f-49f9-9c48-3a47e1a6b314",
+        "duration": "2",
+        "skills": ""
+      }
+    ]
+  },
+  "2f320e37-f9fe-4c2e-98f8-9fb622d8f8b4": {
+    "id": "2f320e37-f9fe-4c2e-98f8-9fb622d8f8b4",
+    "name": "B.Tech in Agriculture",
+    "paths": [
+      {
+        "to": "7b5cb984-5592-4eb5-b10c-487b57b4200d",
+        "duration": "2",
+        "skills": "Critical thinking, teamwork, Leadership, Time management"
+      },
+      {
+        "to": "8e15424a-3589-4ddb-b923-51ed45ebc122",
+        "duration": "2",
+        "skills": ""
+      }
+    ]
+  },
+  "157392b4-96ea-4ab3-8611-3e1d28000edc": {
+    "id": "157392b4-96ea-4ab3-8611-3e1d28000edc",
+    "name": "B.Sc. Bio-Technology",
+    "paths": [
+      {
+        "to": "7b5cb984-5592-4eb5-b10c-487b57b4200d",
+        "duration": "2",
+        "skills": "Critical thinking, teamwork, Leadership, Time management"
+      },
+      {
+        "to": "3857afa0-ba8e-4989-929a-97e2b338b15c",
+        "duration": "2",
+        "skills": ""
+      }
+    ]
+  },
+  "ee5dcdf9-7a3c-4452-a9d0-10311b64d3f9": {
+    "id": "ee5dcdf9-7a3c-4452-a9d0-10311b64d3f9",
+    "name": "B.Sc. In Agriculture",
+    "paths": [
+      {
+        "to": "7b5cb984-5592-4eb5-b10c-487b57b4200d",
+        "duration": "2",
+        "skills": "Critical thinking, teamwork, Leadership, Time management"
+      },
+      {
+        "to": "2699bf7e-31c8-4ac1-b6b5-0a0d01443912",
+        "duration": "1",
+        "skills": ""
+      },
+      {
+        "to": "cd53d2ec-f897-4f92-affb-188b58455522",
+        "duration": "2",
+        "skills": ""
+      }
+    ]
+  },
+  "4bdb8b40-116f-49f9-9c48-3a47e1a6b314": {
+    "id": "4bdb8b40-116f-49f9-9c48-3a47e1a6b314",
+    "name": "Master in Pharmacy",
+    "paths": []
+  },
+  "8e15424a-3589-4ddb-b923-51ed45ebc122": {
+    "id": "8e15424a-3589-4ddb-b923-51ed45ebc122",
+    "name": "M.Tech in Agriculture",
+    "paths": []
+  },
+  "3857afa0-ba8e-4989-929a-97e2b338b15c": {
+    "id": "3857afa0-ba8e-4989-929a-97e2b338b15c",
+    "name": "M.Sc. Bio-Technology",
+    "paths": []
+  },
+  "2699bf7e-31c8-4ac1-b6b5-0a0d01443912": {
+    "id": "2699bf7e-31c8-4ac1-b6b5-0a0d01443912",
+    "name": "M.Sc. Animal Husbandary",
+    "paths": []
+  },
+  "cd53d2ec-f897-4f92-affb-188b58455522": {
+    "id": "cd53d2ec-f897-4f92-affb-188b58455522",
+    "name": "M.Sc. Dairy Technology",
+    "paths": []
+  },
+  "ab4d77dd-aba5-4d2a-b5d5-7126bc7098d3": {
+    "id": "ab4d77dd-aba5-4d2a-b5d5-7126bc7098d3",
+    "name": "12th Science With PCM",
+    "paths": [
+      {
+        "to": "8bddc6d4-e785-4864-b09f-a6fae8105755",
+        "duration": "3",
+        "skills": ""
+      },
+      {
+        "to": "bfc8579e-60c6-461c-800e-bb73b39b8783",
+        "duration": "5",
+        "skills": ""
+      },
+      {
+        "to": "8050c90e-c5d9-4904-ba48-122e9fa12075",
+        "duration": "4",
+        "skills": ""
+      },
+      {
+        "to": "fdaa1b7e-5516-4fc9-b497-1f6324292dee",
+        "duration": "4",
+        "skills": ""
+      },
+      {
+        "to": "ae65b6ac-97b3-46bd-9b10-f3af4e3e27f1",
+        "duration": "4",
+        "skills": ""
+      },
+      {
+        "to": "b83d00d6-cc8e-4146-b375-5f08476a3f06",
+        "duration": "4",
+        "skills": ""
+      },
+      {
+        "to": "e5de8efc-f5ed-4db9-9147-37034fbd4347",
+        "duration": "3",
+        "skills": ""
+      },
+      {
+        "to": "36924355-0d35-4ea1-8673-acc86f52723d",
+        "duration": "3",
+        "skills": ""
+      },
+      {
+        "to": "ae140af3-26d8-4c64-899d-46af35670333",
+        "duration": "3",
+        "skills": ""
+      },
+      {
+        "to": "8d605121-d601-4dc5-967e-a73c638d3e26",
+        "duration": "1",
+        "skills": ""
+      },
+      {
+        "to": "cd664081-152c-4ca6-be42-c290a8a6c155",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "31c940c3-6627-4692-b55e-57990ddb2a3b",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "aa1c8901-367a-455a-8646-91136c1f5a12",
+        "duration": "3",
+        "skills": ""
+      }
+    ]
+  },
+  "8bddc6d4-e785-4864-b09f-a6fae8105755": {
+    "id": "8bddc6d4-e785-4864-b09f-a6fae8105755",
+    "name": "N.D.A.",
+    "paths": [
+      {
+        "to": "7e0d74b0-bbc6-4293-acd7-b0fb68c8cfaf",
+        "duration": "5",
+        "skills": ""
+      },
+      {
+        "to": "b6abb72d-f204-4ad6-982d-3be4130fa90d",
+        "duration": "3",
+        "skills": ""
+      },
+      {
+        "to": "337798a7-3371-40c6-a71a-a2d55f2b624c",
+        "duration": "1.41",
+        "skills": ""
+      }
+    ]
+  },
+  "bfc8579e-60c6-461c-800e-bb73b39b8783": {
+    "id": "bfc8579e-60c6-461c-800e-bb73b39b8783",
+    "name": "B.Arch.",
+    "paths": [
+      {
+        "to": "d34028ff-5a41-40b8-9324-439dea2cc150",
+        "duration": "1",
+        "skills": ""
+      },
+      {
+        "to": "fccc1cb3-127e-4fe0-958e-2c01287db644",
+        "duration": "4",
+        "skills": ""
+      }
+    ]
+  },
+  "8050c90e-c5d9-4904-ba48-122e9fa12075": {
+    "id": "8050c90e-c5d9-4904-ba48-122e9fa12075",
+    "name": "Bachelor of Planning & Design",
+    "paths": []
+  },
+  "fdaa1b7e-5516-4fc9-b497-1f6324292dee": {
+    "id": "fdaa1b7e-5516-4fc9-b497-1f6324292dee",
+    "name": "Technical Entry in Indian Army",
+    "paths": []
+  },
+  "ae65b6ac-97b3-46bd-9b10-f3af4e3e27f1": {
+    "id": "ae65b6ac-97b3-46bd-9b10-f3af4e3e27f1",
+    "name": "B.E.",
+    "paths": [
+      {
+        "to": "44418244-ee7e-4297-92ff-1c33b8b241f3",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "13c3cb8e-bf3a-4fe3-bba1-118006c2cfa2",
+        "duration": "3",
+        "skills": "Medical Fitness, Eyesight 6/6, No color blindness, 12th PCM"
+      },
+      {
+        "to": "eb389b9c-8141-485b-aee0-d9d2c56ac457",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "39d3ab92-b971-4cae-8bdf-65c14f535998",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "17f42015-ae11-4237-8898-333301f71bed",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "ac079a3e-6cd5-438a-9213-f6e2af008b73",
+        "duration": "3",
+        "skills": ""
+      },
+      {
+        "to": "a83abfc5-d203-4017-88ae-a160d19bac8e",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "7b5cb984-5592-4eb5-b10c-487b57b4200d",
+        "duration": "2",
+        "skills": "Critical thinking, teamwork, Leadership, Time management"
+      },
+      {
+        "to": "9b3495ca-aa3b-4246-9234-0a98fb3a72ca",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "dcf4b4e9-f8a3-4dff-b98c-dba6f4d181a6",
+        "duration": "",
+        "skills": ""
+      }
+    ]
+  },
+  "b83d00d6-cc8e-4146-b375-5f08476a3f06": {
+    "id": "b83d00d6-cc8e-4146-b375-5f08476a3f06",
+    "name": "B.Tech",
+    "paths": []
+  },
+  "36924355-0d35-4ea1-8673-acc86f52723d": {
+    "id": "36924355-0d35-4ea1-8673-acc86f52723d",
+    "name": "B.C.S.",
+    "paths": [
+      {
+        "to": "7380601e-8434-48fb-a842-0c2c650b005e",
+        "duration": "3",
+        "skills": "Languages like C, C++, Java, .Net, DS, Database, \nLatest technology"
+      },
+      {
+        "to": "55b23d68-4d69-4a10-9eed-200f1b73e537",
+        "duration": "0.83",
+        "skills": ""
+      },
+      {
+        "to": "1740a5d7-5f10-4201-a53d-1356cf739c2f",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "7b5cb984-5592-4eb5-b10c-487b57b4200d",
+        "duration": "2",
+        "skills": "Critical thinking, teamwork, Leadership, Time management"
+      }
+    ]
+  },
+  "ae140af3-26d8-4c64-899d-46af35670333": {
+    "id": "ae140af3-26d8-4c64-899d-46af35670333",
+    "name": "B.C.A.",
+    "paths": [
+      {
+        "to": "7380601e-8434-48fb-a842-0c2c650b005e",
+        "duration": "3",
+        "skills": "Languages like C, C++, Java, .Net, DS, Database, \nLatest technology"
+      },
+      {
+        "to": "55b23d68-4d69-4a10-9eed-200f1b73e537",
+        "duration": "0.83",
+        "skills": ""
+      },
+      {
+        "to": "1740a5d7-5f10-4201-a53d-1356cf739c2f",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "7b5cb984-5592-4eb5-b10c-487b57b4200d",
+        "duration": "2",
+        "skills": "Critical thinking, teamwork, Leadership, Time management"
+      }
+    ]
+  },
+  "8d605121-d601-4dc5-967e-a73c638d3e26": {
+    "id": "8d605121-d601-4dc5-967e-a73c638d3e26",
+    "name": "Film & Television Diploma (FTII)",
+    "paths": [
+      {
+        "to": "da776deb-595c-4860-9320-fab713371bbe",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "0bd0d648-c8b4-4630-b154-73e0a58348ba",
+        "duration": "",
+        "skills": ""
+      }
+    ]
+  },
+  "cd664081-152c-4ca6-be42-c290a8a6c155": {
+    "id": "cd664081-152c-4ca6-be42-c290a8a6c155",
+    "name": "Film Editing Cinematography",
+    "paths": [
+      {
+        "to": "da776deb-595c-4860-9320-fab713371bbe",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "0bd0d648-c8b4-4630-b154-73e0a58348ba",
+        "duration": "",
+        "skills": ""
+      }
+    ]
+  },
+  "31c940c3-6627-4692-b55e-57990ddb2a3b": {
+    "id": "31c940c3-6627-4692-b55e-57990ddb2a3b",
+    "name": "Film Processing",
+    "paths": [
+      {
+        "to": "da776deb-595c-4860-9320-fab713371bbe",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "0bd0d648-c8b4-4630-b154-73e0a58348ba",
+        "duration": "",
+        "skills": ""
+      }
+    ]
+  },
+  "aa1c8901-367a-455a-8646-91136c1f5a12": {
+    "id": "aa1c8901-367a-455a-8646-91136c1f5a12",
+    "name": "Hotel Management Degree",
+    "paths": []
+  },
+  "337798a7-3371-40c6-a71a-a2d55f2b624c": {
+    "id": "337798a7-3371-40c6-a71a-a2d55f2b624c",
+    "name": "Airforce",
+    "paths": []
+  },
+  "d34028ff-5a41-40b8-9324-439dea2cc150": {
+    "id": "d34028ff-5a41-40b8-9324-439dea2cc150",
+    "name": "Diploma in Interior",
+    "paths": []
+  },
+  "fccc1cb3-127e-4fe0-958e-2c01287db644": {
+    "id": "fccc1cb3-127e-4fe0-958e-2c01287db644",
+    "name": "Landscape Design",
+    "paths": []
+  },
+  "44418244-ee7e-4297-92ff-1c33b8b241f3": {
+    "id": "44418244-ee7e-4297-92ff-1c33b8b241f3",
+    "name": "I.E.S. Exam",
+    "paths": [
+      {
+        "to": "119e0869-f566-4028-aa94-d8adf08b8cd6",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "3aa1aefe-e621-44dd-ae35-548eec5274c2",
+        "duration": "",
+        "skills": ""
+      }
+    ]
+  },
+  "eb389b9c-8141-485b-aee0-d9d2c56ac457": {
+    "id": "eb389b9c-8141-485b-aee0-d9d2c56ac457",
+    "name": "M.E.",
+    "paths": [
+      {
+        "to": "1f50efe5-81ad-497c-a0ea-d183cf9ed377",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "8b42a815-cea2-44f8-a473-1a74ca1e628e",
+        "duration": "",
+        "skills": ""
+      }
+    ]
+  },
+  "ac079a3e-6cd5-438a-9213-f6e2af008b73": {
+    "id": "ac079a3e-6cd5-438a-9213-f6e2af008b73",
+    "name": "Defence Direct Entry",
+    "paths": [
+      {
+        "to": "3615da4d-5ac3-404d-b416-6efb65b3ffb4",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "337798a7-3371-40c6-a71a-a2d55f2b624c",
+        "duration": "",
+        "skills": ""
+      }
+    ]
+  },
+  "a83abfc5-d203-4017-88ae-a160d19bac8e": {
+    "id": "a83abfc5-d203-4017-88ae-a160d19bac8e",
+    "name": "M.S. (Foreign University)",
+    "paths": []
+  },
+  "9b3495ca-aa3b-4246-9234-0a98fb3a72ca": {
+    "id": "9b3495ca-aa3b-4246-9234-0a98fb3a72ca",
+    "name": "M.Tech (IIT)",
+    "paths": []
+  },
+  "dcf4b4e9-f8a3-4dff-b98c-dba6f4d181a6": {
+    "id": "dcf4b4e9-f8a3-4dff-b98c-dba6f4d181a6",
+    "name": "Government Contractor (Civil/ Electrical)",
+    "paths": []
+  },
+  "119e0869-f566-4028-aa94-d8adf08b8cd6": {
+    "id": "119e0869-f566-4028-aa94-d8adf08b8cd6",
+    "name": "Job in Railway",
+    "paths": []
+  },
+  "3aa1aefe-e621-44dd-ae35-548eec5274c2": {
+    "id": "3aa1aefe-e621-44dd-ae35-548eec5274c2",
+    "name": "Job in Public Sector Company",
+    "paths": []
+  },
+  "54ead7ba-859c-4087-aec6-ad20c41b90d3": {
+    "id": "54ead7ba-859c-4087-aec6-ad20c41b90d3",
+    "name": "Marine Engineer",
+    "paths": []
+  },
+  "1f50efe5-81ad-497c-a0ea-d183cf9ed377": {
+    "id": "1f50efe5-81ad-497c-a0ea-d183cf9ed377",
+    "name": "Engineer",
+    "paths": []
+  },
+  "3615da4d-5ac3-404d-b416-6efb65b3ffb4": {
+    "id": "3615da4d-5ac3-404d-b416-6efb65b3ffb4",
+    "name": "Indian Navy",
+    "paths": []
+  },
+  "55b23d68-4d69-4a10-9eed-200f1b73e537": {
+    "id": "55b23d68-4d69-4a10-9eed-200f1b73e537",
+    "name": "M.C.S.",
+    "paths": []
+  },
+  "da776deb-595c-4860-9320-fab713371bbe": {
+    "id": "da776deb-595c-4860-9320-fab713371bbe",
+    "name": "Job in Film Production",
+    "paths": []
+  },
+  "0bd0d648-c8b4-4630-b154-73e0a58348ba": {
+    "id": "0bd0d648-c8b4-4630-b154-73e0a58348ba",
+    "name": "Job in TV Channels",
+    "paths": []
+  },
+  "0d2814f5-b7f2-46a0-9495-ab3c35cdaae9": {
+    "id": "0d2814f5-b7f2-46a0-9495-ab3c35cdaae9",
+    "name": "12th Science With PCB",
+    "paths": [
+      {
+        "to": "cd2a0350-a1d6-4f22-b16b-69509545d077",
+        "duration": "5.5",
+        "skills": ""
+      },
+      {
+        "to": "5ae5123b-af7d-4184-94f6-723ae785d6e4",
+        "duration": "5.5",
+        "skills": ""
+      },
+      {
+        "to": "38adb79b-9462-4473-a983-6629c07fcb58",
+        "duration": "5.5",
+        "skills": ""
+      },
+      {
+        "to": "c7d21911-4936-436d-953d-90a1a6ca271f",
+        "duration": "5",
+        "skills": ""
+      },
+      {
+        "to": "0a372fbd-d8ff-4d94-8a47-4472db986577",
+        "duration": "5.5",
+        "skills": ""
+      },
+      {
+        "to": "3c6190b5-96c3-49ce-8eac-86f21204747f",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "502dc413-7ad2-4ea7-b014-a938aee42e1d",
+        "duration": "4",
+        "skills": ""
+      },
+      {
+        "to": "57db70ff-e383-42b8-8e8a-b0793458a35e",
+        "duration": "3",
+        "skills": ""
+      },
+      {
+        "to": "64a293e2-ed14-4250-83f5-332cc419b7e0",
+        "duration": "3.5",
+        "skills": ""
+      },
+      {
+        "to": "3b62d343-af61-4e23-a4c5-6eeccae4a1d7",
+        "duration": "3",
+        "skills": ""
+      },
+      {
+        "to": "866e904d-ac5d-47d0-b28c-295b9fd913db",
+        "duration": "3",
+        "skills": ""
+      }
+    ]
+  },
+  "cd2a0350-a1d6-4f22-b16b-69509545d077": {
+    "id": "cd2a0350-a1d6-4f22-b16b-69509545d077",
+    "name": "B.A.M.S.",
+    "paths": [
+      {
+        "to": "9f2d774a-b7de-4fa7-be16-3e69140fdaf8",
+        "duration": "4",
+        "skills": ""
+      }
+    ]
+  },
+  "5ae5123b-af7d-4184-94f6-723ae785d6e4": {
+    "id": "5ae5123b-af7d-4184-94f6-723ae785d6e4",
+    "name": "B.H.M.S.",
+    "paths": []
+  },
+  "38adb79b-9462-4473-a983-6629c07fcb58": {
+    "id": "38adb79b-9462-4473-a983-6629c07fcb58",
+    "name": "B.V.Sc.",
+    "paths": []
+  },
+  "c7d21911-4936-436d-953d-90a1a6ca271f": {
+    "id": "c7d21911-4936-436d-953d-90a1a6ca271f",
+    "name": "B.D.S.",
+    "paths": [
+      {
+        "to": "e1c49686-865d-4a61-b052-9df024e8c700",
+        "duration": "3",
+        "skills": ""
+      }
+    ]
+  },
+  "0a372fbd-d8ff-4d94-8a47-4472db986577": {
+    "id": "0a372fbd-d8ff-4d94-8a47-4472db986577",
+    "name": "M.B.B.S.",
+    "paths": [
+      {
+        "to": "9f2d774a-b7de-4fa7-be16-3e69140fdaf8",
+        "duration": "4",
+        "skills": ""
+      },
+      {
+        "to": "a26a5329-d3c8-43aa-a17f-19936458edbd",
+        "duration": "3",
+        "skills": ""
+      },
+      {
+        "to": "208ea84b-aa6c-4556-9614-cf21140fb14d",
+        "duration": "3",
+        "skills": ""
+      }
+    ]
+  },
+  "3c6190b5-96c3-49ce-8eac-86f21204747f": {
+    "id": "3c6190b5-96c3-49ce-8eac-86f21204747f",
+    "name": "Paramedical Courses",
+    "paths": [
+      {
+        "to": "af1b3a78-78fc-4eff-a411-df0271ac6e17",
+        "duration": "3",
+        "skills": ""
+      },
+      {
+        "to": "20607f0c-9b40-4ed4-946b-957a050e2cd1",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "4bdf44c0-a820-4506-9f55-7a0edfc444f8",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "8b1af67e-428e-4593-9acb-1a768e5be3e5",
+        "duration": "3",
+        "skills": ""
+      },
+      {
+        "to": "6cec8862-cf51-442a-9d74-e6b27f494555",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "f9dfcf77-c935-4bb6-8237-2807e7947f2d",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "82e49e7f-e8c0-4789-b803-4459d035f349",
+        "duration": "3",
+        "skills": ""
+      },
+      {
+        "to": "6428160d-4c69-46f4-8caf-8d67b85f6c78",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "33b2118e-0c5a-435a-bd20-03502259d26c",
+        "duration": "2",
+        "skills": ""
+      }
+    ]
+  },
+  "502dc413-7ad2-4ea7-b014-a938aee42e1d": {
+    "id": "502dc413-7ad2-4ea7-b014-a938aee42e1d",
+    "name": "B.Sc. Nurshing",
+    "paths": []
+  },
+  "57db70ff-e383-42b8-8e8a-b0793458a35e": {
+    "id": "57db70ff-e383-42b8-8e8a-b0793458a35e",
+    "name": "Diploma in Nursing",
+    "paths": []
+  },
+  "64a293e2-ed14-4250-83f5-332cc419b7e0": {
+    "id": "64a293e2-ed14-4250-83f5-332cc419b7e0",
+    "name": "B.M.L.T.",
+    "paths": []
+  },
+  "3b62d343-af61-4e23-a4c5-6eeccae4a1d7": {
+    "id": "3b62d343-af61-4e23-a4c5-6eeccae4a1d7",
+    "name": "B.Sc. Home Science",
+    "paths": []
+  },
+  "866e904d-ac5d-47d0-b28c-295b9fd913db": {
+    "id": "866e904d-ac5d-47d0-b28c-295b9fd913db",
+    "name": "B.Sc. (Botony, Micro biology, Zoology, Physics, Chemistry etc.)",
+    "paths": [
+      {
+        "to": "00dd7794-1b0a-41fa-b722-bdad45ee2965",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "2da5c453-2f4c-4d5f-9d19-d7dbe0f2df35",
+        "duration": "2",
+        "skills": ""
+      }
+    ]
+  },
+  "af1b3a78-78fc-4eff-a411-df0271ac6e17": {
+    "id": "af1b3a78-78fc-4eff-a411-df0271ac6e17",
+    "name": "Medical Lab Technology",
+    "paths": []
+  },
+  "20607f0c-9b40-4ed4-946b-957a050e2cd1": {
+    "id": "20607f0c-9b40-4ed4-946b-957a050e2cd1",
+    "name": "Hospital Food Service Management",
+    "paths": []
+  },
+  "4bdf44c0-a820-4506-9f55-7a0edfc444f8": {
+    "id": "4bdf44c0-a820-4506-9f55-7a0edfc444f8",
+    "name": "Medical X-Ray Technology",
+    "paths": []
+  },
+  "8b1af67e-428e-4593-9acb-1a768e5be3e5": {
+    "id": "8b1af67e-428e-4593-9acb-1a768e5be3e5",
+    "name": "Medical Records Technology",
+    "paths": []
+  },
+  "6cec8862-cf51-442a-9d74-e6b27f494555": {
+    "id": "6cec8862-cf51-442a-9d74-e6b27f494555",
+    "name": "Operation Theater Technology",
+    "paths": []
+  },
+  "f9dfcf77-c935-4bb6-8237-2807e7947f2d": {
+    "id": "f9dfcf77-c935-4bb6-8237-2807e7947f2d",
+    "name": "Opthalmic Technology",
+    "paths": []
+  },
+  "82e49e7f-e8c0-4789-b803-4459d035f349": {
+    "id": "82e49e7f-e8c0-4789-b803-4459d035f349",
+    "name": "Health Inspector",
+    "paths": []
+  },
+  "6428160d-4c69-46f4-8caf-8d67b85f6c78": {
+    "id": "6428160d-4c69-46f4-8caf-8d67b85f6c78",
+    "name": "Dialysis Technology",
+    "paths": []
+  },
+  "33b2118e-0c5a-435a-bd20-03502259d26c": {
+    "id": "33b2118e-0c5a-435a-bd20-03502259d26c",
+    "name": "Auxiliary MIISE/MIDWIFERY",
+    "paths": []
+  },
+  "00dd7794-1b0a-41fa-b722-bdad45ee2965": {
+    "id": "00dd7794-1b0a-41fa-b722-bdad45ee2965",
+    "name": "M.Sc",
+    "paths": [
+      {
+        "to": "61433601-c45a-430d-8e09-05bd5012a1c8",
+        "duration": "1",
+        "skills": ""
+      }
+    ]
+  },
+  "2da5c453-2f4c-4d5f-9d19-d7dbe0f2df35": {
+    "id": "2da5c453-2f4c-4d5f-9d19-d7dbe0f2df35",
+    "name": "M.Sc (Bio-Tech)",
+    "paths": [
+      {
+        "to": "f2f4d301-1175-4ead-a1aa-5696dc0358c1",
+        "duration": "2",
+        "skills": ""
+      }
+    ]
+  },
+  "61433601-c45a-430d-8e09-05bd5012a1c8": {
+    "id": "61433601-c45a-430d-8e09-05bd5012a1c8",
+    "name": "M.Phil",
+    "paths": [
+      {
+        "to": "a9d4ab8b-49be-4c84-8bf4-b2c9883913be",
+        "duration": "3",
+        "skills": ""
+      }
+    ]
+  },
+  "a9d4ab8b-49be-4c84-8bf4-b2c9883913be": {
+    "id": "a9d4ab8b-49be-4c84-8bf4-b2c9883913be",
+    "name": "Ph.D.",
+    "paths": []
+  },
+  "f2f4d301-1175-4ead-a1aa-5696dc0358c1": {
+    "id": "f2f4d301-1175-4ead-a1aa-5696dc0358c1",
+    "name": "M.Tech (Bio-Tech)",
+    "paths": []
+  },
+  "9f2d774a-b7de-4fa7-be16-3e69140fdaf8": {
+    "id": "9f2d774a-b7de-4fa7-be16-3e69140fdaf8",
+    "name": "M.D.",
+    "paths": []
+  },
+  "e1c49686-865d-4a61-b052-9df024e8c700": {
+    "id": "e1c49686-865d-4a61-b052-9df024e8c700",
+    "name": "M.D.S.",
+    "paths": []
+  },
+  "a26a5329-d3c8-43aa-a17f-19936458edbd": {
+    "id": "a26a5329-d3c8-43aa-a17f-19936458edbd",
+    "name": "M.S.",
+    "paths": []
+  },
+  "208ea84b-aa6c-4556-9614-cf21140fb14d": {
+    "id": "208ea84b-aa6c-4556-9614-cf21140fb14d",
+    "name": "Special Diploma",
+    "paths": []
+  },
+  "9701d299-baa8-4ab5-8e47-65f3c16c3ec2": {
+    "id": "9701d299-baa8-4ab5-8e47-65f3c16c3ec2",
+    "name": "B.S.W.",
+    "paths": [
+      {
+        "to": "e9ed166b-e7d8-48ec-b89c-9b6678810cd6",
+        "duration": "2",
+        "skills": ""
+      }
+    ]
+  },
+  "f69282c5-2bd7-4287-bf7e-b7ec070cdff7": {
+    "id": "f69282c5-2bd7-4287-bf7e-b7ec070cdff7",
+    "name": "L.L.B. Foundation",
+    "paths": [
+      {
+        "to": "417a71e7-3e02-475e-ab06-da19ee98b41a",
+        "duration": "1",
+        "skills": ""
+      },
+      {
+        "to": "e2283b1d-20e6-48f9-b700-5587159c7ded",
+        "duration": "1",
+        "skills": ""
+      },
+      {
+        "to": "ab2def87-4ef6-44c8-b92e-0f6773d2a381",
+        "duration": "2",
+        "skills": ""
+      }
+    ]
+  },
+  "3d2a8c18-a7e3-4ce9-ab95-b3057a219a4f": {
+    "id": "3d2a8c18-a7e3-4ce9-ab95-b3057a219a4f",
+    "name": "Fashion Designing Diploma",
+    "paths": []
+  },
+  "4ee089d9-e02a-4620-a775-988c1bb8457a": {
+    "id": "4ee089d9-e02a-4620-a775-988c1bb8457a",
+    "name": "B.A.",
+    "paths": [
+      {
+        "to": "45a14163-9708-4648-ab81-a6c3e1caa36a",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "54322d8b-b796-4732-9226-a59fea0c0754",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "2c81f605-eece-4034-a389-802c0fc0b1ee",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "86009b83-0cd1-44f3-b444-3078369f8ae9",
+        "duration": "3",
+        "skills": ""
+      },
+      {
+        "to": "b4df55aa-8136-43da-9379-b2f8a9b24c74",
+        "duration": "5",
+        "skills": ""
+      },
+      {
+        "to": "1af1960d-706c-40bd-84a1-693b83be2df3",
+        "duration": "1",
+        "skills": ""
+      },
+      {
+        "to": "7b5cb984-5592-4eb5-b10c-487b57b4200d",
+        "duration": "2",
+        "skills": "Critical thinking, teamwork, Leadership, Time management"
+      },
+      {
+        "to": "39d3ab92-b971-4cae-8bdf-65c14f535998",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "17f42015-ae11-4237-8898-333301f71bed",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "1f6a6721-238e-4683-8c5a-e23e8f6035b5",
+        "duration": "3",
+        "skills": ""
+      },
+      {
+        "to": "7380601e-8434-48fb-a842-0c2c650b005e",
+        "duration": "3",
+        "skills": "Languages like C, C++, Java, .Net, DS, Database, \nLatest technology"
+      },
+      {
+        "to": "1740a5d7-5f10-4201-a53d-1356cf739c2f",
+        "duration": "2",
+        "skills": ""
+      },
+      {
+        "to": "d121006f-94c2-43d8-9963-510298f6456e",
+        "duration": "2",
+        "skills": "Qualified 10+2, Minimum score 45-55%, \nGraduation in Teaching Subjects, Post-Grad in Subject"
+      },
+      {
+        "to": "b078aaa6-e4ec-49db-9d65-dbc94d22ef65",
+        "duration": "1",
+        "skills": ""
+      },
+      {
+        "to": "dd64d378-978b-42ad-baad-78d8ef59fb52",
+        "duration": "1",
+        "skills": "Constant interaction with stakeholders & clients,\nEnthusiasm, Itinary & vendor management"
+      },
+      {
+        "to": "3034b602-3f0e-46b7-ae9f-eb0145e758a6",
+        "duration": "",
+        "skills": "GK & Awareness, Reasoning Ability, Coding-Decoding"
+      },
+      {
+        "to": "9f33cee9-4421-41ae-b1fe-28e7c5343323",
+        "duration": "",
+        "skills": "Age 18-25, Height - male 165 cm, female -155 cm, \nchest - 81 cm"
+      },
+      {
+        "to": "df298f57-ce3e-4d20-ae74-9cf328127cbb",
+        "duration": "",
+        "skills": "Males- H 165 cms, Females- H 155 cms, Long Jump, \nHigh Jump, color vision, eyesight 6/6, CP III by ISHIHARA"
+      }
+    ]
+  },
+  "0a9a6024-98fd-4223-90ee-ccf05eaf7514": {
+    "id": "0a9a6024-98fd-4223-90ee-ccf05eaf7514",
+    "name": "Foreign Languages Diploma",
+    "paths": []
+  },
+  "4f361862-a8d2-4149-94cc-0d4a255a14e7": {
+    "id": "4f361862-a8d2-4149-94cc-0d4a255a14e7",
+    "name": "Call Center Job",
+    "paths": []
+  },
+  "e9ed166b-e7d8-48ec-b89c-9b6678810cd6": {
+    "id": "e9ed166b-e7d8-48ec-b89c-9b6678810cd6",
+    "name": "M.S.W.",
+    "paths": []
+  },
+  "417a71e7-3e02-475e-ab06-da19ee98b41a": {
+    "id": "417a71e7-3e02-475e-ab06-da19ee98b41a",
+    "name": "D.T.L.",
+    "paths": []
+  },
+  "e2283b1d-20e6-48f9-b700-5587159c7ded": {
+    "id": "e2283b1d-20e6-48f9-b700-5587159c7ded",
+    "name": "D.L.L.",
+    "paths": []
+  },
+  "45a14163-9708-4648-ab81-a6c3e1caa36a": {
+    "id": "45a14163-9708-4648-ab81-a6c3e1caa36a",
+    "name": "B.P.Ed.",
+    "paths": [
+      {
+        "to": "a61b4985-e695-4dfe-bd25-d49fbd7d59f5",
+        "duration": "",
+        "skills": ""
+      }
+    ]
+  },
+  "a61b4985-e695-4dfe-bd25-d49fbd7d59f5": {
+    "id": "a61b4985-e695-4dfe-bd25-d49fbd7d59f5",
+    "name": "P.T. Teacher",
+    "paths": []
+  },
+  "54322d8b-b796-4732-9226-a59fea0c0754": {
+    "id": "54322d8b-b796-4732-9226-a59fea0c0754",
+    "name": "M.A.",
+    "paths": []
+  },
+  "2c81f605-eece-4034-a389-802c0fc0b1ee": {
+    "id": "2c81f605-eece-4034-a389-802c0fc0b1ee",
+    "name": "M.A. in Mass Communication",
+    "paths": []
+  },
+  "86009b83-0cd1-44f3-b444-3078369f8ae9": {
+    "id": "86009b83-0cd1-44f3-b444-3078369f8ae9",
+    "name": "Bachelor in Journalism",
+    "paths": []
+  },
+  "1f6a6721-238e-4683-8c5a-e23e8f6035b5": {
+    "id": "1f6a6721-238e-4683-8c5a-e23e8f6035b5",
+    "name": "Diploma in dramatisation (NSD)",
+    "paths": [
+      {
+        "to": "3e7f1323-b8bf-4adb-9874-2e1038cd31d3",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "7e8d7bed-8f29-46cd-9700-41f38e60ecd5",
+        "duration": "",
+        "skills": ""
+      }
+    ]
+  },
+  "3e7f1323-b8bf-4adb-9874-2e1038cd31d3": {
+    "id": "3e7f1323-b8bf-4adb-9874-2e1038cd31d3",
+    "name": "Acting in Films",
+    "paths": []
+  },
+  "7e8d7bed-8f29-46cd-9700-41f38e60ecd5": {
+    "id": "7e8d7bed-8f29-46cd-9700-41f38e60ecd5",
+    "name": "Acting in Plays",
+    "paths": []
+  },
+  "b078aaa6-e4ec-49db-9d65-dbc94d22ef65": {
+    "id": "b078aaa6-e4ec-49db-9d65-dbc94d22ef65",
+    "name": "Advertising & Commercial Management Diploma",
+    "paths": []
+  },
+  "dd64d378-978b-42ad-baad-78d8ef59fb52": {
+    "id": "dd64d378-978b-42ad-baad-78d8ef59fb52",
+    "name": "Event Management Diploma",
+    "paths": []
+  },
+  "3034b602-3f0e-46b7-ae9f-eb0145e758a6": {
+    "id": "3034b602-3f0e-46b7-ae9f-eb0145e758a6",
+    "name": "Sub Inspector Exam for BSF",
+    "paths": []
+  },
+  "9f33cee9-4421-41ae-b1fe-28e7c5343323": {
+    "id": "9f33cee9-4421-41ae-b1fe-28e7c5343323",
+    "name": "Sub Inspector Exam for CRPF",
+    "paths": []
+  },
+  "df298f57-ce3e-4d20-ae74-9cf328127cbb": {
+    "id": "df298f57-ce3e-4d20-ae74-9cf328127cbb",
+    "name": "Sub Inspector Exam for CISF",
+    "paths": []
+  },
+  "ba780abd-951a-4ac4-8cda-ac71181c42bd": {
+    "id": "ba780abd-951a-4ac4-8cda-ac71181c42bd",
+    "name": "Diploma in Travel & Tourism",
+    "paths": []
+  },
+  "d9ac7646-0223-4e71-b788-6be2dad10ba9": {
+    "id": "d9ac7646-0223-4e71-b788-6be2dad10ba9",
+    "name": "Laboratory Technician Diploma (D.M.L.T.)",
+    "paths": []
+  },
+  "8eb8944f-fdf3-4f0b-bfc8-fa81f72ce7f1": {
+    "id": "8eb8944f-fdf3-4f0b-bfc8-fa81f72ce7f1",
+    "name": "L.I.C. Agent",
+    "paths": []
+  },
+  "953b9964-c59c-42cf-b01e-339819a42c18": {
+    "id": "953b9964-c59c-42cf-b01e-339819a42c18",
+    "name": "Hotal Management Diploma",
+    "paths": [
+      {
+        "to": "f4824bc8-58b6-452a-b92f-171e3e1e59c6",
+        "duration": "1",
+        "skills": "Punctuality, Age 18-26, weight proportionate, eyesight 6/6,\nUnmarried"
+      },
+      {
+        "to": "ae10d49f-4284-4763-aee1-188227c8b511",
+        "duration": "",
+        "skills": "Punctuality, Age 18-26, weight proportionate, eyesight 6/6,\nUnmarried"
+      }
+    ]
+  },
+  "f4824bc8-58b6-452a-b92f-171e3e1e59c6": {
+    "id": "f4824bc8-58b6-452a-b92f-171e3e1e59c6",
+    "name": "Air Hostess",
+    "paths": []
+  },
+  "ae10d49f-4284-4763-aee1-188227c8b511": {
+    "id": "ae10d49f-4284-4763-aee1-188227c8b511",
+    "name": "Flight Steward",
+    "paths": []
+  },
+  "bdc7938a-b9f9-4176-9a83-b2d1a9364ce2": {
+    "id": "bdc7938a-b9f9-4176-9a83-b2d1a9364ce2",
+    "name": "Student Pilot Licence",
+    "paths": [
+      {
+        "to": "bb12c8a5-8308-437b-b800-87866091a23f",
+        "duration": "3",
+        "skills": "Complete 200 Hours"
+      }
+    ]
+  },
+  "bb12c8a5-8308-437b-b800-87866091a23f": {
+    "id": "bb12c8a5-8308-437b-b800-87866091a23f",
+    "name": "Professional Pilot Licence",
+    "paths": [
+      {
+        "to": "04101bbe-aefd-4ed3-9b7a-10f7d23d99b5",
+        "duration": "1.25",
+        "skills": "Complete 160 flying hours"
+      }
+    ]
+  },
+  "04101bbe-aefd-4ed3-9b7a-10f7d23d99b5": {
+    "id": "04101bbe-aefd-4ed3-9b7a-10f7d23d99b5",
+    "name": "Commercial Pilot Licence",
+    "paths": []
+  }
+}

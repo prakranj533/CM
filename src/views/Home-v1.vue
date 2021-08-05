@@ -1,8 +1,7 @@
 <template>
   <div class="home">
     <div class="text-h5 text-center">Probabilistic Career Maps</div>
-    <h4 class="text-center subtitle-1">See your career – Search your path – Seek your guide</h4>
-    <StickyForceLayout />
+    <Graph ref="graph" :nodeMap="nodeMap" :height="900" />
      <div style="display: flex; justify-content: center" class="mt-12">
       <v-btn color="primary" elevation="5" large @click="goToCareerPathFinder">Career Path Finder</v-btn>
     </div>
@@ -11,7 +10,7 @@
         <thead>
           <tr>
             <th class="text-left">Name</th>
-            <th class="text-left">Rank</th>
+            <th class="text-left">Centrality</th>
           </tr>
         </thead>
         <tbody>
@@ -22,24 +21,20 @@
         </tbody>
       </template>
     </v-simple-table>
-    <v-list-item-title class="mt-3 mb-2 text-center text-body-2">
-      Contact us to become a career guide and to earn money
-    </v-list-item-title>
-    <v-list-item-title class="my-3 text-center text-body-2">
-      Feedback: lifelonglearning.in@gmail.com
-    </v-list-item-title>
+
+    <v-list-item-title class="my-8 text-center text-body-2">Feedback: lifelonglearning.in@gmail.com</v-list-item-title>
   </div>
 </template>
 
 <script>
 import nodeMap from "../data/nodeMap.json";
-import StickyForceLayout from "../components/StickyForceLayout";
+import Graph from "../components/Graph";
 import nGraphGraphCreateGraph from "ngraph.graph";
 import nGraphCentrality from "ngraph.centrality";
 
 export default {
   name: "Home",
-  components: { StickyForceLayout },
+  components: { Graph },
   data: () => ({
     nodeMap,
   }),
@@ -55,6 +50,8 @@ export default {
         });
       };
       if (Object.keys(map).length) {
+        // const nodeIdOf8th = Object.values(map).find(e => "10th (S.S.C.)" === e.name).id;
+        // console.log('nodeIdOf8th', nodeIdOf8th)
         let nodeIdOf8th
         Object.values(map).find(function(value,index){
           if(index == 0){
@@ -63,6 +60,7 @@ export default {
           }
         })
         traverse(nodeIdOf8th);
+        // ref - https://github.com/anvaka/ngraph.centrality#betweenness-centrality
         const g = nGraphGraphCreateGraph();
         nodes.forEach((e) => g.addLink(e.source, e.destination));
         let result = nGraphCentrality.betweenness(g);

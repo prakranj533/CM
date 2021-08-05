@@ -5,10 +5,15 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "server": "cd server && npm start",
+    "devStart": "concurrently \"npm run serve\" \"npm run server\"",
+    "start": "node index"
   },
   "dependencies": {
     "@mdi/font": "5.9.55",
+    "axios": "^0.21.1",
+    "concurrently": "^6.2.0",
     "core-js": "^3.6.5",
     "d3v4": "^4.2.2",
     "ngraph.centrality": "^2.0.1",

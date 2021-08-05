@@ -1,7 +1,7 @@
 <template>
   <div class="page-not-found text-center">
     <div class="text-h1 mt-12">Page Not Found</div>
-    <div class="mt-8"><a href="/home">Go to Home Page</a></div>
+    <div class="mt-8"><a href="/">Go to Home Page</a></div>
   </div>
 </template>
 

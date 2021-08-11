@@ -13,9 +13,6 @@
             "id": "10th (S.S.C.)"
         },
         {
-            "id": "12th (H.S.C.)"
-        },
-        {
             "id": "Engineering Diploma"
         },
         {
@@ -122,6 +119,9 @@
         },
         {
             "id": "Commerce Clerk Exam"
+        },
+        {
+            "id": "12th (H.S.C.)"
         },
         {
             "id": "Bank Insurance"
@@ -654,22 +654,6 @@
         {
             "source": "8th",
             "target": "Photoshop Master (2 months)"
-        },
-        {
-            "source": "Photo Editing",
-            "target": "10th (S.S.C.)"
-        },
-        {
-            "source": "Photoshop Master (2 months)",
-            "target": "10th (S.S.C.)"
-        },
-        {
-            "source": "Photo Editing",
-            "target": "12th (H.S.C.)"
-        },
-        {
-            "source": "Photoshop Master (2 months)",
-            "target": "12th (H.S.C.)"
         },
         {
             "source": "8th",

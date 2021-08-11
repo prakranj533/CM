@@ -4,7 +4,8 @@
   "description": "",
   "main": "converter.js",
   "scripts": {
-    "convert": "node converter.js"
+    "convert": "node converter.js",
+    "converter-old": "node converter-old.js"
   },
   "keywords": [],
   "author": "Shailesh Nighojkar",

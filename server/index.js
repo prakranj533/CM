@@ -40,6 +40,15 @@ app.get('/get-json-data', (req, res) => {
     
 });
 
+app.get('/get-json-old-format',(req,res) => {
+    let rawData = fs.readFileSync('nodeMap-old-format.json');
+    let jsonData = JSON.parse(rawData);
+    res.json({
+        message : "JSON loaded successfully",
+        jsonData: jsonData
+    });
+});
+
 app.post('/upload', upload.single('file'), (req,res) => {
     shell.exec('./move-nodeMapJson-script.sh')
     res.json({

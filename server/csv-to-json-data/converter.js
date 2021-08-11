@@ -41,7 +41,7 @@ if (fs.existsSync(sheetFileName)) {
         });
 
 } else {
-    console.error("Make sure you have csv file with name exactly 'sheet.csv'");
+    console.error("Make sure you have csv file with name exactly 'sheet1.csv'");
 }
 
 

@@ -12,18 +12,16 @@
 </template>
 
 <script>
-import nodeMapJson from "../data/nodeMap.json";
 import ManageNodeDialog from "../components/manage-nodes/ManageNodeDialog";
 import Graph from "../components/Graph";
 import UploadCSVDialog from "../components/UploadCsvDialog";
-
-const nodeMap = JSON.parse(localStorage.getItem("nodeMap")) || nodeMapJson;
+import api from "../utils/api";
 
 export default {
   name: "ManageNodes",
   components: { ManageNodeDialog, Graph, UploadCSVDialog },
   data: () => ({
-    nodeMap,
+    nodeMap : {},
     createNodeDialogConfig: {
       model: false,
       nodeName: "",
@@ -33,7 +31,17 @@ export default {
       model: false
     }
   }),
+  created(){
+    this.getNodeMapJsonData();
+  },
   methods: {
+    getNodeMapJsonData(){
+      api.get('/get-json-old-format').then(res => {
+        this.nodeMap = JSON.parse(localStorage.getItem("nodeMap")) || res.data.jsonData;
+      }).catch(err => {
+        console.log('err', err)
+      })
+    },
     nodeClicked(nodeId) {
       const node = this.nodeMap[nodeId];
       this.createNodeDialogConfig.model = true;

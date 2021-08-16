@@ -29,7 +29,8 @@ export default {
         idsToHighlight: [],
         nodeMapObj: Object,
         currentZoom : Number,
-        showLoader: true
+        showLoader: true,
+        linkedByIndexV1: {}
     }),
     watch: {
     },
@@ -65,14 +66,52 @@ export default {
                     group.attr("transform", d3.event.transform)
                 })
             );
-
             const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+            var linkedByIndex = {};
+            data.links.forEach(function(d) {
+                linkedByIndex[d.source + "," + d.target] = true;
+            });
+            this.linkedByIndexV1 = linkedByIndex;
+
+            var rect = group.append("rect")
+                .attr("width", width)
+                .attr("height", height)
+                .style("fill", "none")
+                .style("pointer-events", "all");
+
+            rect.call(d3.zoom()
+                .scaleExtent([1, 8])
+                .translateExtent([[0,0],[width,height]])
+                .on("zoom", function() {
+                    group.attr("transform", d3.event.transform)
+                })
+            );
+
+            var defs = group.append("svg:defs");
+
+            defs.selectAll("marker")
+                .data(["end", "end-active"])
+                .enter().append("svg:marker")
+                .attr("id", String)
+                .attr("viewBox", "0 -5 10 10")
+                .attr("refX", 20)
+                .attr("markerWidth", 6)
+                .attr("markerHeight", 6)
+                .attr("orient", "auto")
+                .append("svg:path")
+                .attr("d", "M0,-5L10,0L0,5");
+
+
+            defs.select("#end").attr("class", "arrow");
+            defs.select("#end-active").attr("class", "arrow-active");
             
             const links = group
                 .selectAll(".link")
                 .data(data.links)
                 .enter().append("line")
-                .classed("links", true);
+                .classed("links", true)
+                .attr("marker-end", "url(#end)");
 
             const nodes = group
                 .attr("class", "nodes")
@@ -103,6 +142,15 @@ export default {
             nodes.on("click", function() {
                 d3.select(this).attr("r", 15);
                 simulation.alpha(1).restart();
+            });
+
+            nodes.on("mouseover",(e,d) =>  {
+                // d3.select(this).select("circle").transition()
+                //     .duration(750)
+                //     .attr("r", 12);
+                this.setHighLight(d,nodes,links);
+            }).on("mouseout",(e,d) => {
+                this.exitHighlight(d,nodes,links)
             });
 
             nodes.call(d3.drag()
@@ -147,6 +195,29 @@ export default {
                     return "translate(" + d.x + "," + d.y + ")";
                 });
             }
+        },
+        isConnected(a,b){
+            return this.linkedByIndexV1[a.index + "," + b.index] || this.linkedByIndexV1[b.index + "," + a.index] 
+                || a.index == b.index;
+        },
+        isLinkForNode(node, link){
+            return link.source.index == node || link.target.index == node;
+        },
+        setHighLight(d,nodes,links){
+            nodes.attr("class", (o) => {
+                return this.isConnected(d, o) ? "node-active" : "node";
+            });
+            links.attr("marker-end", (o) => {
+                return this.isLinkForNode(d, o) ? "url(#end-active)" : "url(#end)";
+            });
+            links.attr("class", (o) => {
+                return this.isLinkForNode(d, o) ? "link-active" : "link";
+            });
+        },
+        exitHighlight(d,nodes,links) {
+            nodes.attr("class", "node");
+            links.attr("class", "link");
+            links.attr("marker-end", "url(#end)");
         }
     },
     beforeDestroy() {
@@ -186,5 +257,30 @@ export default {
     display: block;
     width: 100px;
     margin: 30% auto
+}
+.arrow {
+  fill: #555;
+  fill-opacity: .3;
+}
+.arrow-active {
+  fill: #555;
+  fill-opacity: 1;
+}
+.node-active{
+  stroke: #555;
+  stroke-width: 1.5px;
+}
+.node {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+.link {
+  stroke: #555;
+  stroke-opacity: .3;
+}
+
+.link-active {
+  stroke: black;
+  stroke-opacity: 1;
 }
 </style>

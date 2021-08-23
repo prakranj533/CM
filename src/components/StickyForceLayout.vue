@@ -18,7 +18,7 @@
 <script>
 import * as d3 from "d3v4";
 import api from "./../utils/api";
-
+let linkedByIndex = {};
 export default {
     name: "Graph",
     data: () => ({
@@ -70,12 +70,6 @@ export default {
             );
             const color = d3.scaleOrdinal(d3.schemeCategory10);
 
-            var linkedByIndex = {};
-            data.links.forEach(function(d) {
-                linkedByIndex[d.source + "," + d.target] = 1;
-            });
-            this.linkedByIndexV1 = linkedByIndex;
-
             var rect = group.append("rect")
                 .attr("width", width)
                 .attr("height", height)
@@ -91,7 +85,6 @@ export default {
             );
 
             var defs = group.append("svg:defs");
-
             defs.selectAll("marker")
                 .data(["end", "end-active"])
                 .enter().append("svg:marker")
@@ -104,33 +97,13 @@ export default {
                 .append("svg:path")
                 .attr("d", "M0,-5L10,0L0,5")
                 .style('opacity', d => d.opacity);
-
-
-            // defs.select("#end").attr("class", "arrow");
-            // defs.select("#end-active").attr("class", "arrow-active");
             
             const links = group
                 .selectAll(".link")
                 .data(data.links)
                 .enter().append("line")
                 .classed("links", true)
-                .attr("marker-end", "url(#end)")
-                .on('mouseout', (d) => {
-                    let opacity = 1;
-                    nodes.style("stroke-opacity", (o) => {
-                        this.thisOpacity = this.isConnected(d, o) ? 1 : opacity;
-                    })
-                    .attr('fill-opacity', this.thisOpacity);
-                    nodes.attr("fill", (o) => {
-                        return this.isConnected(d, o) ?  color(o.id) : "#d3d3d3";
-                    })
-                    links
-                        .attr('marker-end', o => (opacity === 1 || o.source === d || o.target === d ? 1 : opacity));
-                    links
-                        .style('stroke-opacity', o => (o.source === d || o.target === d ? 1 : opacity));
-                    links
-                        .attr('marker-end', o => (opacity === 1 || o.source === d || o.target === d ? 'url(#end)' : 'url(#end-active)'));
-                });
+                .attr("marker-end", "url(#end)");
 
             const nodes = group
                 .attr("class", "nodes")
@@ -162,42 +135,7 @@ export default {
                 d3.select(this).attr("r", 15);
                 simulation.alpha(1).restart();
             });
-            nodes
-                .on('mouseover',(d) => {
-                    let opacity = 0.1;
-                    // let color = "#00000";
-                    nodes.attr("stroke-opacity", (o) => {
-                        this.thisOpacity = this.isConnected(d, o) ? 1 : opacity;
-                        return this.thisOpacity;
-                    })
-                    .attr('fill-opacity', this.thisOpacity);
-                    nodes.attr("fill", (o) => {
-                        return this.isConnected(d, o) ?  color(o.id) : "#d3d3d3";
-                    })
-                    links
-                        .attr('marker-end', o => (opacity === 1 || o.source === d || o.target === d ? 1 : opacity));
-                    links
-                        .style('stroke-opacity', o => (o.source === d || o.target === d ? 1 : opacity));
-                    links
-                        .attr('marker-end', o => (opacity === 1 || o.source === d || o.target === d ? 'url(#end)' : 'url(#end-active)'));
-                })
-                .on('mouseout',(d) => {
-                    let opacity = 1;
-                    nodes.style("stroke-opacity", (o) => {
-                        this.thisOpacity = this.isConnected(d, o) ? 1 : opacity;
-                    })
-                    .attr('fill-opacity', this.thisOpacity);
-                    nodes.attr("fill", (o) => {
-                        return this.isConnected(d, o) ?  color(o.id) : "#d3d3d3";
-                    })
-                    links
-                        .attr('marker-end', o => (opacity === 1 || o.source === d || o.target === d ? 1 : opacity));
-                    links
-                        .style('stroke-opacity', o => (o.source === d || o.target === d ? 1 : opacity));
-                    links
-                        .attr('marker-end', o => (opacity === 1 || o.source === d || o.target === d ? 'url(#end)' : 'url(#end-active)'));
-                })
-
+            
             nodes.call(d3.drag()
                 .on("start",function(){
                 })
@@ -220,6 +158,43 @@ export default {
                 .attr("class", "label")
                 .text(function(d) {  return d.id;  });
             
+            data.links.forEach(function(d) {
+                linkedByIndex[`${d.source.index},${d.target.index}`] = 1;
+            });
+
+            nodes.on("mouseover",(d) => {
+                let opacity = 0.1;
+                nodes.attr("stroke-opacity", (o) => {
+                    this.thisOpacity = this.isConnected(d, o) ? 1 : opacity;
+                    return this.thisOpacity;
+                })
+                nodes.attr("fill-opacity", (o) => {
+                    this.thisOpacity = this.isConnected(d, o) ? 1 : opacity;
+                    return this.thisOpacity
+                })
+                this.texts = group.selectAll("text.label")
+                    .text((o) => {  return this.isConnected(d, o) ? d.id : "";  });
+                links.style('stroke-opacity', o => (o.source === d || o.target === d ? 1 : opacity));
+                links.attr('marker-end', o => (opacity === 1 || o.source === d || o.target === d ? 'url(#end-arrow)' : 'url(#end-arrow-fade)'));
+                links.attr('marker-end', o => (opacity === 1 || o.source === d || o.target === d ? 'url(#end)' : 'url(#end-active)'));
+            })
+            .on("mouseout",(d) => {
+                let opacity = 1;
+                nodes.attr("stroke-opacity", (o) => {
+                    this.thisOpacity = this.isConnected(d, o) ? 1 : opacity;
+                    return this.thisOpacity;
+                })
+                nodes.attr("fill-opacity", (o) => {
+                    this.thisOpacity = this.isConnected(d, o) ? 1 : opacity;
+                    return this.thisOpacity
+                })
+                this.texts = group.selectAll("text.label")
+                    .text((d) => {  return d.id   });
+
+                links.style('stroke-opacity', o => (o.source === d || o.target === d ? 1 : opacity));
+                links.attr('marker-end', o => (opacity === 1 || o.source === d || o.target === d ? 'url(#end-arrow)' : 'url(#end-arrow-fade)'));
+                links.attr('marker-end', o => (opacity === 1 || o.source === d || o.target === d ? 'url(#end)' : 'url(#end-active)'));
+            })
         },
         clamp(x, lo, hi) {
             return x < lo ? lo : x > hi ? hi : x;
@@ -239,8 +214,8 @@ export default {
                 });
             }
         },
-        isConnected(a,b){
-            return this.linkedByIndexV1[`${a.id},${b.id}`] || this.linkedByIndexV1[`${b.id},${a.id}`] || a.id == b.id;
+        isConnected(a, b) {
+            return linkedByIndex[`${a.index},${b.index}`] || linkedByIndex[`${b.index},${a.index}`] || a.index === b.index;
         }
     },
     beforeDestroy() {
@@ -250,6 +225,9 @@ export default {
 </script>
 
 <style lang="scss">
+.blur-text{
+    opacity: 0.1;
+}
 .dragNodeStyle {
     stroke: lightgray;
     stroke-width: 3px;

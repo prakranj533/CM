@@ -173,7 +173,9 @@ export default {
                     return this.thisOpacity
                 })
                 this.texts = group.selectAll("text.label")
-                    .text((o) => {  return this.isConnected(d, o) ? d.id : "";  });
+                    .text((o) => {  return this.isConnected(d, o) ? o.id : "";  });
+                
+                
                 links.style('stroke-opacity', o => (o.source === d || o.target === d ? 1 : opacity));
                 links.attr('marker-end', o => (opacity === 1 || o.source === d || o.target === d ? 'url(#end-arrow)' : 'url(#end-arrow-fade)'));
                 links.attr('marker-end', o => (opacity === 1 || o.source === d || o.target === d ? 'url(#end)' : 'url(#end-active)'));
@@ -189,7 +191,7 @@ export default {
                     return this.thisOpacity
                 })
                 this.texts = group.selectAll("text.label")
-                    .text((d) => {  return d.id   });
+                    .text((o) => {  return o.id });
 
                 links.style('stroke-opacity', o => (o.source === d || o.target === d ? 1 : opacity));
                 links.attr('marker-end', o => (opacity === 1 || o.source === d || o.target === d ? 'url(#end-arrow)' : 'url(#end-arrow-fade)'));

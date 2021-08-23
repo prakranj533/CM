@@ -271,21 +271,4 @@ export default {
   fill: #555;
   fill-opacity: 0;
 }
-// .node-active{
-//   stroke: #555;
-//   stroke-width: 1.5px;
-// }
-// .node {
-//   stroke: #fff;
-//   stroke-width: 1.5px;
-// }
-// .link {
-//   stroke: #555;
-//   stroke-opacity: 1.5;
-// }
-
-// .link-active {
-//   stroke: black;
-//   stroke-opacity: 1;
-// }
 </style>

@@ -60,14 +60,30 @@ export default {
             svg.attr("pointer-events", "all")
             svg.on("click", () => d3.event.target.tagName !== "circle");
             var group = svg.append("g");
-            svg.style("transform-origin", "50% 50% 0");
-            svg.call(d3.zoom()
-                .scaleExtent([1, 8])
-                .translateExtent([[0,0],[width,height]])
-                .on("zoom", function() {
-                    group.attr("transform", d3.event.transform)
-                })
-            );
+            //svg.style("transform-origin", "50% 50% 0");
+            // svg.call(d3.zoom()
+            //     .scaleExtent([1, 8])
+            //     .translateExtent([[0,0],[width,height]])
+            //     .on("zoom", function() {
+            //         group.attr("transform", d3.event.transform)
+            //     })
+            // );
+            //group.style("transform-origin", "50% 50% 0");
+
+            var zoom = d3.zoom()                            
+            // Don’t allow the zoomed area to be bigger than the viewport.
+            .scaleExtent([1, Infinity])
+            .translateExtent([[0, 0], [width, height]])
+            .extent([[0, 0], [width, height]])
+            .on("zoom", function() {
+                group.attr("transform", 'scale(' + d3.event.transform.k + ')')
+            });
+            svg.call(zoom);
+            // function zoomed() {         
+            //     grupopadre
+            //         .style('transform', 'scale(' + d3.event.transform.k + ')');
+            // }
+
             const color = d3.scaleOrdinal(d3.schemeCategory10);
 
             var rect = group.append("rect")
@@ -145,11 +161,14 @@ export default {
                     simulation.alpha(1).restart();
                 })
                 .on("end", function(d)  {
-                    d.fx = d3.event.x;
-                    d.fy = d3.event.y;
-                    d3.select(this).attr("class", "dragNodeStyle");
-                    d3.select(this).attr("r",15)
-                    simulation.alphaTarget(0);
+                    if (!d3.event.active) simulation.alphaTarget(0);
+                     d.fx = null;
+                     d.fy = null;
+                    // d.fx = d3.event.x;
+                    // d.fy = d3.event.y;
+                    // d3.select(this).attr("class", "dragNodeStyle");
+                    // d3.select(this).attr("r",15)
+                    // simulation.alphaTarget(0);
                 })
             );
             this.texts = group.selectAll("text.label")

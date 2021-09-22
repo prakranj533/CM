@@ -69,14 +69,16 @@ export default {
             //     })
             // );
             //group.style("transform-origin", "50% 50% 0");
-
+            var x = d3.scaleLinear(); // working scale
+            var x2 = x.copy(); // reference scale.
             var zoom = d3.zoom()                            
             // Don’t allow the zoomed area to be bigger than the viewport.
             .scaleExtent([1, Infinity])
             .translateExtent([[0, 0], [width, height]])
             .extent([[0, 0], [width, height]])
             .on("zoom", function() {
-                group.attr("transform", 'scale(' + d3.event.transform.k + ')')
+                // group.attr("transform", 'scale(' + d3.event.transform.k + ')')
+                x = d3.event.transform.rescaleX(x2)
             });
             svg.call(zoom);
             // function zoomed() {         

@@ -60,40 +60,20 @@ export default {
             svg.attr("pointer-events", "all")
             svg.on("click", () => d3.event.target.tagName !== "circle");
             var group = svg.append("g");
-            //svg.style("transform-origin", "50% 50% 0");
-            // svg.call(d3.zoom()
-            //     .scaleExtent([1, 8])
-            //     .translateExtent([[0,0],[width,height]])
-            //     .on("zoom", function() {
-            //         group.attr("transform", d3.event.transform)
-            //     })
-            // );
-            //group.style("transform-origin", "50% 50% 0");
-            var x = d3.scaleLinear(); // working scale
-            var x2 = x.copy(); // reference scale.
-            var zoom = d3.zoom()                            
-            // Don’t allow the zoomed area to be bigger than the viewport.
-            .scaleExtent([1, Infinity])
-            .translateExtent([[0, 0], [width, height]])
-            .extent([[0, 0], [width, height]])
-            .on("zoom", function() {
-                // group.attr("transform", 'scale(' + d3.event.transform.k + ')')
-                x = d3.event.transform.rescaleX(x2)
-            });
-            svg.call(zoom);
-            // function zoomed() {         
-            //     grupopadre
-            //         .style('transform', 'scale(' + d3.event.transform.k + ')');
-            // }
-
+            svg.style("transform-origin", "50% 50% 0");
+            svg.call(d3.zoom()
+                .scaleExtent([1, 8])
+                .translateExtent([[0,0],[width,height]])
+                .on("zoom", function() {
+                    group.attr("transform", d3.event.transform)
+                })
+            );
             const color = d3.scaleOrdinal(d3.schemeCategory10);
-
             var rect = group.append("rect")
                 .attr("width", width)
                 .attr("height", height)
                 .style("fill", "none")
                 .style("pointer-events", "all");
-
             rect.call(d3.zoom()
                 .scaleExtent([1, 8])
                 .translateExtent([[0,0],[width,height]])
@@ -101,7 +81,6 @@ export default {
                     group.attr("transform", d3.event.transform)
                 })
             );
-
             var defs = group.append("svg:defs");
             defs.selectAll("marker")
                 .data(["end", "end-active"])
@@ -122,7 +101,6 @@ export default {
                 .enter().append("line")
                 .classed("links", true)
                 .attr("marker-end", "url(#end)");
-
             const nodes = group
                 .attr("class", "nodes")
                 .selectAll("g")
@@ -130,7 +108,6 @@ export default {
                 .enter().append("circle")
                 .attr("fill",(d) => color(d.id))
                 .attr("r",6);
-
             const simulation = d3
                 .forceSimulation()
                 .nodes(data.nodes)
@@ -140,12 +117,10 @@ export default {
                 .force("center", d3.forceCenter(width / 2, height / 2))
                 .force("link", d3.forceLink().distance(70).id(function(d) { return d.id; }))
                 .on("tick", this.tickUpdate(links,nodes));
-
             simulation
                 .nodes(data.nodes)
                 .on("tick", this.tickUpdate(links,nodes))
                 .alphaDecay(0);
-
             simulation.force("link")
                 .links(data.links);
             
@@ -163,14 +138,11 @@ export default {
                     simulation.alpha(1).restart();
                 })
                 .on("end", function(d)  {
-                    if (!d3.event.active) simulation.alphaTarget(0);
-                     d.fx = null;
-                     d.fy = null;
-                    // d.fx = d3.event.x;
-                    // d.fy = d3.event.y;
-                    // d3.select(this).attr("class", "dragNodeStyle");
-                    // d3.select(this).attr("r",15)
-                    // simulation.alphaTarget(0);
+                    d.fx = d3.event.x;
+                    d.fy = d3.event.y;
+                    d3.select(this).attr("class", "dragNodeStyle");
+                    d3.select(this).attr("r",15)
+                    simulation.alphaTarget(0);
                 })
             );
             this.texts = group.selectAll("text.label")
@@ -182,7 +154,6 @@ export default {
             data.links.forEach(function(d) {
                 linkedByIndex[`${d.source.index},${d.target.index}`] = 1;
             });
-
             nodes.on("mouseover",(d) => {
                 let opacity = 0.1;
                 nodes.attr("stroke-opacity", (o) => {
@@ -213,7 +184,6 @@ export default {
                 })
                 this.texts = group.selectAll("text.label")
                     .text((o) => {  return o.id });
-
                 links.style('stroke-opacity', o => (o.source === d || o.target === d ? 1 : opacity));
                 links.attr('marker-end', o => (opacity === 1 || o.source === d || o.target === d ? 'url(#end-arrow)' : 'url(#end-arrow-fade)'));
                 links.attr('marker-end', o => (opacity === 1 || o.source === d || o.target === d ? 'url(#end)' : 'url(#end-active)'));

@@ -4,6 +4,7 @@ import Home from "../views/Home";
 import CareerPathFinder from "../views/CareerPathFinder";
 import PageNotFound from "../views/PageNotFound";
 import ManageNodes from "../views/ManageNodes";
+import HomeV1 from "../views/Home-v1";
 
 Vue.use(VueRouter)
 
@@ -13,10 +14,6 @@ const router = new VueRouter({
     routes: [
         {
             path: "/",
-            redirect: "/home",
-        },
-        {
-            path: "/home",
             component: Home,
         },
         {
@@ -26,6 +23,10 @@ const router = new VueRouter({
         {
             path: "/manage-nodes",
             component: ManageNodes,
+        },
+        {
+            path: "/home-v1",
+            component: HomeV1
         },
         {
             path: "*",

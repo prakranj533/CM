@@ -73,20 +73,22 @@
 </template>
 
 <script>
-import nodeMap from "../data/nodeMap.json";
 import PathFinder from "../utils/PathFinder";
 import Graph from "../components/Graph";
+import api from "../utils/api";
 
 export default {
   name: "Home",
   components: { Graph },
   data: () => ({
-    nodeMap,
+    nodeMap: {},
     sourceNodeId: null,
     destinationNodeId: null,
-    pathFinder: new PathFinder(nodeMap),
     pathModel: 0,
   }),
+  created(){
+    this.getNodeMapJsonData();
+  },
   computed: {
     allSourceNodes() {
       return Object.values(this.nodeMap).map(({ id, name }) => ({ id, name }));
@@ -95,8 +97,9 @@ export default {
       return this.allSourceNodes.filter((e) => e.id !== this.sourceNodeId);
     },
     paths() {
+      const pathFinder = new PathFinder(this.nodeMap);
       return this.sourceNodeId && this.destinationNodeId
-        ? this.pathFinder.getAllPaths(this.sourceNodeId, this.destinationNodeId)
+        ? pathFinder.getAllPaths(this.sourceNodeId, this.destinationNodeId)
         : [];
     },
     currPath() {
@@ -139,6 +142,15 @@ export default {
       return {};
     },
   },
+  methods: {
+    getNodeMapJsonData(){
+      api.get('/get-json-old-format').then(res => {
+        this.nodeMap = JSON.parse(localStorage.getItem("nodeMap")) || res.data.jsonData;
+      }).catch(err => {
+        console.log('err', err)
+      })
+    },
+  }
 };
 </script>
 

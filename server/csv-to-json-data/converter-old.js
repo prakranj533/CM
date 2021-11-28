@@ -2,7 +2,7 @@ const fs = require("fs");
 const csvtojson = require("csvtojson");
 const uuid = require("uuid").v4;
 
-const sheetFileName = "sheet.csv";
+const sheetFileName = "sheet1.csv";
 
 const nodeMap = {};
 
@@ -37,11 +37,11 @@ if (fs.existsSync(sheetFileName)) {
         .fromFile(sheetFileName)
         .then((jsonDataArray) => {
             jsonDataArray.forEach((e, i) => addToNodeMap(e, i + 2));
-            fs.writeFileSync("nodeMap.json", JSON.stringify(nodeMap, null, 2))
+            fs.writeFileSync("nodeMap-old-format.json", JSON.stringify(nodeMap, null, 2))
         });
 
 } else {
-    console.error("Make sure you have csv file with name exactly 'sheet.csv'");
+    console.error("Make sure you have csv file with name exactly 'sheet1.csv'");
 }
 
 

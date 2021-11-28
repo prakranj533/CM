@@ -1,0 +1,1727 @@
+{
+    "nodes": [
+        {
+            "id": "8th"
+        },
+        {
+            "id": "Photo Editing"
+        },
+        {
+            "id": "Photoshop Master (2 months)"
+        },
+        {
+            "id": "10th (S.S.C.)"
+        },
+        {
+            "id": "Engineering Diploma"
+        },
+        {
+            "id": "Government Contractor (Civil/Electrical)"
+        },
+        {
+            "id": "Degree Engineering (B.E.)"
+        },
+        {
+            "id": "Associate Membership of Institution of Engineers(A.M.I.E.)"
+        },
+        {
+            "id": "Institution of Electronics & Telecommunication Engineers (I.E.T.E.)"
+        },
+        {
+            "id": "MPSC (Exam)"
+        },
+        {
+            "id": "UPSC (Exam)"
+        },
+        {
+            "id": "R.T.O. Inspector Exam"
+        },
+        {
+            "id": "Merchant Navy"
+        },
+        {
+            "id": "LIC Agent"
+        },
+        {
+            "id": "Army"
+        },
+        {
+            "id": "Navy"
+        },
+        {
+            "id": "Air Force (Defence)"
+        },
+        {
+            "id": "Police Department Exam"
+        },
+        {
+            "id": "Police Constable Airmen"
+        },
+        {
+            "id": "Navik"
+        },
+        {
+            "id": "Soldier"
+        },
+        {
+            "id": "Art Teacher Diploma"
+        },
+        {
+            "id": "Fine Art"
+        },
+        {
+            "id": "Commercial Art Diploma"
+        },
+        {
+            "id": "ITI"
+        },
+        {
+            "id": "ITI Fitter"
+        },
+        {
+            "id": "ITI Welder"
+        },
+        {
+            "id": "ITI Machinist"
+        },
+        {
+            "id": "ITI Stenographer"
+        },
+        {
+            "id": "ITI Diesel Mechanic"
+        },
+        {
+            "id": "ITI Draughtsman (Mechanical) Engineering"
+        },
+        {
+            "id": "ITI Pump Operator"
+        },
+        {
+            "id": "ITI Dress Making"
+        },
+        {
+            "id": "ITI Manufacture Foot Wear"
+        },
+        {
+            "id": "ITI Foundry Man Engineering"
+        },
+        {
+            "id": "ITI Carpenter Engineering"
+        },
+        {
+            "id": "ITI Tool & Die Maker Engineering"
+        },
+        {
+            "id": "Other ITI courses"
+        },
+        {
+            "id": "Railway Ticket Collector (T.C.)"
+        },
+        {
+            "id": "Commerce Clerk Exam"
+        },
+        {
+            "id": "12th (H.S.C.)"
+        },
+        {
+            "id": "Bank Insurance"
+        },
+        {
+            "id": "Clerical Exam"
+        },
+        {
+            "id": "Other Government Clerical Grade Exam"
+        },
+        {
+            "id": "Governement Clerk"
+        },
+        {
+            "id": "Diploma in Dance"
+        },
+        {
+            "id": "Diploma in Music"
+        },
+        {
+            "id": "Certified Building Supervisor"
+        },
+        {
+            "id": "Diploma in Farm Management (Animal Husbandary)"
+        },
+        {
+            "id": "Medical Laboratory Technician Certificate Course (MLT)"
+        },
+        {
+            "id": "Various Diploma Courses"
+        },
+        {
+            "id": "Interior Designing Diploma"
+        },
+        {
+            "id": "Stenography"
+        },
+        {
+            "id": "Private Secretary Practice"
+        },
+        {
+            "id": "Beauty Culture & Hair Dressing"
+        },
+        {
+            "id": "Garment Technology"
+        },
+        {
+            "id": "MS-CIT Course"
+        },
+        {
+            "id": "Data Entry Operator"
+        },
+        {
+            "id": "Post Graduate Diploma in Computer Application (PGDCA)"
+        },
+        {
+            "id": "Certificate in Desktop Publishing (DTP)"
+        },
+        {
+            "id": "Graphics"
+        },
+        {
+            "id": "12th Commerce"
+        },
+        {
+            "id": "12th Science"
+        },
+        {
+            "id": "12th Arts"
+        },
+        {
+            "id": "D.Ed."
+        },
+        {
+            "id": "Chartered Accountant (CPT)"
+        },
+        {
+            "id": "B.Com"
+        },
+        {
+            "id": "B.B.A."
+        },
+        {
+            "id": "M.B.A."
+        },
+        {
+            "id": "C.S. Foundation"
+        },
+        {
+            "id": "B.C.A. (12th Commerce + Maths)"
+        },
+        {
+            "id": "Call Center"
+        },
+        {
+            "id": "Marketing"
+        },
+        {
+            "id": "Finance"
+        },
+        {
+            "id": "HR"
+        },
+        {
+            "id": "Logistics Management"
+        },
+        {
+            "id": "Business Management"
+        },
+        {
+            "id": "Operations Management"
+        },
+        {
+            "id": "Rural Management"
+        },
+        {
+            "id": "Health Care Management"
+        },
+        {
+            "id": "Information Technology (IT)"
+        },
+        {
+            "id": "Business Analytics"
+        },
+        {
+            "id": "Event Management"
+        },
+        {
+            "id": "Manager"
+        },
+        {
+            "id": "Businessman"
+        },
+        {
+            "id": "Bank"
+        },
+        {
+            "id": "Insurance Probationary"
+        },
+        {
+            "id": "Development Officer Exam"
+        },
+        {
+            "id": "L.L.B."
+        },
+        {
+            "id": "L.L.M."
+        },
+        {
+            "id": "B.Ed."
+        },
+        {
+            "id": "M.Ed."
+        },
+        {
+            "id": "Teacher"
+        },
+        {
+            "id": "Bachelor in Library Science"
+        },
+        {
+            "id": "Librarian"
+        },
+        {
+            "id": "Import Export Diploma"
+        },
+        {
+            "id": "M.C.A."
+        },
+        {
+            "id": "M.C.M."
+        },
+        {
+            "id": "Software Job (IT)"
+        },
+        {
+            "id": "MPSC"
+        },
+        {
+            "id": "UPSC"
+        },
+        {
+            "id": "IAS"
+        },
+        {
+            "id": "IPS"
+        },
+        {
+            "id": "Deputy Superintendent of Police (DSP)"
+        },
+        {
+            "id": "Deputy Commissioner of Police (DC)"
+        },
+        {
+            "id": "IAS (Group A CS)"
+        },
+        {
+            "id": "IPS (Group A CS)"
+        },
+        {
+            "id": "Indian Forest Service-IFoS (Group A CS)"
+        },
+        {
+            "id": "Group B Civil Service"
+        },
+        {
+            "id": ""
+        },
+        {
+            "id": "Computer Courses (Tally)"
+        },
+        {
+            "id": "Indian Military Academy"
+        },
+        {
+            "id": "12th Science With PCMB"
+        },
+        {
+            "id": "B.Sc in Dairy Technology"
+        },
+        {
+            "id": "Bachelor of Pharmacy"
+        },
+        {
+            "id": "B.Tech in Agriculture"
+        },
+        {
+            "id": "B.Sc. Bio-Technology"
+        },
+        {
+            "id": "B.Sc. In Agriculture"
+        },
+        {
+            "id": "Master in Pharmacy"
+        },
+        {
+            "id": "M.Tech in Agriculture"
+        },
+        {
+            "id": "M.Sc. Bio-Technology"
+        },
+        {
+            "id": "M.Sc. Animal Husbandary"
+        },
+        {
+            "id": "M.Sc. Dairy Technology"
+        },
+        {
+            "id": "12th Science With PCM"
+        },
+        {
+            "id": "N.D.A."
+        },
+        {
+            "id": "B.Arch."
+        },
+        {
+            "id": "Bachelor of Planning & Design"
+        },
+        {
+            "id": "Technical Entry in Indian Army"
+        },
+        {
+            "id": "B.E."
+        },
+        {
+            "id": "B.Tech"
+        },
+        {
+            "id": "B.C.S."
+        },
+        {
+            "id": "B.C.A."
+        },
+        {
+            "id": "Film & Television Diploma (FTII)"
+        },
+        {
+            "id": "Film Editing Cinematography"
+        },
+        {
+            "id": "Film Processing"
+        },
+        {
+            "id": "Hotel Management Degree"
+        },
+        {
+            "id": "Airforce"
+        },
+        {
+            "id": "Diploma in Interior"
+        },
+        {
+            "id": "Landscape Design"
+        },
+        {
+            "id": "I.E.S. Exam"
+        },
+        {
+            "id": "M.E."
+        },
+        {
+            "id": "Defence Direct Entry"
+        },
+        {
+            "id": "M.S. (Foreign University)"
+        },
+        {
+            "id": "M.Tech (IIT)"
+        },
+        {
+            "id": "Government Contractor (Civil/ Electrical)"
+        },
+        {
+            "id": "Job in Railway"
+        },
+        {
+            "id": "Job in Public Sector Company"
+        },
+        {
+            "id": "Marine Engineer"
+        },
+        {
+            "id": "Engineer"
+        },
+        {
+            "id": "Indian Navy"
+        },
+        {
+            "id": "M.C.S."
+        },
+        {
+            "id": "Job in Film Production"
+        },
+        {
+            "id": "Job in TV Channels"
+        },
+        {
+            "id": "12th Science With PCB"
+        },
+        {
+            "id": "B.A.M.S."
+        },
+        {
+            "id": "B.H.M.S."
+        },
+        {
+            "id": "B.V.Sc."
+        },
+        {
+            "id": "B.D.S."
+        },
+        {
+            "id": "M.B.B.S."
+        },
+        {
+            "id": "Paramedical Courses"
+        },
+        {
+            "id": "B.Sc. Nurshing"
+        },
+        {
+            "id": "Diploma in Nursing"
+        },
+        {
+            "id": "B.M.L.T."
+        },
+        {
+            "id": "B.Sc. Home Science"
+        },
+        {
+            "id": "B.Sc. (Botony, Micro biology, Zoology, Physics, Chemistry etc.)"
+        },
+        {
+            "id": "Medical Lab Technology"
+        },
+        {
+            "id": "Hospital Food Service Management"
+        },
+        {
+            "id": "Medical X-Ray Technology"
+        },
+        {
+            "id": "Medical Records Technology"
+        },
+        {
+            "id": "Operation Theater Technology"
+        },
+        {
+            "id": "Opthalmic Technology"
+        },
+        {
+            "id": "Health Inspector"
+        },
+        {
+            "id": "Dialysis Technology"
+        },
+        {
+            "id": "Auxiliary MIISE/MIDWIFERY"
+        },
+        {
+            "id": "M.Sc"
+        },
+        {
+            "id": "M.Sc (Bio-Tech)"
+        },
+        {
+            "id": "M.Phil"
+        },
+        {
+            "id": "Ph.D."
+        },
+        {
+            "id": "M.Tech (Bio-Tech)"
+        },
+        {
+            "id": "M.D."
+        },
+        {
+            "id": "P.G.D.M. Acupuncture"
+        },
+        {
+            "id": "M.D.S."
+        },
+        {
+            "id": "M.S."
+        },
+        {
+            "id": "Special Diploma"
+        },
+        {
+            "id": "B.S.W."
+        },
+        {
+            "id": "L.L.B. Foundation"
+        },
+        {
+            "id": "Fashion Designing Diploma"
+        },
+        {
+            "id": "B.A."
+        },
+        {
+            "id": "Foreign Languages Diploma"
+        },
+        {
+            "id": "Call Center Job"
+        },
+        {
+            "id": "M.S.W."
+        },
+        {
+            "id": "D.T.L."
+        },
+        {
+            "id": "D.L.L."
+        },
+        {
+            "id": "B.P.Ed."
+        },
+        {
+            "id": "P.T. Teacher"
+        },
+        {
+            "id": "M.A."
+        },
+        {
+            "id": "M.A. in Mass Communication"
+        },
+        {
+            "id": "Bachelor in Journalism"
+        },
+        {
+            "id": "Diploma in dramatisation (NSD)"
+        },
+        {
+            "id": "Acting in Films"
+        },
+        {
+            "id": "Acting in Plays"
+        },
+        {
+            "id": "Advertising & Commercial Management Diploma"
+        },
+        {
+            "id": "Event Management Diploma"
+        },
+        {
+            "id": "Sub Inspector Exam for BSF"
+        },
+        {
+            "id": "Sub Inspector Exam for CRPF"
+        },
+        {
+            "id": "Sub Inspector Exam for CISF"
+        },
+        {
+            "id": "Diploma in Travel & Tourism"
+        },
+        {
+            "id": "Laboratory Technician Diploma (D.M.L.T.)"
+        },
+        {
+            "id": "L.I.C. Agent"
+        },
+        {
+            "id": "Hotal Management Diploma"
+        },
+        {
+            "id": "Air Hostess"
+        },
+        {
+            "id": "Flight Steward"
+        },
+        {
+            "id": "Student Pilot Licence"
+        },
+        {
+            "id": "Professional Pilot Licence"
+        },
+        {
+            "id": "Commercial Pilot Licence"
+        }
+    ],
+    "links": [
+        {
+            "source": "8th",
+            "target": "Photo Editing"
+        },
+        {
+            "source": "8th",
+            "target": "Photoshop Master (2 months)"
+        },
+        {
+            "source": "8th",
+            "target": "10th (S.S.C.)"
+        },
+        {
+            "source": "10th (S.S.C.)",
+            "target": "Engineering Diploma"
+        },
+        {
+            "source": "Engineering Diploma",
+            "target": "Government Contractor (Civil/Electrical)"
+        },
+        {
+            "source": "Engineering Diploma",
+            "target": "Degree Engineering (B.E.)"
+        },
+        {
+            "source": "Engineering Diploma",
+            "target": "Associate Membership of Institution of Engineers(A.M.I.E.)"
+        },
+        {
+            "source": "Engineering Diploma",
+            "target": "Institution of Electronics & Telecommunication Engineers (I.E.T.E.)"
+        },
+        {
+            "source": "Institution of Electronics & Telecommunication Engineers (I.E.T.E.)",
+            "target": "MPSC (Exam)"
+        },
+        {
+            "source": "Institution of Electronics & Telecommunication Engineers (I.E.T.E.)",
+            "target": "UPSC (Exam)"
+        },
+        {
+            "source": "Engineering Diploma",
+            "target": "R.T.O. Inspector Exam"
+        },
+        {
+            "source": "Engineering Diploma",
+            "target": "Merchant Navy"
+        },
+        {
+            "source": "10th (S.S.C.)",
+            "target": "LIC Agent"
+        },
+        {
+            "source": "10th (S.S.C.)",
+            "target": "Army"
+        },
+        {
+            "source": "10th (S.S.C.)",
+            "target": "Navy"
+        },
+        {
+            "source": "10th (S.S.C.)",
+            "target": "Air Force (Defence)"
+        },
+        {
+            "source": "10th (S.S.C.)",
+            "target": "Police Department Exam"
+        },
+        {
+            "source": "Police Department Exam",
+            "target": "Police Constable Airmen"
+        },
+        {
+            "source": "Police Department Exam",
+            "target": "Navik"
+        },
+        {
+            "source": "Police Department Exam",
+            "target": "Soldier"
+        },
+        {
+            "source": "10th (S.S.C.)",
+            "target": "Art Teacher Diploma"
+        },
+        {
+            "source": "10th (S.S.C.)",
+            "target": "Fine Art"
+        },
+        {
+            "source": "10th (S.S.C.)",
+            "target": "Commercial Art Diploma"
+        },
+        {
+            "source": "10th (S.S.C.)",
+            "target": "ITI"
+        },
+        {
+            "source": "ITI",
+            "target": "ITI Fitter"
+        },
+        {
+            "source": "ITI",
+            "target": "ITI Welder"
+        },
+        {
+            "source": "ITI",
+            "target": "ITI Machinist"
+        },
+        {
+            "source": "ITI",
+            "target": "ITI Stenographer"
+        },
+        {
+            "source": "ITI",
+            "target": "ITI Diesel Mechanic"
+        },
+        {
+            "source": "ITI",
+            "target": "ITI Draughtsman (Mechanical) Engineering"
+        },
+        {
+            "source": "ITI",
+            "target": "ITI Pump Operator"
+        },
+        {
+            "source": "ITI",
+            "target": "ITI Dress Making"
+        },
+        {
+            "source": "ITI",
+            "target": "ITI Manufacture Foot Wear"
+        },
+        {
+            "source": "ITI",
+            "target": "ITI Foundry Man Engineering"
+        },
+        {
+            "source": "ITI",
+            "target": "ITI Carpenter Engineering"
+        },
+        {
+            "source": "ITI",
+            "target": "ITI Tool & Die Maker Engineering"
+        },
+        {
+            "source": "ITI",
+            "target": "Other ITI courses"
+        },
+        {
+            "source": "10th (S.S.C.)",
+            "target": "Railway Ticket Collector (T.C.)"
+        },
+        {
+            "source": "10th (S.S.C.)",
+            "target": "Commerce Clerk Exam"
+        },
+        {
+            "source": "10th (S.S.C.)",
+            "target": "12th (H.S.C.)"
+        },
+        {
+            "source": "10th (S.S.C.)",
+            "target": "Bank Insurance"
+        },
+        {
+            "source": "10th (S.S.C.)",
+            "target": "Clerical Exam"
+        },
+        {
+            "source": "10th (S.S.C.)",
+            "target": "Other Government Clerical Grade Exam"
+        },
+        {
+            "source": "Other Government Clerical Grade Exam",
+            "target": "Governement Clerk"
+        },
+        {
+            "source": "10th (S.S.C.)",
+            "target": "Diploma in Dance"
+        },
+        {
+            "source": "10th (S.S.C.)",
+            "target": "Diploma in Music"
+        },
+        {
+            "source": "10th (S.S.C.)",
+            "target": "Certified Building Supervisor"
+        },
+        {
+            "source": "10th (S.S.C.)",
+            "target": "Diploma in Farm Management (Animal Husbandary)"
+        },
+        {
+            "source": "10th (S.S.C.)",
+            "target": "Medical Laboratory Technician Certificate Course (MLT)"
+        },
+        {
+            "source": "10th (S.S.C.)",
+            "target": "Various Diploma Courses"
+        },
+        {
+            "source": "Various Diploma Courses",
+            "target": "Interior Designing Diploma"
+        },
+        {
+            "source": "Various Diploma Courses",
+            "target": "Stenography"
+        },
+        {
+            "source": "Various Diploma Courses",
+            "target": "Private Secretary Practice"
+        },
+        {
+            "source": "Various Diploma Courses",
+            "target": "Beauty Culture & Hair Dressing"
+        },
+        {
+            "source": "Various Diploma Courses",
+            "target": "Garment Technology"
+        },
+        {
+            "source": "10th (S.S.C.)",
+            "target": "MS-CIT Course"
+        },
+        {
+            "source": "MS-CIT Course",
+            "target": "Data Entry Operator"
+        },
+        {
+            "source": "10th (S.S.C.)",
+            "target": "Post Graduate Diploma in Computer Application (PGDCA)"
+        },
+        {
+            "source": "10th (S.S.C.)",
+            "target": "Certificate in Desktop Publishing (DTP)"
+        },
+        {
+            "source": "10th (S.S.C.)",
+            "target": "Graphics"
+        },
+        {
+            "source": "12th (H.S.C.)",
+            "target": "12th Commerce"
+        },
+        {
+            "source": "12th (H.S.C.)",
+            "target": "12th Science"
+        },
+        {
+            "source": "12th (H.S.C.)",
+            "target": "12th Arts"
+        },
+        {
+            "source": "12th (H.S.C.)",
+            "target": "D.Ed."
+        },
+        {
+            "source": "12th Commerce",
+            "target": "Chartered Accountant (CPT)"
+        },
+        {
+            "source": "12th Commerce",
+            "target": "B.Com"
+        },
+        {
+            "source": "12th Commerce",
+            "target": "B.B.A."
+        },
+        {
+            "source": "B.B.A.",
+            "target": "M.B.A."
+        },
+        {
+            "source": "12th Commerce",
+            "target": "C.S. Foundation"
+        },
+        {
+            "source": "12th Commerce",
+            "target": "B.C.A. (12th Commerce + Maths)"
+        },
+        {
+            "source": "12th Commerce",
+            "target": "D.Ed."
+        },
+        {
+            "source": "12th Commerce",
+            "target": "Call Center"
+        },
+        {
+            "source": "B.Com",
+            "target": "M.B.A."
+        },
+        {
+            "source": "M.B.A.",
+            "target": "Marketing"
+        },
+        {
+            "source": "M.B.A.",
+            "target": "Finance"
+        },
+        {
+            "source": "M.B.A.",
+            "target": "HR"
+        },
+        {
+            "source": "M.B.A.",
+            "target": "Logistics Management"
+        },
+        {
+            "source": "M.B.A.",
+            "target": "Business Management"
+        },
+        {
+            "source": "M.B.A.",
+            "target": "Operations Management"
+        },
+        {
+            "source": "M.B.A.",
+            "target": "Rural Management"
+        },
+        {
+            "source": "M.B.A.",
+            "target": "Health Care Management"
+        },
+        {
+            "source": "M.B.A.",
+            "target": "Information Technology (IT)"
+        },
+        {
+            "source": "M.B.A.",
+            "target": "Business Analytics"
+        },
+        {
+            "source": "M.B.A.",
+            "target": "Event Management"
+        },
+        {
+            "source": "M.B.A.",
+            "target": "Manager"
+        },
+        {
+            "source": "M.B.A.",
+            "target": "Businessman"
+        },
+        {
+            "source": "B.Com",
+            "target": "Bank"
+        },
+        {
+            "source": "B.Com",
+            "target": "Insurance Probationary"
+        },
+        {
+            "source": "B.Com",
+            "target": "Development Officer Exam"
+        },
+        {
+            "source": "B.Com",
+            "target": "L.L.B."
+        },
+        {
+            "source": "L.L.B.",
+            "target": "L.L.M."
+        },
+        {
+            "source": "B.Com",
+            "target": "Chartered Accountant (CPT)"
+        },
+        {
+            "source": "B.Com",
+            "target": "B.Ed."
+        },
+        {
+            "source": "B.Ed.",
+            "target": "M.Ed."
+        },
+        {
+            "source": "M.Ed.",
+            "target": "Teacher"
+        },
+        {
+            "source": "B.Com",
+            "target": "Bachelor in Library Science"
+        },
+        {
+            "source": "Bachelor in Library Science",
+            "target": "Librarian"
+        },
+        {
+            "source": "B.Com",
+            "target": "C.S. Foundation"
+        },
+        {
+            "source": "B.Com",
+            "target": "Import Export Diploma"
+        },
+        {
+            "source": "B.Com",
+            "target": "M.C.A."
+        },
+        {
+            "source": "B.Com",
+            "target": "M.C.M."
+        },
+        {
+            "source": "M.C.A.",
+            "target": "Software Job (IT)"
+        },
+        {
+            "source": "M.C.M.",
+            "target": "Software Job (IT)"
+        },
+        {
+            "source": "B.Com",
+            "target": "MPSC"
+        },
+        {
+            "source": "B.Com",
+            "target": "UPSC"
+        },
+        {
+            "source": "MPSC",
+            "target": "IAS"
+        },
+        {
+            "source": "MPSC",
+            "target": "IPS"
+        },
+        {
+            "source": "MPSC",
+            "target": "Deputy Superintendent of Police (DSP)"
+        },
+        {
+            "source": "MPSC",
+            "target": "Deputy Commissioner of Police (DC)"
+        },
+        {
+            "source": "UPSC",
+            "target": "IAS (Group A CS)"
+        },
+        {
+            "source": "UPSC",
+            "target": "IPS (Group A CS)"
+        },
+        {
+            "source": "UPSC",
+            "target": "Indian Forest Service-IFoS (Group A CS)"
+        },
+        {
+            "source": "UPSC",
+            "target": "Group B Civil Service"
+        },
+        {
+            "source": "",
+            "target": ""
+        },
+        {
+            "source": "B.Com",
+            "target": "Computer Courses (Tally)"
+        },
+        {
+            "source": "B.Com",
+            "target": "Indian Military Academy"
+        },
+        {
+            "source": "12th Science",
+            "target": "12th Science With PCMB"
+        },
+        {
+            "source": "12th Science With PCMB",
+            "target": "B.Sc in Dairy Technology"
+        },
+        {
+            "source": "12th Science With PCMB",
+            "target": "Bachelor of Pharmacy"
+        },
+        {
+            "source": "12th Science With PCMB",
+            "target": "B.Tech in Agriculture"
+        },
+        {
+            "source": "12th Science With PCMB",
+            "target": "B.Sc. Bio-Technology"
+        },
+        {
+            "source": "12th Science With PCMB",
+            "target": "B.Sc. In Agriculture"
+        },
+        {
+            "source": "B.Sc in Dairy Technology",
+            "target": "M.B.A."
+        },
+        {
+            "source": "Bachelor of Pharmacy",
+            "target": "M.B.A."
+        },
+        {
+            "source": "Bachelor of Pharmacy",
+            "target": "Master in Pharmacy"
+        },
+        {
+            "source": "B.Tech in Agriculture",
+            "target": "M.B.A."
+        },
+        {
+            "source": "B.Tech in Agriculture",
+            "target": "M.Tech in Agriculture"
+        },
+        {
+            "source": "B.Sc. Bio-Technology",
+            "target": "M.B.A."
+        },
+        {
+            "source": "B.Sc. Bio-Technology",
+            "target": "M.Sc. Bio-Technology"
+        },
+        {
+            "source": "B.Sc. In Agriculture",
+            "target": "M.B.A."
+        },
+        {
+            "source": "B.Sc. In Agriculture",
+            "target": "M.Sc. Animal Husbandary"
+        },
+        {
+            "source": "B.Sc. In Agriculture",
+            "target": "M.Sc. Dairy Technology"
+        },
+        {
+            "source": "12th Science",
+            "target": "12th Science With PCM"
+        },
+        {
+            "source": "12th Science With PCM",
+            "target": "N.D.A."
+        },
+        {
+            "source": "12th Science With PCM",
+            "target": "B.Arch."
+        },
+        {
+            "source": "12th Science With PCM",
+            "target": "Bachelor of Planning & Design"
+        },
+        {
+            "source": "12th Science With PCM",
+            "target": "Technical Entry in Indian Army"
+        },
+        {
+            "source": "12th Science With PCM",
+            "target": "B.E."
+        },
+        {
+            "source": "12th Science With PCM",
+            "target": "B.Tech"
+        },
+        {
+            "source": "12th Science With PCM",
+            "target": "Engineering Diploma"
+        },
+        {
+            "source": "12th Science With PCM",
+            "target": "B.C.S."
+        },
+        {
+            "source": "12th Science With PCM",
+            "target": "B.C.A."
+        },
+        {
+            "source": "12th Science With PCM",
+            "target": "Film & Television Diploma (FTII)"
+        },
+        {
+            "source": "12th Science With PCM",
+            "target": "Film Editing Cinematography"
+        },
+        {
+            "source": "12th Science With PCM",
+            "target": "Film Processing"
+        },
+        {
+            "source": "12th Science With PCM",
+            "target": "Hotel Management Degree"
+        },
+        {
+            "source": "N.D.A.",
+            "target": "Army"
+        },
+        {
+            "source": "N.D.A.",
+            "target": "Navy"
+        },
+        {
+            "source": "N.D.A.",
+            "target": "Airforce"
+        },
+        {
+            "source": "B.Arch.",
+            "target": "Diploma in Interior"
+        },
+        {
+            "source": "B.Arch.",
+            "target": "Landscape Design"
+        },
+        {
+            "source": "B.E.",
+            "target": "I.E.S. Exam"
+        },
+        {
+            "source": "B.E.",
+            "target": "Merchant Navy"
+        },
+        {
+            "source": "B.E.",
+            "target": "M.E."
+        },
+        {
+            "source": "B.E.",
+            "target": "MPSC"
+        },
+        {
+            "source": "B.E.",
+            "target": "UPSC"
+        },
+        {
+            "source": "B.E.",
+            "target": "Defence Direct Entry"
+        },
+        {
+            "source": "B.E.",
+            "target": "M.S. (Foreign University)"
+        },
+        {
+            "source": "B.E.",
+            "target": "M.B.A."
+        },
+        {
+            "source": "B.E.",
+            "target": "M.Tech (IIT)"
+        },
+        {
+            "source": "B.E.",
+            "target": "Government Contractor (Civil/ Electrical)"
+        },
+        {
+            "source": "I.E.S. Exam",
+            "target": "Job in Railway"
+        },
+        {
+            "source": "I.E.S. Exam",
+            "target": "Job in Public Sector Company"
+        },
+        {
+            "source": "Merchant Navy",
+            "target": "Marine Engineer"
+        },
+        {
+            "source": "M.E.",
+            "target": "Engineer"
+        },
+        {
+            "source": "M.E.",
+            "target": "Teacher"
+        },
+        {
+            "source": "MPSC",
+            "target": "IAS"
+        },
+        {
+            "source": "UPSC",
+            "target": "IAS"
+        },
+        {
+            "source": "Defence Direct Entry",
+            "target": "Indian Navy"
+        },
+        {
+            "source": "Defence Direct Entry",
+            "target": "Airforce"
+        },
+        {
+            "source": "B.C.A.",
+            "target": "M.C.A."
+        },
+        {
+            "source": "B.C.A.",
+            "target": "M.C.S."
+        },
+        {
+            "source": "B.C.A.",
+            "target": "M.C.M."
+        },
+        {
+            "source": "B.C.A.",
+            "target": "M.B.A."
+        },
+        {
+            "source": "B.C.S.",
+            "target": "M.C.A."
+        },
+        {
+            "source": "B.C.S.",
+            "target": "M.C.S."
+        },
+        {
+            "source": "B.C.S.",
+            "target": "M.C.M."
+        },
+        {
+            "source": "B.C.S.",
+            "target": "M.B.A."
+        },
+        {
+            "source": "Film & Television Diploma (FTII)",
+            "target": "Job in Film Production"
+        },
+        {
+            "source": "Film & Television Diploma (FTII)",
+            "target": "Job in TV Channels"
+        },
+        {
+            "source": "Film Editing Cinematography",
+            "target": "Job in Film Production"
+        },
+        {
+            "source": "Film Editing Cinematography",
+            "target": "Job in TV Channels"
+        },
+        {
+            "source": "Film Processing",
+            "target": "Job in Film Production"
+        },
+        {
+            "source": "Film Processing",
+            "target": "Job in TV Channels"
+        },
+        {
+            "source": "12th Science",
+            "target": "12th Science With PCB"
+        },
+        {
+            "source": "12th Science With PCB",
+            "target": "B.A.M.S."
+        },
+        {
+            "source": "12th Science With PCB",
+            "target": "B.H.M.S."
+        },
+        {
+            "source": "12th Science With PCB",
+            "target": "B.V.Sc."
+        },
+        {
+            "source": "12th Science With PCB",
+            "target": "B.D.S."
+        },
+        {
+            "source": "12th Science With PCB",
+            "target": "M.B.B.S."
+        },
+        {
+            "source": "12th Science With PCB",
+            "target": "Paramedical Courses"
+        },
+        {
+            "source": "12th Science With PCB",
+            "target": "B.Sc. Nurshing"
+        },
+        {
+            "source": "12th Science With PCB",
+            "target": "Diploma in Nursing"
+        },
+        {
+            "source": "12th Science With PCB",
+            "target": "B.M.L.T."
+        },
+        {
+            "source": "12th Science With PCB",
+            "target": "B.Sc. Home Science"
+        },
+        {
+            "source": "12th Science With PCB",
+            "target": "B.Sc. (Botony, Micro biology, Zoology, Physics, Chemistry etc.)"
+        },
+        {
+            "source": "Paramedical Courses",
+            "target": "Medical Lab Technology"
+        },
+        {
+            "source": "Paramedical Courses",
+            "target": "Hospital Food Service Management"
+        },
+        {
+            "source": "Paramedical Courses",
+            "target": "Medical X-Ray Technology"
+        },
+        {
+            "source": "Paramedical Courses",
+            "target": "Medical Records Technology"
+        },
+        {
+            "source": "Paramedical Courses",
+            "target": "Operation Theater Technology"
+        },
+        {
+            "source": "Paramedical Courses",
+            "target": "Opthalmic Technology"
+        },
+        {
+            "source": "Paramedical Courses",
+            "target": "Health Inspector"
+        },
+        {
+            "source": "Paramedical Courses",
+            "target": "Dialysis Technology"
+        },
+        {
+            "source": "Paramedical Courses",
+            "target": "Auxiliary MIISE/MIDWIFERY"
+        },
+        {
+            "source": "B.Sc. (Botony, Micro biology, Zoology, Physics, Chemistry etc.)",
+            "target": "M.Sc"
+        },
+        {
+            "source": "B.Sc. (Botony, Micro biology, Zoology, Physics, Chemistry etc.)",
+            "target": "M.Sc (Bio-Tech)"
+        },
+        {
+            "source": "M.Sc",
+            "target": "M.Phil"
+        },
+        {
+            "source": "M.Phil",
+            "target": "Ph.D."
+        },
+        {
+            "source": "M.Sc (Bio-Tech)",
+            "target": "M.Tech (Bio-Tech)"
+        },
+        {
+            "source": "B.A.M.S.",
+            "target": "M.D."
+        },
+        {
+            "source": "B.H.M.S.",
+            "target": "P.G.D.M. Acupuncture"
+        },
+        {
+            "source": "B.D.S.",
+            "target": "M.D.S."
+        },
+        {
+            "source": "M.B.B.S.",
+            "target": "M.D."
+        },
+        {
+            "source": "M.B.B.S.",
+            "target": "M.S."
+        },
+        {
+            "source": "M.B.B.S.",
+            "target": "Special Diploma"
+        },
+        {
+            "source": "12th Arts",
+            "target": "D.Ed."
+        },
+        {
+            "source": "12th Arts",
+            "target": "B.S.W."
+        },
+        {
+            "source": "12th Arts",
+            "target": "L.L.B. Foundation"
+        },
+        {
+            "source": "12th Arts",
+            "target": "Fashion Designing Diploma"
+        },
+        {
+            "source": "12th Arts",
+            "target": "Interior Designing Diploma"
+        },
+        {
+            "source": "12th Arts",
+            "target": "B.A."
+        },
+        {
+            "source": "12th Arts",
+            "target": "B.B.A."
+        },
+        {
+            "source": "12th Arts",
+            "target": "Foreign Languages Diploma"
+        },
+        {
+            "source": "12th Arts",
+            "target": "Call Center Job"
+        },
+        {
+            "source": "D.Ed.",
+            "target": "Teacher"
+        },
+        {
+            "source": "B.S.W.",
+            "target": "M.S.W."
+        },
+        {
+            "source": "L.L.B. Foundation",
+            "target": "D.T.L."
+        },
+        {
+            "source": "L.L.B. Foundation",
+            "target": "D.L.L."
+        },
+        {
+            "source": "L.L.B. Foundation",
+            "target": "L.L.M."
+        },
+        {
+            "source": "B.A.",
+            "target": "B.P.Ed."
+        },
+        {
+            "source": "B.P.Ed.",
+            "target": "P.T. Teacher"
+        },
+        {
+            "source": "B.A.",
+            "target": "M.A."
+        },
+        {
+            "source": "B.A.",
+            "target": "M.A. in Mass Communication"
+        },
+        {
+            "source": "B.A.",
+            "target": "Bachelor in Journalism"
+        },
+        {
+            "source": "B.A.",
+            "target": "L.L.B."
+        },
+        {
+            "source": "L.L.B.",
+            "target": "L.L.M."
+        },
+        {
+            "source": "B.A.",
+            "target": "Bachelor in Library Science"
+        },
+        {
+            "source": "B.A.",
+            "target": "M.B.A."
+        },
+        {
+            "source": "B.A.",
+            "target": "MPSC"
+        },
+        {
+            "source": "B.A.",
+            "target": "UPSC"
+        },
+        {
+            "source": "MPSC",
+            "target": "IAS"
+        },
+        {
+            "source": "UPSC",
+            "target": "IAS"
+        },
+        {
+            "source": "B.A.",
+            "target": "Diploma in dramatisation (NSD)"
+        },
+        {
+            "source": "Diploma in dramatisation (NSD)",
+            "target": "Acting in Films"
+        },
+        {
+            "source": "Diploma in dramatisation (NSD)",
+            "target": "Acting in Plays"
+        },
+        {
+            "source": "B.A.",
+            "target": "M.C.A."
+        },
+        {
+            "source": "B.A.",
+            "target": "M.C.M."
+        },
+        {
+            "source": "M.C.A.",
+            "target": "Software Job (IT)"
+        },
+        {
+            "source": "M.C.M.",
+            "target": "Software Job (IT)"
+        },
+        {
+            "source": "B.A.",
+            "target": "B.Ed."
+        },
+        {
+            "source": "B.Ed.",
+            "target": "M.Ed."
+        },
+        {
+            "source": "B.A.",
+            "target": "Advertising & Commercial Management Diploma"
+        },
+        {
+            "source": "B.A.",
+            "target": "Event Management Diploma"
+        },
+        {
+            "source": "B.A.",
+            "target": "Sub Inspector Exam for BSF"
+        },
+        {
+            "source": "B.A.",
+            "target": "Sub Inspector Exam for CRPF"
+        },
+        {
+            "source": "B.A.",
+            "target": "Sub Inspector Exam for CISF"
+        },
+        {
+            "source": "B.B.A.",
+            "target": "M.B.A."
+        },
+        {
+            "source": "M.B.A.",
+            "target": "Manager"
+        },
+        {
+            "source": "M.B.A.",
+            "target": "Businessman"
+        },
+        {
+            "source": "12th (H.S.C.)",
+            "target": "Diploma in Travel & Tourism"
+        },
+        {
+            "source": "12th (H.S.C.)",
+            "target": "Laboratory Technician Diploma (D.M.L.T.)"
+        },
+        {
+            "source": "12th (H.S.C.)",
+            "target": "L.I.C. Agent"
+        },
+        {
+            "source": "12th (H.S.C.)",
+            "target": "Hotal Management Diploma"
+        },
+        {
+            "source": "Hotal Management Diploma",
+            "target": "Air Hostess"
+        },
+        {
+            "source": "Hotal Management Diploma",
+            "target": "Flight Steward"
+        },
+        {
+            "source": "12th (H.S.C.)",
+            "target": "Student Pilot Licence"
+        },
+        {
+            "source": "Student Pilot Licence",
+            "target": "Professional Pilot Licence"
+        },
+        {
+            "source": "Professional Pilot Licence",
+            "target": "Commercial Pilot Licence"
+        }
+    ]
+}

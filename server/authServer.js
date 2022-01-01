@@ -55,6 +55,7 @@ app.post('/register', async (req, res) => {
       token: generateAccessToken({ firstName, lastName, email })
     });
   } catch(e) {
+    console.error(e);
     res.json({
       success: false,
       message: e.message
@@ -93,26 +94,29 @@ app.post('/login', requestValidator, async (req, res) => {
       });
     }
   } catch(e) {
-    res.status(500).json({
+    res.json({
       success: false,
-      message: "Something went wrong, please try again!"
+      message: e.message
     });
   }
 });
 
 app.delete('/logout', async (req, res) => {
   const refreshToken = req.body.token;
-  const { email } = jwt.decode(refreshToken);
+  if(refreshToken == null) return res.sendStatus(401);
 
   try {
-    await redisClient.del(`refresh_token?email=${email}`);
-    res.sendStatus(204);
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, user) => {
+      if(err) return res.sendStatus(403);
+      await redisClient.del(`refresh_token?email=${user.email}`);
+      res.sendStatus(204);
+    });
   } catch(e) {
     console.error(e);
-    res.status(500).json({
+    res.json({
       success: false,
-      message: "Something went wrong, please try again!"
-    })
+      message: e.message
+    });
   }
 });
 
@@ -135,6 +139,7 @@ app.post('/token', async (req, res) => {
       res.json({ accessToken });
     });
   } catch(e) {
+    console.error(e);
     res.json({
       success: false,
       message: e.message
@@ -177,4 +182,5 @@ function requestValidator(req, res, next) {
   next();
 }
 
-app.listen(process.env.AUTH_SERVER_PORT || 4000);
+const PORT = process.env.AUTH_SERVER_PORT || 4000;
+app.listen(PORT, () => console.log(`Authentication server listening on port ${PORT}`));

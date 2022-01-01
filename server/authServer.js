@@ -52,6 +52,43 @@ app.post('/register', async (req, res) => {
   }
 });
 
+
+app.post('/login', requestValidator, async (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  const user = await User.findOne({ email });
+  if(user == null) {
+    return res.json({
+      success: false,
+      message: "Account not found with given email address"
+    });
+  }
+
+  try {
+    if(await bcrypt.compare(password, user.password)) {
+      const firstName = user.first_name;
+      const lastName = user.last_name;
+      const email = user.email;
+
+      const accessToken = generateAccessToken({ firstName, lastName, email });
+      const refreshToken = generateRefreshToken({ firstName, lastName, email });
+      // refreshTokens.push(refreshToken);
+      res.json({ accessToken, refreshToken });
+    } else {
+      res.status(403).json({
+        success: false,
+        message: "Invalid email or password" // for security reasons
+      });
+    }
+  } catch(e) {
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong, please try again!"
+    });
+  }
+});
+
 async function doesUserExists(email) {
   const user = await User.findOne({ email });
   if(user) return true;
@@ -60,6 +97,31 @@ async function doesUserExists(email) {
 
 function generateAccessToken(user) {
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1h" });
+}
+
+function generateRefreshToken(user) {
+  return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
+}
+
+function requestValidator(req, res, next) {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  if(!email) {
+    return res.status(400).json({
+      success: false,
+      message: "Email field is empty"
+    });
+  }
+
+  if(!password) {
+    return res.status(400).json({
+      success: false,
+      message: "Password field is empty"
+    });
+  }
+
+  next();
 }
 
 app.listen(process.env.AUTH_SERVER_PORT || 4000);

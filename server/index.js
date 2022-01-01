@@ -1,60 +1,75 @@
-require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` })
+require('dotenv').config();
+require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` });
+
 const express =  require('express');
-const bodyParser = require('body-parser')
 const cors = require('cors');
 const multer = require('multer');
-const app = express();
 const shell = require('shelljs');
-const fs = require("fs");
+const fs = require('fs');
+const jwt = require('jsonwebtoken');
 
+const app = express();
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
 
 const storage = multer.diskStorage({
-    destination: function(req, file, cb){
-        cb(null, 'csv-to-json-data/');  
-    },
-    filename: function (req, file, cb) { 
-        cb(null , 'sheet1.csv');   
-    }
+  destination: function(req, file, cb) {
+    cb(null, 'csv-to-json-data/');  
+  },
+  filename: function (req, file, cb) { 
+    cb(null , 'sheet1.csv');   
+  }
 })
 
-var upload = multer({ storage: storage })
+var upload = multer({ storage: storage });
 
-const PORT = 3000 || process.env.VUE_APP_PORT;
-
-app.get('/', (req, res) => {
-    res.writeHead(200, { 'Content-Type': 'text/html' });
-    res.write('<h1>Hello from LifeLongLearning!</h1>');
-    res.end();
+app.get('/', authenticateToken, (req, res) => {
+  res.json({
+    success: true,
+    message: "Hello from LifeLongLearning!"
+  });
 });
 
-
-app.get('/get-json-data', (req, res) => {
-    let rawData = fs.readFileSync('nodeMap1.json');
-    let jsonData = JSON.parse(rawData);
-    res.json({
-        message : "JSON loaded successfully",
-        jsonData: jsonData
-    })
-    
+app.get('/get-json-data', authenticateToken, (req, res) => {
+  const rawData = fs.readFileSync('nodeMap1.json');
+  const jsonData = JSON.parse(rawData);
+  res.json({
+    success: true,
+    message: "JSON loaded successfully",
+    jsonData: jsonData
+  });
 });
 
-app.get('/get-json-old-format',(req,res) => {
-    let rawData = fs.readFileSync('nodeMap-old-format.json');
-    let jsonData = JSON.parse(rawData);
-    res.json({
-        message : "JSON loaded successfully",
-        jsonData: jsonData
-    });
+app.get('/get-json-old-format', authenticateToken, (req, res) => {
+  const rawData = fs.readFileSync('nodeMap-old-format.json');
+  const jsonData = JSON.parse(rawData);
+  res.json({
+    success: true,
+    message: "JSON loaded successfully",
+    jsonData: jsonData
+  });
 });
 
-app.post('/upload', upload.single('file'), (req,res) => {
-    shell.exec('./move-nodeMapJson-script.sh')
-    res.json({
-        file: req.file,
-        message: 'File uploaded successfully.'
-    });
+app.post('/upload', [authenticateToken, upload.single('file')], (req, res) => {
+  shell.exec('./move-nodeMapJson-script.sh')
+  res.json({
+    success: true,
+    file: req.file,
+    message: 'File uploaded successfully.'
+  });
 });
 
-app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if(token == null) return res.sendStatus(401);
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    if(err) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
+}
+
+const PORT = process.env.APP_SERVER_PORT || 3000;
+app.listen(PORT, () => console.log(`App server listening on port ${PORT}`));

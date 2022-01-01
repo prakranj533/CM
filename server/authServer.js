@@ -5,6 +5,7 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
+const Redis = require('redis');
 const User = require('./models/User');
 const db = process.env.MONGO_DATABASE_NAME;
 
@@ -13,6 +14,15 @@ mongoose.connect(
   () => console.log(`Connected to database: ${db}`),
   e => console.error(e)
 );
+
+let redisClient;
+(async () => {
+  redisClient = Redis.createClient();
+  redisClient.on('error', (err) => console.log('Redis Client Error', err));
+  await redisClient.connect();
+})();
+
+const DEFAULT_EXPIRATION = 86400;
 
 const app = express();
 app.use(express.json());
@@ -73,7 +83,9 @@ app.post('/login', requestValidator, async (req, res) => {
 
       const accessToken = generateAccessToken({ firstName, lastName, email });
       const refreshToken = generateRefreshToken({ firstName, lastName, email });
-      // refreshTokens.push(refreshToken);
+      redisClient.set('refresh_token', refreshToken, {
+        EX: DEFAULT_EXPIRATION
+      });
       res.json({ accessToken, refreshToken });
     } else {
       res.status(403).json({

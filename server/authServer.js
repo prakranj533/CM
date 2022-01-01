@@ -62,7 +62,6 @@ app.post('/register', async (req, res) => {
   }
 });
 
-
 app.post('/login', requestValidator, async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -83,7 +82,7 @@ app.post('/login', requestValidator, async (req, res) => {
 
       const accessToken = generateAccessToken({ firstName, lastName, email });
       const refreshToken = generateRefreshToken({ firstName, lastName, email });
-      redisClient.set('refresh_token', refreshToken, {
+      await redisClient.set(`refresh_token?email=${email}`, refreshToken, {
         EX: DEFAULT_EXPIRATION
       });
       res.json({ accessToken, refreshToken });
@@ -98,6 +97,22 @@ app.post('/login', requestValidator, async (req, res) => {
       success: false,
       message: "Something went wrong, please try again!"
     });
+  }
+});
+
+app.delete('/logout', async (req, res) => {
+  const refreshToken = req.body.token;
+  const { email } = jwt.decode(refreshToken);
+
+  try {
+    await redisClient.del(`refresh_token?email=${email}`);
+    res.sendStatus(204);
+  } catch(e) {
+    console.error(e);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong, please try again!"
+    })
   }
 });
 

@@ -116,6 +116,32 @@ app.delete('/logout', async (req, res) => {
   }
 });
 
+app.post('/token', async (req, res) => {
+  const refreshToken = req.body.token;
+  if(refreshToken == null) return res.sendStatus(401);
+
+  try {
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, user) => {
+      if(err) return res.sendStatus(403);
+      
+      const output = await redisClient.get(`refresh_token?email=${user.email}`);
+      if(output == null) return res.sendStatus(403);
+
+      const accessToken = generateAccessToken({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email
+      });
+      res.json({ accessToken });
+    });
+  } catch(e) {
+    res.json({
+      success: false,
+      message: e.message
+    });
+  }
+});
+
 async function doesUserExists(email) {
   const user = await User.findOne({ email });
   if(user) return true;

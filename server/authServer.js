@@ -2,6 +2,7 @@ require('dotenv').config();
 require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` });
 
 const express = require('express');
+const cors = require('cors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
@@ -26,6 +27,7 @@ const DEFAULT_EXPIRATION = 86400;
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 app.post('/register', async (req, res) => {
   const firstName = req.body.first_name;

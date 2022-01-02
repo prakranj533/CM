@@ -1,12 +1,11 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import jwt from "jsonwebtoken";
 import Home from "../views/Home";
 import CareerPathFinder from "../views/CareerPathFinder";
 import PageNotFound from "../views/PageNotFound";
 import ManageNodes from "../views/ManageNodes";
 import HomeV1 from "../views/Home-v1";
-import Login from "../views/Login";
-import SignUp from "../views/SignUp";
 
 Vue.use(VueRouter);
 
@@ -16,23 +15,34 @@ const router = new VueRouter({
   routes: [
     {
       path: "/login",
-      component: Login
+      name: "Login",
+      component: () => import(/* webpackChunkName: "Login" */ '@/views/Login.vue')
     },
     {
       path: "/sign-up",
-      component: SignUp
+      name: "SignUp",
+      component: () => import(/* webpackChunkName: "SignUp" */ '@/views/SignUp.vue')
     },
     {
       path: "/",
       component: Home,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: "/career-path-finder",
       component: CareerPathFinder,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: "/manage-nodes",
       component: ManageNodes,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: "/home-v1",
@@ -40,9 +50,26 @@ const router = new VueRouter({
     },
     {
       path: "*",
+      name: "PageNotFound",
       component: PageNotFound
     }
   ]
-})
+});
+
+router.beforeEach((to, from, next) => {
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+    const accessToken = localStorage.getItem('token');
+    if(!accessToken) next({ path: '/login' });
+
+    const { exp } = jwt.decode(accessToken);
+    if(exp > (Date.now() / 1000)) {
+      next();
+    } else {
+      next({ path: '/login' });
+    }
+  } else {
+    next();
+  }
+});
 
 export default router;

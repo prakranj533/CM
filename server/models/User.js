@@ -58,10 +58,4 @@ userSchema.pre('save', function(next) {
   next();
 });
 
-userSchema.post('save', function(doc, next) {
-  console.log('Updated user record');
-  doc.display();
-  next();
-});
-
 module.exports = mongoose.model('User', userSchema)

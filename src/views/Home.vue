@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <Navbar />
     <div class="text-h5 text-center">Probabilistic Career Maps</div>
     <h4 class="text-center subtitle-1">See your career – Search your path – Seek your guide</h4>
     <StickyForceLayout />
@@ -36,10 +37,14 @@ import nodeMap from "../data/nodeMap.json";
 import StickyForceLayout from "../components/StickyForceLayout";
 import nGraphGraphCreateGraph from "ngraph.graph";
 import nGraphCentrality from "ngraph.centrality";
+import Navbar from "../components/Navbar.vue";
 
 export default {
   name: "Home",
-  components: { StickyForceLayout },
+  components: {
+    StickyForceLayout,
+    Navbar
+  },
   data: () => ({
     nodeMap,
   }),

@@ -1,5 +1,6 @@
 <template>
   <div class="manage-nodes">
+    <Navbar />
     <v-list-item>
       <v-spacer></v-spacer>
       <v-btn text @click="downloadNodeMap">Download Node Map</v-btn>
@@ -16,10 +17,16 @@ import ManageNodeDialog from "../components/manage-nodes/ManageNodeDialog";
 import Graph from "../components/Graph";
 import UploadCSVDialog from "../components/UploadCsvDialog";
 import api from "../utils/api";
+import Navbar from "../components/Navbar.vue";
 
 export default {
   name: "ManageNodes",
-  components: { ManageNodeDialog, Graph, UploadCSVDialog },
+  components: {
+    ManageNodeDialog,
+    Graph,
+    UploadCSVDialog,
+    Navbar
+  },
   data: () => ({
     nodeMap : {},
     createNodeDialogConfig: {

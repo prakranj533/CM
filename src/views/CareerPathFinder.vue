@@ -1,5 +1,6 @@
 <template>
   <div class="home-container">
+    <Navbar />
     <div class="input-container">
       <v-autocomplete
         outlined
@@ -76,10 +77,14 @@
 import PathFinder from "../utils/PathFinder";
 import Graph from "../components/Graph";
 import api from "../utils/api";
+import Navbar from "../components/Navbar.vue";
 
 export default {
   name: "Home",
-  components: { Graph },
+  components: {
+    Graph,
+    Navbar
+  },
   data: () => ({
     nodeMap: {},
     sourceNodeId: null,

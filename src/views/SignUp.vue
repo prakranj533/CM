@@ -8,7 +8,7 @@
     >
       <div class="text-h5 mb-3">Sign Up</div>
       <v-form
-        ref="form"
+        ref="signUpForm"
         lazy-validation
       >
         <v-row>
@@ -197,6 +197,8 @@ export default {
   },
   methods: {
     async handleSignUp() {
+      if(!this.$refs.signUpForm.validate()) return;
+
       try {
         const response = await axios.post('http://localhost:8001/register', {
           first_name: this.firstName,

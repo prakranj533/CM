@@ -8,7 +8,7 @@
     >
       <div class="text-h5 mb-3">Log In</div>
       <v-form
-        ref="form"
+        ref="loginForm"
         lazy-validation
       >
         <v-text-field
@@ -75,6 +75,8 @@ export default {
   }),
   methods: {
     async handleLogin() {
+      if(!this.$refs.loginForm.validate()) return;
+
       try {
         const response = await axios.post('http://localhost:8001/login', {
           email: this.email,

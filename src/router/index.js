@@ -61,10 +61,15 @@ router.beforeEach((to, from, next) => {
     const accessToken = localStorage.getItem('token');
     if(!accessToken) next({ path: '/login' });
 
-    const { exp } = jwt.decode(accessToken);
-    if(exp > (Date.now() / 1000)) {
-      next();
-    } else {
+    try {
+      const { exp } = jwt.decode(accessToken);
+      if(exp > (Date.now() / 1000)) {
+        next();
+      } else {
+        next({ path: '/login' });
+      }
+    } catch(e) {
+      localStorage.removeItem('token');
       next({ path: '/login' });
     }
   } else {

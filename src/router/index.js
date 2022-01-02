@@ -74,7 +74,13 @@ router.beforeEach((to, from, next) => {
       next({ path: '/login' });
     }
   } else {
-    next();
+    if(to.name == 'Login') {
+      const accessToken = localStorage.getItem('access-token');
+      if(accessToken) next({ path: '/' });
+      else next();
+    } else {
+      next();
+    }
   }
 });
 

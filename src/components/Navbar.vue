@@ -8,7 +8,7 @@
         </v-toolbar-title>
       </router-link>
       <v-spacer></v-spacer>
-      <span v-show="user" class="body-2 text-capitalize mr-3">Welcome {{ user.firstName }}</span>
+      <span v-if="user" class="body-2 text-capitalize mr-3">Welcome {{ user.firstName }}</span>
       <v-btn text color="black" v-show="user" @click.prevent="logOut">
         <span class="body-2 text-capitalize">Log Out</span>
         <v-icon right>mdi-logout</v-icon>

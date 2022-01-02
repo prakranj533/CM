@@ -36,7 +36,14 @@ export default {
   },
   methods: {
     getNodeMapJsonData(){
-      api.get('/get-json-old-format').then(res => {
+      api.get('/get-json-old-format', {
+        // TODO: this needs to be improved
+        // Since default localstorage of axios was taking old value of token
+        // so had to add the auth header in the direct request
+        headers: {
+          "Authorization": "Bearer " + localStorage.getItem('token')
+        }
+      }).then(res => {
         this.nodeMap = JSON.parse(localStorage.getItem("nodeMap")) || res.data.jsonData;
       }).catch(err => {
         console.log('err', err)

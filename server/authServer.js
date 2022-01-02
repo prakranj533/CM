@@ -54,7 +54,8 @@ app.post('/register', async (req, res) => {
     });
     res.json({
       success: true,
-      token: generateAccessToken({ firstName, lastName, email })
+      accessToken: generateAccessToken({ firstName, lastName, email }),
+      refreshToken: generateRefreshToken({ firstName, lastName, email })
     });
   } catch(e) {
     console.error(e);

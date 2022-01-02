@@ -89,7 +89,7 @@ app.post('/login', requestValidator, async (req, res) => {
       await redisClient.set(`refresh_token?email=${email}`, refreshToken, {
         EX: DEFAULT_EXPIRATION
       });
-      res.json({ accessToken, refreshToken });
+      res.json({ success: true, accessToken, refreshToken });
     } else {
       res.status(403).json({
         success: false,

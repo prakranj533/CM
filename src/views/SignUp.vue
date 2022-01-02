@@ -150,6 +150,7 @@
 
 <script>
 import axios from "axios";
+import jwt from "jsonwebtoken";
 import Snackbar from "../components/Snackbar.vue";
 import snackbarMixin from "../mixins/snackbar";
 
@@ -208,6 +209,8 @@ export default {
         if(response.data.success) {
           localStorage.setItem('access-token', response.data.accessToken);
           localStorage.setItem('refresh-token', response.data.refreshToken);
+          const user = jwt.decode(response.data.accessToken);
+          this.$store.dispatch('updateAuthState', user);
           this.$router.push('/');
         } else {
           this.callError(response.data.message);

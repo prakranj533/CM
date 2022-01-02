@@ -8,7 +8,7 @@
         </v-toolbar-title>
       </router-link>
       <v-spacer></v-spacer>
-      <span class="body-2 text-capitalize mr-3">Welcome {{ user }}</span>
+      <span v-show="user" class="body-2 text-capitalize mr-3">Welcome {{ user.firstName }}</span>
       <v-btn text color="black" v-show="user" @click.prevent="logOut">
         <span class="body-2 text-capitalize">Log Out</span>
         <v-icon right>mdi-logout</v-icon>
@@ -19,11 +19,21 @@
 
 <script>
 import axios from "axios";
+import jwt from "jsonwebtoken";
 
 export default {
-  data:() => ({
-    user: "Suvrat",
-  }),
+  data: () => ({ }),
+  computed: {
+    user() {
+      return this.$store.state.user;
+    }
+  },
+  created() {
+    if(!this.$store.state.user) {
+      const user = jwt.decode(localStorage.getItem('refresh-token'));
+      this.$store.dispatch('updateAuthState', user);
+    }
+  },
   methods: {
     async logOut() {
       try {
@@ -41,6 +51,7 @@ export default {
 
       localStorage.removeItem('access-token');
       localStorage.removeItem('refresh-token');
+      this.$store.dispatch('updateAuthState', null);
       this.$router.push('/login');
     }
   }

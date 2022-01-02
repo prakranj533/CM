@@ -58,7 +58,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if(to.matched.some(record => record.meta.requiresAuth)) {
-    const accessToken = localStorage.getItem('token');
+    const accessToken = localStorage.getItem('access-token');
     if(!accessToken) next({ path: '/login' });
 
     try {
@@ -69,7 +69,8 @@ router.beforeEach((to, from, next) => {
         next({ path: '/login' });
       }
     } catch(e) {
-      localStorage.removeItem('token');
+      localStorage.removeItem('access-token');
+      localStorage.removeItem('refresh-token');
       next({ path: '/login' });
     }
   } else {

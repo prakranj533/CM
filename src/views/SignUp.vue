@@ -206,7 +206,8 @@ export default {
           gender: this.gender
         });
         if(response.data.success) {
-          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('access-token', response.data.accessToken);
+          localStorage.setItem('refresh-token', response.data.refreshToken);
           this.$router.push('/');
         } else {
           this.callError(response.data.message);

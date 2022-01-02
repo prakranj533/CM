@@ -50,7 +50,7 @@ export default {
                 // Since default localstorage of axios was taking old value of token
                 // so had to add the auth header in the direct request
                 headers: {
-                    "Authorization": "Bearer " + localStorage.getItem('token')
+                    "Authorization": "Bearer " + localStorage.getItem('access-token')
                 }
             }).then(res => {
                 this.nodeMap = res.data.jsonData;

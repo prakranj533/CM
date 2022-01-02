@@ -6,6 +6,6 @@ const api = axios.create({
   baseURL: API_URL
 });
 
-api.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('token');
+api.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('access-token');
 
 export default api;

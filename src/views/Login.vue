@@ -1,6 +1,6 @@
 <template>
   <v-sheet
-    width="300"
+    width="350"
     height="80vh"
     class="pa-4 mx-auto d-flex flex-column justify-center"
   >

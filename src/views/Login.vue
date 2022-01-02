@@ -74,14 +74,14 @@ export default {
   }),
   methods: {
     async handleLogin() {
-      let response;
       try {
-        response = await axios.post('http://localhost:8001/login', {
+        const response = await axios.post('http://localhost:8001/login', {
           email: this.email,
           password: this.password
         });
         if(response.data.success) {
           localStorage.setItem('access-token', response.data.accessToken);
+          localStorage.setItem('refresh-token', response.data.refreshToken);
           this.$router.push('/');
         } else {
           this.callError(response.data.message);

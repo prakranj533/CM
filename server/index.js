@@ -71,5 +71,5 @@ function authenticateToken(req, res, next) {
   });
 }
 
-const PORT = process.env.APP_SERVER_PORT || 3000;
+const PORT = process.env.APP_SERVER_PORT || 8000;
 app.listen(PORT, () => console.log(`App server listening on port ${PORT}`));

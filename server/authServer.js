@@ -182,5 +182,5 @@ function requestValidator(req, res, next) {
   next();
 }
 
-const PORT = process.env.AUTH_SERVER_PORT || 4000;
+const PORT = process.env.AUTH_SERVER_PORT || 8001;
 app.listen(PORT, () => console.log(`Authentication server listening on port ${PORT}`));

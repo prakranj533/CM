@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main class="text-body-2">
-      <v-container>
+      <v-container class="overflow-auto">
         <router-view></router-view>
       </v-container>
     </v-main>

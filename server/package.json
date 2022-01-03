@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "prod": "NODE_ENV=production node index.js",
+    "prodAuth": "NODE_ENV=production node authServer.js",
     "devStart": "NODE_ENV=development nodemon index.js",
     "devStartAuth": "NODE_ENV=development nodemon authServer.js"
   },

@@ -3,6 +3,7 @@ node_modules
 /dist
 
 .env
+requests.rest
 
 # local env files
 .env.local

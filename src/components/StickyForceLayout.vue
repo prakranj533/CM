@@ -17,7 +17,7 @@
 
 <script>
 import * as d3 from "d3v4";
-import { appApi } from "./../utils/api";
+import { appApi } from "../utils/api";
 let linkedByIndex = {};
 export default {
     name: "Graph",

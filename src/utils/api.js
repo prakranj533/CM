@@ -5,7 +5,7 @@ const authApi = axios.create({ baseURL: process.env.VUE_APP_AUTH_SERVER });
 
 appApi.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('access-token');
 
-export default {
+export {
   appApi,
   authApi
 };

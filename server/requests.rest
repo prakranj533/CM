@@ -1,5 +1,0 @@
-GET http://localhost:3000/get-json-data
-
-###
-
-GET http://localhost:3000/get-json-old-format HTTP/1.1

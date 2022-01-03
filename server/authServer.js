@@ -8,20 +8,30 @@ const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const Redis = require('redis');
 const User = require('./models/User');
-const db = process.env.MONGO_DATABASE_NAME;
+const mongoClientConfig = {
+  host: process.env.MONGO_HOST,
+  port: process.env.MONGO_PORT,
+  user: process.env.MONGO_USER,
+  password: process.env.MONGO_PASSWORD,
+  db: process.env.MONGO_DATABASE_NAME
+};
 const redisClientConfig = {
   host: process.env.REDIS_HOST,
-  port: process.env.REDIS_PORT,
-  password: process.env.REDIS_PASSWORD
+  port: process.env.REDIS_PORT
 };
 
-if(process.env.NODE_ENV === 'development') {
-  delete redisClientConfig.password; // P.S. I haven't set password for redis-server in local environment
+let mongoURI = `${mongoClientConfig.host}:${mongoClientConfig.port}/${mongoClientConfig.db}`;
+
+if(process.env.NODE_ENV === 'production') {
+  mongoURI = `${mongoClientConfig.user}:${mongoClientConfig.password}@` + mongoURI;
+  redisClientConfig['password'] = process.env.REDIS_PASSWORD;
 }
 
+mongoURI = "mongodb://" + mongoURI;
+
 mongoose.connect(
-  `mongodb://localhost/${db}`,
-  () => console.log(`Connected to database: ${db}`),
+  mongoURI,
+  () => console.log(`Connected to database: ${mongoClientConfig.db}`),
   e => console.error(e)
 );
 

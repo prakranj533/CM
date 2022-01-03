@@ -35,6 +35,13 @@ mongoose.connect(
   e => console.error(e)
 );
 
+process.on('SIGINT', function() {
+  mongoose.connection.close(function() {
+    console.log('Mongoose disconnected on app termination');
+    process.exit(0);
+  });
+});
+
 let redisClient;
 (async () => {
   redisClient = Redis.createClient(redisClientConfig);

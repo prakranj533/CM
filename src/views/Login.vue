@@ -45,10 +45,10 @@
 </template>
 
 <script>
-import axios from "axios";
 import jwt from "jsonwebtoken";
 import Snackbar from "../components/Snackbar.vue";
 import snackbarMixin from "../mixins/snackbar";
+import { authApi } from "../utils/api";
 
 export default {
   name: "Login",
@@ -78,7 +78,7 @@ export default {
       if(!this.$refs.loginForm.validate()) return;
 
       try {
-        const response = await axios.post('http://localhost:8001/login', {
+        const response = await authApi.post('/login', {
           email: this.email,
           password: this.password
         });

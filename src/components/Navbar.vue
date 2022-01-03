@@ -18,8 +18,8 @@
 </template>
 
 <script>
-import axios from "axios";
 import jwt from "jsonwebtoken";
+import { authApi } from "../utils/api";
 
 export default {
   data: () => ({ }),
@@ -37,7 +37,7 @@ export default {
   methods: {
     async logOut() {
       try {
-        await axios.delete('http://localhost:8001/logout', {
+        await authApi.delete('/logout', {
           headers:{
             'Content-Type': 'application/json; charset=utf-8'
           },

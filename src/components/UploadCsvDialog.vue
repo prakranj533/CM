@@ -47,7 +47,7 @@
 
 <script>
 //import axios from 'axios';
-import api from './../utils/api';
+import { appApi } from './../utils/api';
 export default {
     data: () => ({
         file: null,
@@ -69,7 +69,7 @@ export default {
             if(this.file){
                 const formData =  new FormData();
                 formData.append('file',this.file);
-                api.post('/upload',formData).then(res => {
+                appApi.post('/upload',formData).then(res => {
                     this.color = 'info';
                     this.icon = "mdi mdi-check-circle theme--dark";
                     this.uploadHandleMessage = res.data.message;

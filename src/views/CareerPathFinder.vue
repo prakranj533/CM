@@ -76,7 +76,7 @@
 <script>
 import PathFinder from "../utils/PathFinder";
 import Graph from "../components/Graph";
-import api from "../utils/api";
+import { appApi } from "../utils/api";
 import Navbar from "../components/Navbar.vue";
 
 export default {
@@ -149,7 +149,7 @@ export default {
   },
   methods: {
     getNodeMapJsonData(){
-      api.get('/get-json-old-format', {
+      appApi.get('/get-json-old-format', {
         // TODO: this needs to be improved
         // Since default localstorage of axios was taking old value of token
         // so had to add the auth header in the direct request

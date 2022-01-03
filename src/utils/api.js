@@ -1,11 +1,11 @@
 import axios from "axios";
 
-const API_URL = process.env.VUE_APP_SERVER;
+const appApi = axios.create({ baseURL: process.env.VUE_APP_SERVER });
+const authApi = axios.create({ baseURL: process.env.VUE_APP_AUTH_SERVER });
 
-const api = axios.create({
-  baseURL: API_URL
-});
+appApi.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('access-token');
 
-api.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('access-token');
-
-export default api;
+export default {
+  appApi,
+  authApi
+};

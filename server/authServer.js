@@ -9,6 +9,15 @@ const mongoose = require('mongoose');
 const Redis = require('redis');
 const User = require('./models/User');
 const db = process.env.MONGO_DATABASE_NAME;
+const redisClientConfig = {
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT,
+  password: process.env.REDIS_PASSWORD
+};
+
+if(process.env.NODE_ENV === 'development') {
+  delete redisClientConfig.password; // P.S. I haven't set password for redis-server in local environment
+}
 
 mongoose.connect(
   `mongodb://localhost/${db}`,
@@ -18,7 +27,7 @@ mongoose.connect(
 
 let redisClient;
 (async () => {
-  redisClient = Redis.createClient();
+  redisClient = Redis.createClient(redisClientConfig);
   redisClient.on('error', (err) => console.log('Redis Client Error', err));
   await redisClient.connect();
 })();

@@ -29,11 +29,19 @@ if(process.env.NODE_ENV === 'production') {
 
 mongoURI = "mongodb://" + mongoURI;
 
-mongoose.connect(
-  mongoURI,
-  () => console.log(`Connected to database: ${mongoClientConfig.db}`),
-  e => console.error(e)
-);
+const connectWithRetry = () => {
+  return mongoose.connect(
+    mongoURI,
+    () => console.log(`Connected to Mongo; Database: ${mongoClientConfig.db}`),
+    (err) => {
+      if(err) {
+        console.error('Failed to connect to Mongo on startup - retrying in 5 sec', err);
+        setTimeout(connectWithRetry, 5000);
+      }
+    }
+  );
+};
+connectWithRetry();
 
 process.on('SIGINT', function() {
   mongoose.connection.close(function() {

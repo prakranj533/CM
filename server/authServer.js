@@ -69,14 +69,14 @@ app.post('/register', async (req, res) => {
   const email = req.body.email;
   const dob = req.body.dob;
 
-  if(await doesUserExists(email)) {
-    return res.json({
-      success: false,
-      message: "Email address already in use"
-    });
-  }
-
   try {
+    if(await doesUserExists(email)) {
+      res.json({
+        success: false,
+        message: "Email address already in use"
+      });
+    }
+
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     await User.create({
       first_name: req.body.first_name,

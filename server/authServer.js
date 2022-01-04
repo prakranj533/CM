@@ -31,7 +31,7 @@ if(process.env.NODE_ENV === 'production') {
   redisClientConfig['password'] = process.env.REDIS_PASSWORD;
 }
 
-mongoURI = "mongodb+srv://" + mongoURI;
+mongoURI = "mongodb://" + mongoURI;
 
 const connectWithRetry = () => {
   return mongoose.connect(

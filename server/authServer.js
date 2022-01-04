@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const Redis = require('redis');
 const User = require('./models/User');
+
 const mongoClientConfig = {
   host: process.env.MONGO_HOST,
   port: process.env.MONGO_PORT,
@@ -21,17 +22,21 @@ const redisClientConfig = {
 };
 
 let mongoURI = `${mongoClientConfig.host}:${mongoClientConfig.port}/${mongoClientConfig.db}`;
+const mongooseConnectOptions = {};
 
 if(process.env.NODE_ENV === 'production') {
-  mongoURI = `${mongoClientConfig.user}:${mongoClientConfig.password}@` + mongoURI;
+  mongooseConnectOptions['authSource'] = mongoClientConfig.db;
+  mongooseConnectOptions['user'] = mongoClientConfig.user;
+  mongooseConnectOptions['pass'] = mongoClientConfig.password;
   redisClientConfig['password'] = process.env.REDIS_PASSWORD;
 }
 
-mongoURI = "mongodb://" + mongoURI;
+mongoURI = "mongodb+srv://" + mongoURI;
 
 const connectWithRetry = () => {
   return mongoose.connect(
     mongoURI,
+    mongooseConnectOptions,
     () => console.log(`Connected to Mongo; Database: ${mongoClientConfig.db}`),
     (err) => {
       if(err) {

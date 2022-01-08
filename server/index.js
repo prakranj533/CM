@@ -30,7 +30,7 @@ app.get('/', authenticateToken, (req, res) => {
   });
 });
 
-app.get('/get-json-data', authenticateToken, (req, res) => {
+app.get('/get-json-data', (req, res) => {
   const rawData = fs.readFileSync('nodeMap1.json');
   const jsonData = JSON.parse(rawData);
   res.json({

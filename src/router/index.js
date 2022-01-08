@@ -25,10 +25,7 @@ const router = new VueRouter({
     },
     {
       path: "/",
-      component: Home,
-      meta: {
-        requiresAuth: true
-      }
+      component: Home
     },
     {
       path: "/career-path-finder",

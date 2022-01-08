@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Navbar />
+    <Navbar v-if="user" />
     <div class="text-h5 text-center">Probabilistic Career Maps</div>
     <h4 class="text-center subtitle-1">See your career – Search your path – Seek your guide</h4>
     <StickyForceLayout />
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import jwt from "jsonwebtoken";
 import nodeMap from "../data/nodeMap.json";
 import StickyForceLayout from "../components/StickyForceLayout";
 import nGraphGraphCreateGraph from "ngraph.graph";
@@ -49,6 +50,9 @@ export default {
     nodeMap,
   }),
   computed: {
+    user() {
+      return this.$store.state.user;
+    },
     centralityTable() {
       const map = this.nodeMap;
       const nodes = [];
@@ -79,6 +83,12 @@ export default {
       }
       return nodes;
     },
+  },
+  created() {
+    if(!this.$store.state.user) {
+      const user = jwt.decode(localStorage.getItem('refresh-token'));
+      this.$store.dispatch('updateAuthState', user);
+    }
   },
   methods: {
     goToCareerPathFinder() {

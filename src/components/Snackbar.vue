@@ -6,7 +6,8 @@
     :color="snackbar.status"
     elevation="24"
   >
-    <span>{{ snackbar.message }}</span>
+    <span v-if="snackbar.isHtml" v-html="snackbar.message"></span>
+    <span v-else>{{ snackbar.message }}</span>
     <template v-slot:action="{ attrs }">
       <v-btn icon v-bind="attrs" @click="snackbar.show = false">
         <v-icon>mdi-close</v-icon>

@@ -1,9 +1,10 @@
 <template>
   <nav>
     <v-app-bar flat app color="grey lighten-5" dense>
+      <v-icon class="pa-2" @click.stop="$emit('toggle-drawer')">mdi-menu</v-icon>
       <router-link to="/" class="text-decoration-none">
         <v-toolbar-title class="text-uppercase black--text subtitle-2">
-          <span class="blue--text text--darken-4">Career </span>
+          <span class="blue--text text--darken-4">Career</span>
           <span class="font-weight-bold">Maps</span>
         </v-toolbar-title>
       </router-link>
@@ -14,48 +15,49 @@
         <v-icon right>mdi-logout</v-icon>
       </v-btn>
     </v-app-bar>
-  </nav>  
+  </nav>
 </template>
 
 <script>
 import jwt from "jsonwebtoken";
-import { authApi } from "../utils/api";
+import { adminApiAuth, authApi } from "../utils/api";
 
 export default {
-  data: () => ({ }),
+  data: () => ({}),
   computed: {
     user() {
       return this.$store.state.user;
-    }
+    },
   },
   created() {
-    if(!this.$store.state.user) {
-      const user = jwt.decode(localStorage.getItem('refresh-token'));
-      this.$store.dispatch('updateAuthState', user);
+    if (!this.$store.state.user) {
+      const user = jwt.decode(localStorage.getItem("refresh-token"));
+      this.$store.dispatch("updateAuthState", user);
     }
   },
   methods: {
     async logOut() {
+      const { is_admin } = this.$store.state.user;
       try {
-        await authApi.delete('/logout', {
-          headers:{
-            'Content-Type': 'application/json; charset=utf-8'
+        var authRequest = is_admin ? adminApiAuth : authApi;
+        await authRequest.delete("/logout", {
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
           },
           data: {
-            token: localStorage.getItem('refresh-token')
-          }
+            token: localStorage.getItem("refresh-token"),
+          },
         });
-      } catch(e) {
+      } catch (e) {
         console.error(e.message);
       }
-
-      localStorage.removeItem('access-token');
-      localStorage.removeItem('refresh-token');
-      this.$store.dispatch('updateAuthState', null);
-      this.$router.push('/login');
-    }
-  }
-}
+      localStorage.removeItem("access-token");
+      localStorage.removeItem("refresh-token");
+      this.$store.dispatch("updateAuthState", null);
+      this.$router.push(is_admin ? "/admin-login" : "/login");
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

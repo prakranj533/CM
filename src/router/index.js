@@ -2,9 +2,23 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import jwt from "jsonwebtoken";
 import Home from "../views/Home";
-import CareerPathFinder from "../views/CareerPathFinder";
+import CareerPathFinder from "../views/CareerPathFinder.vue";
 import PageNotFound from "../views/PageNotFound";
+import AdminPageNotFound from "../views/admin/PageNotFound";
 import ManageNodes from "../views/ManageNodes";
+import StudentIndex from '../views/admin/students/Index';
+import StudentList from '../views/admin/students/List';
+import StudentAdd from '../views/admin/students/Add';
+import CounsellorIndex from '../views/admin/counsellors/Index';
+import CounsellorList from '../views/admin/counsellors/List';
+import CounsellorAdd from '../views/admin/counsellors/Add';
+import CounsellorAllocate from '../views/admin/counsellors/Allocate';
+import QueryIndex from '../views/admin/queries/Index';
+import QueryList from '../views/admin/queries/List';
+import QueryReply from '../views/admin/queries/Reply';
+import ChangePassword from '../views/admin/ChangePassword';
+import ContactUsContent from '../views/admin/ContactUsContent';
+import SetVideo from '../views/admin/videos/Set';
 import HomeV1 from "../views/Home-v1";
 
 Vue.use(VueRouter);
@@ -13,34 +27,124 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
-    {
-      path: "/login",
-      name: "Login",
-      component: () => import(/* webpackChunkName: "Login" */ '@/views/Login.vue')
-    },
-    {
-      path: "/sign-up",
-      name: "SignUp",
-      component: () => import(/* webpackChunkName: "SignUp" */ '@/views/SignUp.vue')
-    },
+    // {
+    //   path: "/login",
+    //   name: "Login",
+    //   component: () => import(/* webpackChunkName: "Login" */ '@/views/Login.vue')
+    // },
+    // {
+    //   path: "/sign-up",
+    //   name: "SignUp",
+    //   component: () => import(/* webpackChunkName: "SignUp" */ '@/views/SignUp.vue')
+    // },
     {
       path: "/",
       component: Home
     },
     {
-      path: "/career-path-finder",
-      component: CareerPathFinder,
-      meta: {
-        requiresAuth: true
-      }
+      path: "/admin-login",
+      name: "AdminLogin",
+      component: () => import(/* webpackChunkName: "AdminLogin" */ '@/views/AdminLogin.vue')
     },
     {
-      path: "/manage-nodes",
-      component: ManageNodes,
-      meta: {
-        requiresAuth: true
-      }
+      path: "/career-path-finder",
+      component: CareerPathFinder,
+      // meta: {
+      //   requiresAuth: true,
+      // },
     },
+    {
+      path: "/admin",
+      component: () => import(/* webpackChunkName: "AdminHome" */ '@/views/admin/Home.vue'),
+      meta: {
+        requiresAuth: true,
+        is_admin: true
+      },
+      children: [
+        {
+          path: "dashboard",
+          component: ManageNodes,
+        },
+        {
+          path: "career-path-finder",
+          component: CareerPathFinder,
+        },
+        {
+          path: "change-password",
+          component: ChangePassword,
+        }, {
+          path: "contact-us",
+          component: ContactUsContent,
+        }, {
+          path: "set-video",
+          component: SetVideo,
+        },
+        {
+          path: "student",
+          component: StudentIndex,
+          children: [
+            {
+              path: "list",
+              component: StudentList,
+            },
+            {
+              path: "add/:id?",
+              name: "student-add",
+              component: StudentAdd,
+              props: true
+            }
+          ]
+        },
+        {
+          path: "counsellor",
+          component: CounsellorIndex,
+          children: [
+            {
+              path: "list",
+              component: CounsellorList,
+            }, {
+              path: "add/:id?",
+              name: "counsellor-add",
+              component: CounsellorAdd,
+              props: true
+            }, {
+              path: "allocate/:id",
+              name: "counsellor-allocate",
+              component: CounsellorAllocate,
+              props: true
+            }
+          ]
+        },
+        {
+          path: "query",
+          component: QueryIndex,
+          children: [
+            {
+              path: "list",
+              component: QueryList,
+            },
+            {
+              path: "reply/:id",
+              name: "query-reply",
+              component: QueryReply,
+              props: true
+            }
+          ]
+        },
+        {
+          path: "*",
+          name: "PageNotFound",
+          component: AdminPageNotFound
+        }
+      ]
+    },
+    // {
+    //   path: "/manage-nodes",
+    //   component: ManageNodes,
+    //   meta: {
+    //     requiresAuth: true
+    //   }
+    // },
     {
       path: "/home-v1",
       component: HomeV1
@@ -54,26 +158,34 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if(to.matched.some(record => record.meta.requiresAuth)) {
-    const accessToken = localStorage.getItem('access-token');
-    if(!accessToken) next({ path: '/login' });
 
+  function checkAccessToken(accessToken, loginPath) {
     try {
       const { exp } = jwt.decode(accessToken);
-      if(exp > (Date.now() / 1000)) {
+      if (exp > (Date.now() / 1000)) {
         next();
       } else {
-        next({ path: '/login' });
+        next({ path: loginPath });
       }
-    } catch(e) {
+    } catch (e) {
       localStorage.removeItem('access-token');
       localStorage.removeItem('refresh-token');
-      next({ path: '/login' });
+      next({ path: loginPath });
     }
+  }
+
+  if (to.matched.some(record => record.meta.requiresAuth && record.meta.is_admin)) {
+    const accessToken = localStorage.getItem('access-token');
+    if (!accessToken) next({ path: '/admin-login' });
+    checkAccessToken(accessToken, '/admin-login');
+  } else if (to.matched.some(record => record.meta.requiresAuth)) {
+    const accessToken = localStorage.getItem('access-token');
+    if (!accessToken) next({ path: '/login' });
+    checkAccessToken(accessToken, '/login');
   } else {
-    if(to.name == 'Login') {
+    if (to.name == 'Login') {
       const accessToken = localStorage.getItem('access-token');
-      if(accessToken) next({ path: '/' });
+      if (accessToken) next({ path: '/' });
       else next();
     } else {
       next();

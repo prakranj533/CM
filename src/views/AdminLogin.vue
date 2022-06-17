@@ -6,7 +6,7 @@
       height="80vh"
       class="pa-4 mx-auto d-flex flex-column justify-center"
     >
-      <div class="text-h5 mb-3">Log In</div>
+      <div class="text-h5 mb-3">Admin Log In</div>
       <v-form
         ref="loginForm"
         lazy-validation
@@ -37,9 +37,6 @@
           Log In
         </v-btn>
       </v-form>
-      <div class="mt-3">
-        Don't have an account? <router-link to="/sign-up">Sign Up</router-link>
-      </div>
     </v-sheet>
   </div>
 </template>
@@ -48,7 +45,7 @@
 import jwt from "jsonwebtoken";
 import Snackbar from "../components/Snackbar.vue";
 import snackbarMixin from "../mixins/snackbar";
-import { authApi } from "../utils/api";
+import { adminApiAuth } from "../utils/api";
 
 export default {
   name: "Login",
@@ -78,17 +75,18 @@ export default {
       if(!this.$refs.loginForm.validate()) return;
 
       try {
-        const response = await authApi.post('/login', {
-          email: this.email,
+        const response = await adminApiAuth.post('/login', {
+          email_or_phone: this.email,
           password: this.password
         });
         if(response.data.success) {
-          localStorage.setItem('access-token', response.data.accessToken);
-          localStorage.setItem('refresh-token', response.data.refreshToken);
-          const user = jwt.decode(response.data.accessToken);
+          const data = response.data.data[0];
+          localStorage.setItem('access-token', data.accessToken);
+          localStorage.setItem('refresh-token',data.refreshToken);
+          const user = jwt.decode(data.accessToken);
           this.$store.dispatch('updateAuthState', user);
           if(user.is_admin){
-            this.$router.push('/admin');
+            this.$router.push('/admin/dashboard');
           }else {
             this.$router.push('/');
           }

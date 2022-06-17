@@ -1,6 +1,6 @@
 <template>
   <div class="home-container">
-    <Navbar />
+    <Navbar v-if="user && caller != 'app'" />
     <div class="input-container">
       <v-autocomplete
         outlined
@@ -34,7 +34,16 @@
         <v-tabs-items v-model="pathModel">
           <v-tab-item v-for="(path, index) in paths" :key="index">
             <div class="mt-4 text-body-1 font-weight-bold">
-              Total Duration: {{ parseFloat(path.filter(e => e.duration).reduce((t, e) => t + parseFloat(e.duration), 0).toFixed(2)).toString() }} years
+              Total Duration:
+              {{
+                parseFloat(
+                  path
+                    .filter((e) => e.duration)
+                    .reduce((t, e) => t + parseFloat(e.duration), 0)
+                    .toFixed(2)
+                ).toString()
+              }}
+              years
             </div>
             <v-timeline align-top dense>
               <v-timeline-item v-for="(entry, index) in path" :key="index" small fill-dot>
@@ -74,27 +83,49 @@
 </template>
 
 <script>
+import jwt from "jsonwebtoken";
 import PathFinder from "../utils/PathFinder";
 import Graph from "../components/Graph";
-import { appApi } from "../utils/api";
+import { adminApi } from "../utils/api";
 import Navbar from "../components/Navbar.vue";
 
 export default {
   name: "Home",
   components: {
     Graph,
-    Navbar
+    Navbar,
   },
   data: () => ({
     nodeMap: {},
     sourceNodeId: null,
     destinationNodeId: null,
     pathModel: 0,
+    caller: null,
   }),
-  created(){
-    this.getNodeMapJsonData();
+  created() {
+    let urlParams = new URLSearchParams(window.location.search);
+    this.$set(this, "caller", urlParams.get("caller"));
+    const refreshToken = urlParams.get("refresh-token");
+    if (refreshToken) {
+      localStorage.setItem("refresh-token", refreshToken);
+    }
+    let user;
+    if (!this.$store.state.user) {
+      user = jwt.decode(localStorage.getItem("refresh-token"));
+      this.$store.dispatch("updateAuthState", user);
+    }
+    console.log(user);
+    this.getNodeMapJsonData((nodes) => {
+      var cs = user.current_standard;
+      var csv = Object.keys(nodes).filter((k) => nodes[k].name == cs)[0];
+      console.log(cs, csv);
+      this.$set(this, "sourceNodeId", csv);
+    });
   },
   computed: {
+    user() {
+      return this.$store.state.user;
+    },
     allSourceNodes() {
       return Object.values(this.nodeMap).map(({ id, name }) => ({ id, name }));
     },
@@ -118,7 +149,7 @@ export default {
         : [];
     },
     totalDuration() {
-      return this.paths[this.pathModel].map(e => e.duration);
+      return this.paths[this.pathModel].map((e) => e.duration);
     },
     sourceToDestinationNodeMap() {
       if (this.paths.length) {
@@ -148,21 +179,26 @@ export default {
     },
   },
   methods: {
-    getNodeMapJsonData(){
-      appApi.get('/get-json-old-format', {
-        // TODO: this needs to be improved
-        // Since default localstorage of axios was taking old value of token
-        // so had to add the auth header in the direct request
-        headers: {
-          "Authorization": "Bearer " + localStorage.getItem('access-token')
-        }
-      }).then(res => {
-        this.nodeMap = JSON.parse(localStorage.getItem("nodeMap")) || res.data.jsonData;
-      }).catch(err => {
-        console.log('err', err)
-      })
+    getNodeMapJsonData(cb) {
+      adminApi
+        .get("/api/index/get-json-old-format", {
+          // TODO: this needs to be improved
+          // Since default localstorage of axios was taking old value of token
+          // so had to add the auth header in the direct request
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("access-token"),
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          this.nodeMap = JSON.parse(localStorage.getItem("nodeMap")) || res.data.data[0];
+          cb(this.nodeMap);
+        })
+        .catch((err) => {
+          console.log("err", err);
+        });
     },
-  }
+  },
 };
 </script>
 

@@ -5,9 +5,10 @@ export default {
       this.snackbar.message = message;
       this.snackbar.show = true;
     },
-    callError(message) {
+    callError(message, isHtml) {
       this.snackbar.status = "error";
       this.snackbar.message = message;
+      this.snackbar.isHtml = isHtml || false;
       this.snackbar.show = true;
     }
   }

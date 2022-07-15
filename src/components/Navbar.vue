@@ -20,7 +20,7 @@
 
 <script>
 import jwt from "jsonwebtoken";
-import { adminApiAuth, authApi } from "../utils/api";
+import { adminApiAuth } from "../utils/api";
 
 export default {
   data: () => ({}),
@@ -39,7 +39,7 @@ export default {
     async logOut() {
       const { is_admin } = this.$store.state.user;
       try {
-        var authRequest = is_admin ? adminApiAuth : authApi;
+        var authRequest = adminApiAuth;
         await authRequest.delete("/logout", {
           headers: {
             "Content-Type": "application/json; charset=utf-8",

@@ -20,6 +20,7 @@ import ChangePassword from '../views/admin/ChangePassword';
 import ContactUsContent from '../views/admin/ContactUsContent';
 import SetVideo from '../views/admin/videos/Set';
 import HomeV1 from "../views/Home-v1";
+import Rank from "../views/Rank.vue";
 
 Vue.use(VueRouter);
 
@@ -27,19 +28,19 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
-    // {
-    //   path: "/login",
-    //   name: "Login",
-    //   component: () => import(/* webpackChunkName: "Login" */ '@/views/Login.vue')
-    // },
-    // {
-    //   path: "/sign-up",
-    //   name: "SignUp",
-    //   component: () => import(/* webpackChunkName: "SignUp" */ '@/views/SignUp.vue')
-    // },
     {
       path: "/",
       component: Home
+    },
+    {
+      path: "/login",
+      name: "Login",
+      component: () => import(/* webpackChunkName: "Login" */ '@/views/Login.vue')
+    },
+    {
+      path: "/sign-up",
+      name: "SignUp",
+      component: () => import(/* webpackChunkName: "SignUp" */ '@/views/SignUp.vue')
     },
     {
       path: "/admin-login",
@@ -49,9 +50,13 @@ const router = new VueRouter({
     {
       path: "/career-path-finder",
       component: CareerPathFinder,
-      // meta: {
-      //   requiresAuth: true,
-      // },
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: "/rank",
+      component: Rank,
     },
     {
       path: "/admin",
@@ -67,6 +72,10 @@ const router = new VueRouter({
         },
         {
           path: "career-path-finder",
+          component: CareerPathFinder,
+        },
+        {
+          path: "rank",
           component: CareerPathFinder,
         },
         {
@@ -179,8 +188,13 @@ router.beforeEach((to, from, next) => {
     if (!accessToken) next({ path: '/admin-login' });
     checkAccessToken(accessToken, '/admin-login');
   } else if (to.matched.some(record => record.meta.requiresAuth)) {
-    const accessToken = localStorage.getItem('access-token');
-    if (!accessToken) next({ path: '/login' });
+    let urlParams = new URLSearchParams(window.location.search);
+    let accessToken = urlParams.get("token") || localStorage.getItem('access-token');
+    if (accessToken) {
+      localStorage.setItem("access-token", accessToken);
+    } else {
+      next({ path: '/login' });
+    }
     checkAccessToken(accessToken, '/login');
   } else {
     if (to.name == 'Login') {

@@ -98,6 +98,7 @@
                   v-on="on"
                   outlined
                   dense
+                  class="dob"
                 ></v-text-field>
               </template>
               <v-date-picker

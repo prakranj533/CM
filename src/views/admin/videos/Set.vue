@@ -19,9 +19,10 @@
       item-key="_id"
       show-select
       class="elevation-1"
+      :item-class="itemRowBackground"
     >
       <template slot="item._id" slot-scope="props" v-if="props.item.gmeet || props.item.whatsapp">
-         <div class="action-links">
+        <div class="action-links">
           <a @click="removeLinks(props.item)">Delete</a>
         </div>
       </template>
@@ -45,6 +46,7 @@ export default {
     gmeetLink: "",
     whatsappLink: "",
     singleSelect: false,
+    isDataSet: false,
     selected: [],
     headers: [
       { text: "First Name", value: "first_name" },
@@ -72,6 +74,9 @@ export default {
     this.getStudents();
   },
   methods: {
+    itemRowBackground: function (item) {
+      return this.selected.filter((x) => x._id == item._id).length && this.isDataSet ? "allocated2" : "";
+    },
     async getStudents() {
       try {
         const res = await adminApi.get("/api/student", {
@@ -96,6 +101,7 @@ export default {
         this.callError("Please select at least on student from table.");
         return;
       }
+      this.isDataSet = true;
       const res = await adminApi.post(
         `/api/student/update-links`,
         {
@@ -112,9 +118,13 @@ export default {
         this.callSuccess(res.data.message);
         this.gmeetLink = "";
         this.whatsappLink = "";
-        this.selected = [];
+        setTimeout(() => {
+          this.selected = [];
+          this.isDataSet = false;
+        }, 10000);
         this.getStudents();
       } else {
+        this.isDataSet = false;
         this.callError(res.data.message);
       }
     },
@@ -139,8 +149,12 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .container {
   max-width: 100%;
+}
+.allocated2 {
+  background-color: green !important;
+  color: white !important;
 }
 </style>

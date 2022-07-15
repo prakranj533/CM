@@ -173,7 +173,7 @@ export default {
         if (e?.response?.data.message === "Invalid data.") {
           this.callError(e?.response?.data.error.map((e) => Object.values(e).join(",")).join("<br/>"), true);
         } else {
-          this.callError(e.message);
+          this.callError(e?.response?.data.message || e.message);
         }
       }
     },
@@ -184,7 +184,8 @@ export default {
 };
 </script>
 <style>
-.v-input--is-readonly .v-input__slot {
+
+.v-input--is-readonly:not(.dob) .v-input__slot {
   background-color: #ddd !important;
 }
 .question-title {

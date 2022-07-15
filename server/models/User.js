@@ -38,6 +38,15 @@ const userSchema = new mongoose.Schema({
       message: props => `${props.value} is not a valid gender`
     }
   },
+  is_admin: {
+    type: Boolean,
+    default: false,
+    immutable: true,
+  },
+  is_active: {
+    type: Boolean,
+    default: true,
+  },
   createdAt: {
     type: Date,
     immutable: true,

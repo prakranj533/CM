@@ -32,7 +32,7 @@ if(process.env.NODE_ENV === 'production') {
 }
 
 mongoURI = "mongodb://" + mongoURI;
-
+console.log(mongoClientConfig, mongoURI);
 const connectWithRetry = () => {
   return mongoose.connect(
     mongoURI,
@@ -119,12 +119,14 @@ app.post('/login', requestValidator, async (req, res) => {
 
   try {
     if(await bcrypt.compare(password, user.password)) {
+      console.log(user);
       const firstName = user.first_name;
       const lastName = user.last_name;
       const email = user.email;
-
-      const accessToken = generateAccessToken({ firstName, lastName, email });
-      const refreshToken = generateRefreshToken({ firstName, lastName, email });
+      const is_admin = user.is_admin;
+      const role = user.role;
+      const accessToken = generateAccessToken({ firstName, lastName, email, is_admin, role });
+      const refreshToken = generateRefreshToken({ firstName, lastName, email, is_admin, role });
       await redisClient.set(`refresh_token?email=${email}`, refreshToken, {
         EX: DEFAULT_EXPIRATION
       });
@@ -189,6 +191,15 @@ app.post('/token', async (req, res) => {
   }
 });
 
+app.get('/users', async (req, res) => {
+  const users = await User.find({ });
+  res.json({
+    success: true,
+    message: "JSON loaded successfully",
+    data: users
+  });
+});
+
 async function doesUserExists(email) {
   const user = await User.findOne({ email });
   if(user) return true;
@@ -196,6 +207,7 @@ async function doesUserExists(email) {
 }
 
 function generateAccessToken(user) {
+  console.log( process.env.ACCESS_TOKEN_SECRET);
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1h" });
 }
 

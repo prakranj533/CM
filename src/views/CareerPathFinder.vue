@@ -105,16 +105,15 @@ export default {
   created() {
     let urlParams = new URLSearchParams(window.location.search);
     this.$set(this, "caller", urlParams.get("caller"));
-    const refreshToken = urlParams.get("refresh-token");
-    if (refreshToken) {
-      localStorage.setItem("refresh-token", refreshToken);
+    const token = urlParams.get("token");
+    if (token) {
+      localStorage.setItem("access-token", token);
     }
     let user;
     if (!this.$store.state.user) {
-      user = jwt.decode(localStorage.getItem("refresh-token"));
+      user = jwt.decode(localStorage.getItem("access-token"));
       this.$store.dispatch("updateAuthState", user);
     }
-    console.log(user);
     this.getNodeMapJsonData((nodes) => {
       var cs = user.current_standard;
       var csv = Object.keys(nodes).filter((k) => nodes[k].name == cs)[0];
@@ -190,8 +189,7 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res.data);
-          this.nodeMap = JSON.parse(localStorage.getItem("nodeMap")) || res.data.data[0];
+          this.nodeMap = JSON.parse(localStorage.getItem("nodeMap")) || res.data.jsonData || res.data.data[0];
           cb(this.nodeMap);
         })
         .catch((err) => {

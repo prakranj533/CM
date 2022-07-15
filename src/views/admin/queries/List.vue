@@ -131,10 +131,11 @@ export default {
         });
         if (res && res.data && res.data instanceof Blob) {
           console.log(res.data);
+          let ext = res.headers["ext"];
           const url = window.URL.createObjectURL(new Blob([res.data]));
           const link = document.createElement("a");
           link.href = url;
-          link.setAttribute("download", `query_${new Date().getTime()}.pdf`); //or any other extension
+          link.setAttribute("download", `query_${new Date().getTime()}.${ext}`); //or any other extension
           document.body.appendChild(link);
           link.click();
           // this.students = res.data.data;
@@ -158,10 +159,11 @@ export default {
         });
         if (res && res.data && res.data instanceof Blob) {
           console.log(res.data);
+          let ext = res.headers["ext"];
           const url = window.URL.createObjectURL(new Blob([res.data]));
           const link = document.createElement("a");
           link.href = url;
-          link.setAttribute("download", `reply_${new Date().getTime()}.pdf`); //or any other extension
+          link.setAttribute("download", `reply_${new Date().getTime()}.${ext || "pdf"}`); //or any other extension
           document.body.appendChild(link);
           link.click();
           // this.students = res.data.data;

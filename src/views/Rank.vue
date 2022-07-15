@@ -1,18 +1,7 @@
 <template>
   <div class="home">
     <Navbar v-if="user && caller != 'app'" />
-    <div class="text-h5 text-center">Probabilistic Career Maps</div>
-    <h4 class="text-center subtitle-1">See your career – Search your path – Seek your guide</h4>
-    <div class="tabs">
-      <div :class="{ active: activeTab == 0 }" @click="setActiveTab(0)">Node Map</div>
-      <div :class="{ active: activeTab == 1 }" @click="setActiveTab(1)">Sunburst</div>
-    </div>
-    <StickyForceLayout v-show="activeTab == 0" />
-    <Sunburst v-show="activeTab == 1" />
-    <div v-if="caller != 'app'" style="display: flex; justify-content: center" class="mt-12">
-      <v-btn color="primary" elevation="5" large @click="goToCareerPathFinder">Career Path Finder</v-btn>
-    </div>
-    <v-simple-table v-if="caller != 'app'" class="centrality-table mt-6">
+    <v-simple-table class="centrality-table mt-6">
       <template v-slot:default>
         <thead>
           <tr>
@@ -28,27 +17,19 @@
         </tbody>
       </template>
     </v-simple-table>
-    <v-list-item-title class="mt-3 mb-2 text-center text-body-2">
-      Contact us to become a career guide and to earn money
-    </v-list-item-title>
-    <v-list-item-title class="my-3 text-center text-body-2">Feedback: lifelonglearning.in@gmail.com</v-list-item-title>
   </div>
 </template>
 
 <script>
 import jwt from "jsonwebtoken";
 import nodeMap from "../data/nodeMap.json";
-import StickyForceLayout from "../components/StickyForceLayout";
-import Sunburst from "../components/Sunburst.vue";
 import nGraphGraphCreateGraph from "ngraph.graph";
 import nGraphCentrality from "ngraph.centrality";
 import Navbar from "../components/Navbar.vue";
 
 export default {
-  name: "Home",
+  name: "Rank",
   components: {
-    StickyForceLayout,
-    Sunburst,
     Navbar,
   },
   data: () => ({
@@ -116,7 +97,7 @@ export default {
 
 <style>
 .centrality-table {
-  max-height: 440px !important;
+  max-height: initial !important;
   overflow: auto;
 }
 .tabs .active {

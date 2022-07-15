@@ -17,7 +17,7 @@
 
 <script>
 import * as d3 from "d3v4";
-import { appApi } from "../utils/api";
+import { adminApi } from "../utils/api";
 let linkedByIndex = {};
 export default {
     name: "Graph",
@@ -45,7 +45,7 @@ export default {
     },
     methods: {
         getJsonData(){
-            appApi.get('/get-json-data', {
+            adminApi.get('/api/index/get-json-data', {
                 // TODO: this needs to be improved
                 // Since default localstorage of axios was taking old value of token
                 // so had to add the auth header in the direct request

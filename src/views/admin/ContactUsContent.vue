@@ -26,6 +26,11 @@
         </v-row>
         <v-row>
           <v-col cols="12" sm="12" md="12" class="pb-0">
+            <v-text-field v-model="content.youtube_link" required label="YouTube Link" outlined dense />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" sm="12" md="12" class="pb-0">
             <v-textarea
               v-model="content.description"
               :rules="contentRules"
@@ -60,6 +65,7 @@ export default {
       name: "",
       address: "",
       phone_number: "",
+      youtube_link: "",
       email: "",
     },
     contentRules: [(v) => !!v || "Content is required"],
@@ -110,6 +116,7 @@ export default {
             email: this.content.email,
             phone_number: this.content.phone_number,
             address: this.content.address,
+            youtube_link: this.content.youtube_link,
           }),
         };
         const methodName = this.content._id ? "put" : "post";

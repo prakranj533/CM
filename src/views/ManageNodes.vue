@@ -15,7 +15,7 @@
 import ManageNodeDialog from "../components/manage-nodes/ManageNodeDialog";
 import Graph from "../components/Graph";
 import UploadCSVDialog from "../components/UploadCsvDialog";
-import { appApi } from "../utils/api";
+import { adminApi } from "../utils/api";
 
 export default {
   name: "ManageNodes",
@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     getNodeMapJsonData(){
-      appApi.get('/get-json-old-format', {
+      adminApi.get('/api/index/get-json-old-format', {
         // TODO: this needs to be improved
         // Since default localstorage of axios was taking old value of token
         // so had to add the auth header in the direct request

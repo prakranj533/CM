@@ -48,7 +48,7 @@
 import jwt from "jsonwebtoken";
 import Snackbar from "../components/Snackbar.vue";
 import snackbarMixin from "../mixins/snackbar";
-import { authApi } from "../utils/api";
+import { adminApiAuth } from "../utils/api";
 
 export default {
   name: "Login",
@@ -78,14 +78,16 @@ export default {
       if(!this.$refs.loginForm.validate()) return;
 
       try {
-        const response = await authApi.post('/login', {
-          email: this.email,
-          password: this.password
+        const response = await adminApiAuth.post('/login', {
+          email_or_phone: this.email,
+          password: this.password,
+          app: 'web'
         });
         if(response.data.success) {
-          localStorage.setItem('access-token', response.data.accessToken);
-          localStorage.setItem('refresh-token', response.data.refreshToken);
-          const user = jwt.decode(response.data.accessToken);
+          const resData = response.data.data[0];
+          localStorage.setItem('access-token', resData.accessToken);
+          localStorage.setItem('refresh-token', resData.refreshToken);
+          const user = jwt.decode(resData.accessToken);
           this.$store.dispatch('updateAuthState', user);
           if(user.is_admin){
             this.$router.push('/admin');
@@ -96,6 +98,7 @@ export default {
           this.callError(response.data.message);
         }
       } catch(e) {
+        console.log(e);
         console.error(e.response.data.message);
         this.callError(e.response.data.message);
       }

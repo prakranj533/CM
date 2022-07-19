@@ -22,11 +22,10 @@
 
 <script>
 import jwt from "jsonwebtoken";
-import nodeMap from "../data/nodeMap.json";
 import nGraphGraphCreateGraph from "ngraph.graph";
 import nGraphCentrality from "ngraph.centrality";
 import Navbar from "../components/Navbar.vue";
-
+import { adminApi } from "../utils/api";
 export default {
   name: "Rank",
   components: {
@@ -34,7 +33,7 @@ export default {
   },
   data: () => ({
     activeTab: 0,
-    nodeMap,
+    nodeMap:{},
     caller: null,
   }),
   computed: {
@@ -84,7 +83,24 @@ export default {
       localStorage.setItem("refresh-token", refreshToken);
     }
   },
+  mounted() {
+    this.getJsonOldFormatData();
+  },
   methods: {
+    getJsonOldFormatData() {
+      adminApi
+        .get("/api/index/get-json-old-format", {
+          // TODO: this needs to be improved
+          // Since default localstorage of axios was taking old value of token
+          // so had to add the auth header in the direct request
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("access-token"),
+          },
+        })
+        .then((res) => {
+          this.$set(this, 'nodeMap', res.data.jsonData);
+        });
+    },
     goToCareerPathFinder() {
       this.$router.push("/career-path-finder");
     },

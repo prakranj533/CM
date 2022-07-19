@@ -103,13 +103,14 @@ export default {
       localStorage.setItem("refresh-token", refreshToken);
     }
   },
+  mounted() {
+    this.getJsonOldFormatData();
+  },
   methods: {
     getJsonOldFormatData() {
-      adminApi
-        .get("/api/index/get-json-old-format")
-        .then((res) => {
-          this.$set(this, 'nodeMap', res.data.jsonData);
-        });
+      adminApi.get("/api/index/get-json-old-format").then((res) => {
+        this.$set(this, "nodeMap", res.data.jsonData);
+      });
     },
     goToCareerPathFinder() {
       this.$router.push("/career-path-finder");

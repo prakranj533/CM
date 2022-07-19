@@ -89,14 +89,7 @@ export default {
   methods: {
     getJsonOldFormatData() {
       adminApi
-        .get("/api/index/get-json-old-format", {
-          // TODO: this needs to be improved
-          // Since default localstorage of axios was taking old value of token
-          // so had to add the auth header in the direct request
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("access-token"),
-          },
-        })
+        .get("/api/index/get-json-old-format")
         .then((res) => {
           this.$set(this, 'nodeMap', res.data.jsonData);
         });

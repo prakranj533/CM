@@ -37,12 +37,12 @@
 
 <script>
 import jwt from "jsonwebtoken";
-import nodeMap from "../data/nodeMap.json";
 import StickyForceLayout from "../components/StickyForceLayout";
 import Sunburst from "../components/Sunburst.vue";
 import nGraphGraphCreateGraph from "ngraph.graph";
 import nGraphCentrality from "ngraph.centrality";
 import Navbar from "../components/Navbar.vue";
+import { adminApi } from "../utils/api";
 
 export default {
   name: "Home",
@@ -53,7 +53,7 @@ export default {
   },
   data: () => ({
     activeTab: 0,
-    nodeMap,
+    nodeMap: {},
     caller: null,
   }),
   computed: {
@@ -104,6 +104,13 @@ export default {
     }
   },
   methods: {
+    getJsonOldFormatData() {
+      adminApi
+        .get("/api/index/get-json-old-format")
+        .then((res) => {
+          this.$set(this, 'nodeMap', res.data.jsonData);
+        });
+    },
     goToCareerPathFinder() {
       this.$router.push("/career-path-finder");
     },

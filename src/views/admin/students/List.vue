@@ -28,14 +28,14 @@
       <template slot="item.is_subscribed" slot-scope="props">
         {{ props.item.is_subscribed ? "Yes" : "No" }}
       </template>
-      <template slot="item.payment" slot-scope="props">
-        {{ props.item.payment ? "Yes" : "No" }}
+      <template slot="item.sub_id" slot-scope="props">
+        {{ !!props.item.sub_id ? "Yes" : "No" }}
       </template>
-      <template slot="item.expiration" slot-scope="props">
-        {{ props.item.expiration || "NA" }}
+      <template slot="item.sub_end" slot-scope="props">
+        {{ (props.item.sub_end ? formatDate(props.item.sub_end) : "NA") || "NA" }}
       </template>
       <template slot="item.occupation" slot-scope="props">
-        {{ props.item.occupation }}{{ props.item.occupation == "Other" ? '/' +props.item.otherOccupation : '' }}
+        {{ props.item.occupation }}{{ props.item.occupation == "Other" ? "/" + props.item.otherOccupation : "" }}
       </template>
       <template slot="item._id" slot-scope="props">
         <div class="action-links">
@@ -71,8 +71,8 @@ export default {
       { text: "Email", value: "email" },
       { text: "Phone No.", value: "phone_number" },
       { text: "Subscribed", value: "is_subscribed" },
-      { text: "Payment", value: "payment" },
-      { text: "Expiration", value: "expiration" },
+      { text: "Payment", value: "sub_id" },
+      { text: "Expiration", value: "sub_end" },
       { text: "Created At", value: "createdAt" },
       { text: "", value: "_id", width: "40px" },
     ],

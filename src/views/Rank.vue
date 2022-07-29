@@ -1,6 +1,15 @@
 <template>
   <div class="home">
     <Navbar v-if="user && caller != 'app'" />
+    <v-progress-circular
+      style="display: block"
+      class="show-loader"
+      v-if="showLoader"
+      indeterminate
+      color="primary"
+      :size="70"
+      :width="7"
+    ></v-progress-circular>
     <v-simple-table class="centrality-table mt-6">
       <template v-slot:default>
         <thead>
@@ -32,8 +41,9 @@ export default {
     Navbar,
   },
   data: () => ({
+    showLoader: true,
     activeTab: 0,
-    nodeMap:{},
+    nodeMap: {},
     caller: null,
   }),
   computed: {
@@ -88,11 +98,10 @@ export default {
   },
   methods: {
     getJsonOldFormatData() {
-      adminApi
-        .get("/api/index/get-json-old-format")
-        .then((res) => {
-          this.$set(this, 'nodeMap', res.data.jsonData);
-        });
+      adminApi.get("/api/index/get-json-old-format").then((res) => {
+        this.$set(this, "nodeMap", res.data.jsonData);
+        this.$set(this, "showLoader", false);
+      });
     },
     goToCareerPathFinder() {
       this.$router.push("/career-path-finder");

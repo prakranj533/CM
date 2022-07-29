@@ -28,7 +28,7 @@
         </tbody>
       </template>
     </v-simple-table>
-    <v-list-item-title class="mt-3 mb-2 text-center text-body-2">
+    <v-list-item-title class="mt-3 mb-2 text-center text-body-2 no-ws">
       Contact us to become a career guide and to earn money
     </v-list-item-title>
     <v-list-item-title class="my-3 text-center text-body-2">Feedback: lifelonglearning.in@gmail.com</v-list-item-title>
@@ -108,6 +108,9 @@ export default {
   },
   methods: {
     getJsonOldFormatData() {
+      if(this.caller === 'app'){
+        return;
+      }
       adminApi.get("/api/index/get-json-old-format").then((res) => {
         this.$set(this, "nodeMap", res.data.jsonData);
       });
@@ -140,5 +143,8 @@ export default {
   font-weight: bold;
   border: solid 1px #ccc;
   cursor: pointer;
+}
+.no-ws{
+  white-space: normal !important;
 }
 </style>

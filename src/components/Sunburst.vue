@@ -58,11 +58,13 @@ export default {
         const children = this.nodeMap.links.filter((x) => x.source == nodeId);
         if (children.length > 0) {
           return children.map((x) => {
-            const obj = { name: x.target, value: 0 };
+            const obj = { name: x.target };
             const children2 = this.setChildren(x.target);
             if (children2 && children2.length > 0) {
               obj.children = children2;
-              obj.value = children2.length;
+              //obj.value = children2.length;
+            } else {
+              obj.value = 1;
             }
             return obj;
           });
@@ -79,13 +81,15 @@ export default {
         if (skips.indexOf(node.id) == -1) {
           const dNode = { name: node.id, children: [] };
           dNode.children = (this.setChildren(node.id) || []).filter((x) => x.children && x.children.length > 0);
-          dNode.value = dNode.children.length;
+          // dNode.value = dNode.children.length;
           if (dNode.children.length > 0) {
             ssData.children.push(dNode);
+          } else {
+            dNode.value =1;
           }
         }
       });
-      console.log(JSON.stringify(ssData));
+      console.log(ssData);
       return ssData;
     },
     partition(data) {
@@ -137,7 +141,7 @@ export default {
         .attr("d", (d) => arc(d.current));
 
       path
-        .filter((d) => d.children)
+        .filter((d) => d.children && d.children.length)
         .style("cursor", "pointer")
         .on("click", clicked);
 

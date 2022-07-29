@@ -31,6 +31,11 @@
         </v-row>
         <v-row>
           <v-col cols="12" sm="12" md="12" class="pb-0">
+            <v-text-field v-model="content.liveurl" required label="Live Url" outlined dense />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" sm="12" md="12" class="pb-0">
             <v-textarea
               v-model="content.description"
               :rules="contentRules"
@@ -67,6 +72,7 @@ export default {
       phone_number: "",
       youtube_link: "",
       email: "",
+      liveurl: "",
     },
     contentRules: [(v) => !!v || "Content is required"],
     snackbar: {
@@ -117,6 +123,7 @@ export default {
             phone_number: this.content.phone_number,
             address: this.content.address,
             youtube_link: this.content.youtube_link,
+            liveurl: this.content.liveurl
           }),
         };
         const methodName = this.content._id ? "put" : "post";

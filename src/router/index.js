@@ -21,6 +21,7 @@ import ContactUsContent from '../views/admin/ContactUsContent';
 import SetVideo from '../views/admin/videos/Set';
 import HomeV1 from "../views/Home-v1";
 import Rank from "../views/Rank.vue";
+import PrivacyPolicy from "../views/PrivacyPolicy.vue";
 
 Vue.use(VueRouter);
 
@@ -157,6 +158,10 @@ const router = new VueRouter({
     {
       path: "/home-v1",
       component: HomeV1
+    },
+    {
+      path: "/privacy-policy",
+      component: PrivacyPolicy
     },
     {
       path: "*",

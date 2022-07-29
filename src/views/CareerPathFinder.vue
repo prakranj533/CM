@@ -1,6 +1,15 @@
 <template>
   <div class="home-container">
     <Navbar v-if="user && caller != 'app'" />
+    <v-progress-circular
+      style="display: block"
+      class="show-loader"
+      v-if="showLoader"
+      indeterminate
+      color="primary"
+      :size="70"
+      :width="7"
+    ></v-progress-circular>
     <div class="input-container">
       <v-autocomplete
         outlined
@@ -22,7 +31,9 @@
         :disabled="!sourceNodeId"
       />
     </div>
-    <div class="mt-4 text-h4" v-if="sourceNodeId && destinationNodeId && paths.length == 0">Oops! No Path Found!</div>
+    <div class="mt-4 text-h4" v-if="sourceNodeId && destinationNodeId && paths.length == 0">
+      Please choose another career destination!
+    </div>
     <div class="graph-container mt-8" v-if="paths.length">
       <Graph ref="graph" :nodeMap="sourceToDestinationNodeMap" :highlighPath="currPath" :height="300" />
     </div>
@@ -101,6 +112,7 @@ export default {
     destinationNodeId: null,
     pathModel: 0,
     caller: null,
+    showLoader: true,
   }),
   created() {
     let urlParams = new URLSearchParams(window.location.search);
@@ -190,6 +202,7 @@ export default {
         })
         .then((res) => {
           this.nodeMap = JSON.parse(localStorage.getItem("nodeMap")) || res.data.jsonData || res.data.data[0];
+          this.showLoader = false;
           cb(this.nodeMap);
         })
         .catch((err) => {

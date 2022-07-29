@@ -26,10 +26,10 @@
         {{ formatDate(props.item.createdAt) }}
       </template>
       <template slot="item.is_subscribed" slot-scope="props">
-        {{ props.item.is_subscribed ? "Yes" : "No" }}
+        {{ (props.item.is_subscribed && props.item.sub_end) ? "Yes" : "No" }}
       </template>
       <template slot="item.sub_id" slot-scope="props">
-        {{ !!props.item.sub_id ? "Yes" : "No" }}
+        {{ (!!props.item.sub_id && props.item.sub_end) ? "Yes" : "No" }}
       </template>
       <template slot="item.sub_end" slot-scope="props">
         {{ (props.item.sub_end ? formatDate(props.item.sub_end) : "NA") || "NA" }}

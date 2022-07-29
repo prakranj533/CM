@@ -192,10 +192,10 @@ export default {
   text-transform: uppercase;
 }
 .query-status-open {
-  background-color: rgb(255, 238, 212);
+   background-color: rgb(239, 255, 229);
 }
 .query-status-closed {
-  background-color: rgb(239, 255, 229);
+  background-color: rgb(255, 238, 212);
 }
 .query-status-cancelled {
   background-color: rgb(255, 255, 212);

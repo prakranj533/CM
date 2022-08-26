@@ -4,11 +4,11 @@
     <div class="text-h5 text-center">Probabilistic Career Maps</div>
     <h4 class="text-center subtitle-1">See your career – Search your path – Seek your guide</h4>
     <div class="tabs">
-      <div :class="{ active: activeTab == 0 }" @click="setActiveTab(0)">Node Map</div>
-      <div :class="{ active: activeTab == 1 }" @click="setActiveTab(1)">Sunburst</div>
+      <div :class="{ active: activeTab == 0 }" @click="setActiveTab(0)">Sunburst</div>
+      <div :class="{ active: activeTab == 1 }" @click="setActiveTab(1)">Node Map</div>
     </div>
-    <StickyForceLayout v-show="activeTab == 0" />
-    <Sunburst v-show="activeTab == 1" />
+    <Sunburst v-show="activeTab == 0" />
+    <StickyForceLayout v-show="activeTab == 1" />
     <div v-if="caller != 'app'" style="display: flex; justify-content: center" class="mt-12">
       <v-btn color="primary" elevation="5" large @click="goToCareerPathFinder">Career Path Finder</v-btn>
     </div>

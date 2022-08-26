@@ -1,7 +1,7 @@
 <template>
   <div style="line-height: initial">
-    <div style="width: 1070px; margin: auto" class="container-privacy-policy">
-      <p>Privacy Policy</p>
+    <div style="width: 1070px; margin: auto" class="container-term-condition">
+      <p>Terms & Conditions</p>
       <p>Last updated: July 19, 2022</p>
       <p style="margin: 0px; margin-top: 8px; line-height: 20px">
         This Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your
@@ -457,16 +457,16 @@
 
 <script>
 export default {
-  name: "PrivacyPolicy",
+  name: "TermCondition",
 };
 </script>
 
 <style>
-.container-privacy-policy * {
+.container-term-condition * {
   max-width: 100%;
 }
 @media screen and (max-width: 767px) {
-  .container-privacy-policy {
+  .container-term-condition {
     width: 90% !important;
   }
 }

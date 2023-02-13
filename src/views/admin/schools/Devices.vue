@@ -15,8 +15,10 @@
         'items-per-page-options': [10, 20, 50, 100, -1],
       }"
     ></v-data-table>
-    <v-btn class="float-right" color="primary" @click="handleSaveDevices" depressed>Save</v-btn>
-    <v-btn class="float-right mr-1" color="secondary" to="/admin/school/list" depressed>Cancel</v-btn>
+    <div class="pt-5">
+      <v-btn class="float-right" color="primary" @click="handleSaveDevices" depressed>Save</v-btn>
+      <v-btn class="float-right mr-1" color="secondary" to="/admin/school/list" depressed>Cancel</v-btn>
+    </div>
   </div>
 </template>
 
@@ -36,13 +38,14 @@ export default {
   data: () => ({
     singleSelect: false,
     selected: [],
+    schoolDevices: [],
     headers: [
       { text: "Device", value: "name" },
       { text: "", value: "description" },
     ],
     search: "",
     devices: [],
-    school: {},
+    school: { devices: [] },
     snackbar: {
       show: false,
       status: "",
@@ -80,6 +83,7 @@ export default {
         if (response.data.success) {
           this.school = response.data.data[0];
           this.selected = this.school.devices;
+          this.schoolDevices = this.school.devices;
         }
       }
     },
@@ -88,6 +92,10 @@ export default {
         let formData = {
           devices: this.selected.map((x) => ({ _id: x._id, name: x.name })),
         };
+        if (formData.devices.length == 0 && this.schoolDevices.length == 0) {
+          this.callError("Please select atleast 1 device to assign.");
+          return;
+        }
         const response = await adminApi.post(`/api/school/devices/${this.id}`, formData, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("access-token"),

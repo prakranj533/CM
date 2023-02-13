@@ -9,6 +9,8 @@ export default new Vuex.Store({
     students: [],
     counsellors: [],
     queries: [],
+    schools: [],
+    devices: [],
   },
   mutations: {
     updateUser: (state, payload) => {
@@ -47,6 +49,12 @@ export default new Vuex.Store({
     setQueries: (state, payload) => {
       state.queries = payload;
     },
+    setSchools: (state, payload) => {
+      state.schools = payload;
+    },
+    setDevices: (state, payload) => {
+      state.devices = payload;
+    },
   },
   actions: {
     updateAuthState: (context, payload) => {
@@ -61,6 +69,9 @@ export default new Vuex.Store({
     setStudents: (context, payload) => {
       context.commit('setStudents', payload);
     },
+    setSchools: (context, payload) => {
+      context.commit('setSchools', payload);
+    },
     addCounsellor: (context, payload) => {
       context.commit('addCounsellor', payload);
     },
@@ -72,6 +83,9 @@ export default new Vuex.Store({
     },
     setQueries: (context, payload) => {
       context.commit('setQueries', payload);
+    },
+    setDevices: (context, payload) => {
+      context.commit('setDevices', payload);
     },
   },
   modules: {

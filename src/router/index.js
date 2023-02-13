@@ -9,6 +9,14 @@ import ManageNodes from "../views/ManageNodes";
 import StudentIndex from '../views/admin/students/Index';
 import StudentList from '../views/admin/students/List';
 import StudentAdd from '../views/admin/students/Add';
+import DeviceIndex from '../views/admin/devices/Index';
+import DeviceList from '../views/admin/devices/List';
+import DeviceAdd from '../views/admin/devices/Add';
+import SchoolIndex from '../views/admin/schools/Index';
+import SchoolList from '../views/admin/schools/List';
+import SchoolAdd from '../views/admin/schools/Add';
+import SchoolCoupans from '../views/admin/schools/Coupans';
+import SchoolDevices from '../views/admin/schools/Devices';
 import CounsellorIndex from '../views/admin/counsellors/Index';
 import CounsellorList from '../views/admin/counsellors/List';
 import CounsellorAdd from '../views/admin/counsellors/Add';
@@ -101,6 +109,50 @@ const router = new VueRouter({
               path: "add/:id?",
               name: "student-add",
               component: StudentAdd,
+              props: true
+            }
+          ]
+        },
+        {
+          path: "school",
+          component: SchoolIndex,
+          children: [
+            {
+              path: "list",
+              component: SchoolList,
+            },
+            {
+              path: "add/:id?",
+              name: "school-add",
+              component: SchoolAdd,
+              props: true
+            },
+            {
+              path: "coupans/:id?",
+              name: "school-coupans",
+              component: SchoolCoupans,
+              props: true
+            },
+            {
+              path: "devices/:id?",
+              name: "school-devices",
+              component: SchoolDevices,
+              props: true
+            }
+          ]
+        },
+        {
+          path: "device",
+          component: DeviceIndex,
+          children: [
+            {
+              path: "list",
+              component: DeviceList,
+            },
+            {
+              path: "add/:id?",
+              name: "device-add",
+              component: DeviceAdd,
               props: true
             }
           ]

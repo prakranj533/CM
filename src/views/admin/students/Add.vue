@@ -44,7 +44,7 @@
         </v-row>
         <v-row>
           <v-col cols="12" class="py-0">
-            <v-text-field v-model="email" :rules="emailRules" label="Email" outlined dense />
+            <v-text-field v-model="email" :rules="emailRules" label="Email" outlined dense  autocomplete="username" />
           </v-col>
         </v-row>
         <v-row>
@@ -55,6 +55,7 @@
               :rules="passwordRules.concat(matchPasswordRule)"
               :type="showPassword ? 'text' : 'password'"
               label="Password"
+              autocomplete="new-password"
               @click:append="showPassword = !showPassword"
               outlined
               dense

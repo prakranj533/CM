@@ -25,6 +25,7 @@ export default {
       { title: "Manage Student", icon: "mdi-view-dashboard", href:"/admin/student/list" },
       { title: "Manage School", icon: "mdi-view-dashboard", href:"/admin/school/list" },
       { title: "Manage Device", icon: "mdi-image", href:"/admin/device/list" },
+      { title: "Manage Policy", icon: "mdi-image", href:"/admin/policy/list" },
       { title: "Set Video", icon: "mdi-image", href:"/admin/set-video" },
       { title: "Manage Counsellor", icon: "mdi-image", href:"/admin/counsellor/list" },
       { title: "Reply to Student/User", icon: "mdi-image", href:"/admin/query/list" },

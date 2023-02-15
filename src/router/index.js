@@ -12,11 +12,15 @@ import StudentAdd from '../views/admin/students/Add';
 import DeviceIndex from '../views/admin/devices/Index';
 import DeviceList from '../views/admin/devices/List';
 import DeviceAdd from '../views/admin/devices/Add';
+import PolicyIndex from '../views/admin/policies/Index';
+import PolicyList from '../views/admin/policies/List';
+import PolicyAdd from '../views/admin/policies/Add';
 import SchoolIndex from '../views/admin/schools/Index';
 import SchoolList from '../views/admin/schools/List';
 import SchoolAdd from '../views/admin/schools/Add';
 import SchoolCoupans from '../views/admin/schools/Coupans';
 import SchoolDevices from '../views/admin/schools/Devices';
+import SchoolPolicies from '../views/admin/schools/Policies';
 import CounsellorIndex from '../views/admin/counsellors/Index';
 import CounsellorList from '../views/admin/counsellors/List';
 import CounsellorAdd from '../views/admin/counsellors/Add';
@@ -138,6 +142,12 @@ const router = new VueRouter({
               name: "school-devices",
               component: SchoolDevices,
               props: true
+            },
+            {
+              path: "policies/:id?",
+              name: "school-policies",
+              component: SchoolPolicies,
+              props: true
             }
           ]
         },
@@ -153,6 +163,22 @@ const router = new VueRouter({
               path: "add/:id?",
               name: "device-add",
               component: DeviceAdd,
+              props: true
+            }
+          ]
+        },
+        {
+          path: "policy",
+          component: PolicyIndex,
+          children: [
+            {
+              path: "list",
+              component: PolicyList,
+            },
+            {
+              path: "add/:id?",
+              name: "policy-add",
+              component: PolicyAdd,
               props: true
             }
           ]

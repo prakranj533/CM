@@ -1,11 +1,11 @@
 <template>
   <div class="home">
     <Snackbar :snackbar="snackbar" />
-    <div class="text-h5 text-center">Devices for School: {{ this.school.name }}</div>
+    <div class="text-h5 text-center">Policies for School: {{ this.school.name }}</div>
     <v-data-table
       v-model="selected"
       :headers="headers"
-      :items="devices"
+      :items="policies"
       :single-select="singleSelect"
       item-key="_id"
       class="elevation-1"
@@ -14,9 +14,13 @@
       :footer-props="{
         'items-per-page-options': [10, 20, 50, 100, -1],
       }"
-    ></v-data-table>
+    >
+      <template slot="item.amount" slot-scope="props">
+        {{ `₹ ${props.item.amount}/-` }}
+      </template>
+    </v-data-table>
     <div class="pt-5">
-      <v-btn class="float-right" color="primary" @click="handleSaveDevices" depressed>Save</v-btn>
+      <v-btn class="float-right" color="primary" @click="handleSavePolicies" depressed>Save</v-btn>
       <v-btn class="float-right mr-1" color="secondary" to="/admin/school/list" depressed>Cancel</v-btn>
     </div>
   </div>
@@ -38,14 +42,15 @@ export default {
   data: () => ({
     singleSelect: false,
     selected: [],
-    schoolDevices: [],
+    schoolPolicies: [],
     headers: [
-      { text: "Device", value: "name" },
+      { text: "Policy", value: "name" },
+      { text: "Amount", value: "amount" },
       { text: "", value: "description" },
     ],
     search: "",
-    devices: [],
-    school: { devices: [] },
+    policies: [],
+    school: { policies: [] },
     snackbar: {
       show: false,
       status: "",
@@ -54,20 +59,20 @@ export default {
   }),
   computed: {},
   created() {
-    this.getDevices();
+    this.getPolicies();
     this.getSchool();
   },
   methods: {
-    async getDevices() {
+    async getPolicies() {
       try {
-        const response = await adminApi.get(`/api/device`, {
+        const response = await adminApi.get(`/api/policy`, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("access-token"),
           },
         });
         console.log(response.data.data);
         if (response.data.success) {
-          this.devices = response.data.data;
+          this.policies = response.data.data;
         }
       } catch (err) {
         console.log("err", err);
@@ -82,21 +87,21 @@ export default {
         });
         if (response.data.success) {
           this.school = response.data.data[0];
-          this.selected = this.school.devices;
-          this.schoolDevices = this.school.devices;
+          this.selected = this.school.policies;
+          this.schoolPolicies = this.school.policies;
         }
       }
     },
-    async handleSaveDevices() {
+    async handleSavePolicies() {
       try {
         let formData = {
-          devices: this.selected.map((x) => ({ _id: x._id, name: x.name })),
+          policies: this.selected.map((x) => ({ _id: x._id, name: x.name })),
         };
-        if (formData.devices.length == 0 && this.schoolDevices.length == 0) {
-          this.callError("Please select atleast 1 device to assign.");
+        if (formData.policies.length == 0 && this.schoolPolicies.length == 0) {
+          this.callError("Please select atleast 1 policy to assign.");
           return;
         }
-        const response = await adminApi.post(`/api/school/devices/${this.id}`, formData, {
+        const response = await adminApi.post(`/api/school/policies/${this.id}`, formData, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("access-token"),
           },

@@ -15,6 +15,9 @@ import DeviceAdd from '../views/admin/devices/Add';
 import PolicyIndex from '../views/admin/policies/Index';
 import PolicyList from '../views/admin/policies/List';
 import PolicyAdd from '../views/admin/policies/Add';
+import PlanIndex from '../views/admin/plans/Index';
+import PlanList from '../views/admin/plans/List';
+import PlanAdd from '../views/admin/plans/Add';
 import SchoolIndex from '../views/admin/schools/Index';
 import SchoolList from '../views/admin/schools/List';
 import SchoolAdd from '../views/admin/schools/Add';
@@ -179,6 +182,22 @@ const router = new VueRouter({
               path: "add/:id?",
               name: "policy-add",
               component: PolicyAdd,
+              props: true
+            }
+          ]
+        },
+        {
+          path: "plan",
+          component: PlanIndex,
+          children: [
+            {
+              path: "list",
+              component: PlanList,
+            },
+            {
+              path: "add/:id?",
+              name: "plan-add",
+              component: PlanAdd,
               props: true
             }
           ]

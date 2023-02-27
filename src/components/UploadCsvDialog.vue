@@ -3,7 +3,7 @@
     <v-dialog v-model="config.model" persistent max-width="400px">
       <v-card>
         <v-card-title>
-          <div class="text-h5 text-center">Upload CSV</div>
+          <div class="text-h5 text-center">{{ config.title || "Upload CSV" }}</div>
         </v-card-title>
         <v-card-text>
           <v-alert class="upload-alert" :value="success" transition="scale-transition" :color="color" dark :icon="icon">
@@ -57,6 +57,33 @@ export default {
     },
     uploadCsvFile() {
       if (this.file) {
+        console.log("uploadCsvFile");
+
+        const success = (res) => {
+          this.color = "info";
+          this.icon = "mdi mdi-check-circle theme--dark";
+          this.uploadHandleMessage = res.data.message;
+          this.success = true;
+          setTimeout(() => {
+            this.success = false;
+            this.file = null;
+            this.config.model = false;
+          }, 3000);
+        };
+        const fail = () => {
+          this.color = "error";
+          this.icon = "mdi mdi-close-circle theme--dark";
+          this.uploadHandleMessage = "Error in uploading file.";
+          this.success = true;
+          setTimeout(() => {
+            this.success = false;
+          }, 2000);
+        };
+
+        if (this.$listeners && this.$listeners.upload) {
+          this.$emit("upload", this.file, success.bind(this), fail.bind(this), this.config);
+          return;
+        }
         const formData = new FormData();
         formData.append("file", this.file);
         adminApi
@@ -65,26 +92,8 @@ export default {
               Authorization: "Bearer " + localStorage.getItem("access-token"),
             },
           })
-          .then((res) => {
-            this.color = "info";
-            this.icon = "mdi mdi-check-circle theme--dark";
-            this.uploadHandleMessage = res.data.message;
-            this.success = true;
-            setTimeout(() => {
-              this.success = false;
-              this.file = null;
-              this.config.model = false;
-            }, 3000);
-          })
-          .catch(() => {
-            this.color = "error";
-            this.icon = "mdi mdi-close-circle theme--dark";
-            this.uploadHandleMessage = "Error in uploading file.";
-            this.success = true;
-            setTimeout(() => {
-              this.success = false;
-            }, 2000);
-          });
+          .then(success)
+          .catch(fail);
       }
     },
   },

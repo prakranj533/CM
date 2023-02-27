@@ -2,8 +2,10 @@
   <div class="home">
     <Snackbar :snackbar="snackbar" />
     <div class="text-h5 text-center">Manage School</div>
+    <UploadCSVDialog :config="createCsvDialogConfig" @upload="importData"></UploadCSVDialog>
     <v-row>
       <v-col class="text-right">
+        <v-btn color="primary" @click="openCsvDialog" depressed>Import Schools</v-btn>
         <v-btn color="primary" to="/admin/school/add" depressed>+ New School</v-btn>
       </v-col>
     </v-row>
@@ -26,10 +28,10 @@
         {{ formatDate(props.item.createdAt) }}
       </template>
       <template slot="item.is_subscribed" slot-scope="props">
-        {{ (props.item.is_subscribed && props.item.sub_end) ? "Yes" : "No" }}
+        {{ props.item.is_subscribed && props.item.sub_end ? "Yes" : "No" }}
       </template>
       <template slot="item.sub_id" slot-scope="props">
-        {{ (!!props.item.sub_id && props.item.sub_end) ? "Yes" : "No" }}
+        {{ !!props.item.sub_id && props.item.sub_end ? "Yes" : "No" }}
       </template>
       <template slot="item.sub_end" slot-scope="props">
         {{ (props.item.sub_end ? formatDate(props.item.sub_end) : "NA") || "NA" }}
@@ -43,6 +45,7 @@
           <router-link :to="{ name: 'school-policies', params: { id: props.item._id } }">Policies</router-link>
           <router-link :to="{ name: 'school-coupans', params: { id: props.item._id } }">Coupans</router-link>
           <router-link :to="{ name: 'school-add', params: { id: props.item._id } }">Edit</router-link>
+          <a @click="importStudents(props.item)">Import Students</a>
           <a @click="deleteSchool(props.item)">Delete</a>
           <!-- <a @click="getResume(props.item)">Resume</a> -->
         </div>
@@ -52,6 +55,7 @@
 </template>
 
 <script>
+import UploadCSVDialog from "../../../components/UploadCsvDialog";
 import Snackbar from "../../../components/Snackbar.vue";
 import snackbarMixin from "../../../mixins/snackbar";
 import { adminApi } from "../../../utils/api";
@@ -61,9 +65,16 @@ export default {
   name: "Schools-List",
   components: {
     Snackbar,
+    UploadCSVDialog,
   },
   mixins: [snackbarMixin],
   data: () => ({
+    createCsvDialogConfig: {
+      id:'',
+      value: '',
+      model: false,
+      title: "Import Schools Data",
+    },
     headers: [
       { text: "Name", value: "name" },
       { text: "Email", value: "email" },
@@ -149,6 +160,35 @@ export default {
           .catch((err) => {
             console.log("err", err);
           });
+      }
+    },
+    importStudents(school) {
+      this.createCsvDialogConfig.id = "students";
+      this.createCsvDialogConfig.value = school;
+      this.createCsvDialogConfig.title = "Import Students Data";
+      this.createCsvDialogConfig.model = true;
+    },
+    openCsvDialog() {
+      this.createCsvDialogConfig.id = "schools";
+      this.createCsvDialogConfig.title = "Import Schools Data";
+      this.createCsvDialogConfig.model = true;
+    },
+    async importData(file, success, fail) {
+      const formData = new FormData();
+      formData.append("file", file);
+      let url = "/api/school/upload";
+      if (this.createCsvDialogConfig.id === "students") {
+        url = `${url}/${this.createCsvDialogConfig.value._id}`;
+      }
+      const response = await adminApi.post(url, formData, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("access-token"),
+        },
+      });
+      if (response.data.success) {
+        success && success(response);
+      } else {
+        fail && fail();
       }
     },
   },

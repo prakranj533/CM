@@ -84,7 +84,7 @@ export default {
         Object.keys(d).forEach((p) => {
           this.$set(this, p, d[p]);
         });
-        this.duration = this.durations.find(x=>x.value === d.duration_days);
+        this.duration = this.durations.find((x) => x.value === d.duration_days);
       }
     }
   },
@@ -103,7 +103,11 @@ export default {
           description: this.description,
         };
 
-        const response = await adminApi[methodName](url, dataToSave);
+        const response = await adminApi[methodName](url, dataToSave, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("access-token"),
+          },
+        });
         if (response.data.success) {
           this.callSuccess(response.data.message);
           setTimeout(() => {

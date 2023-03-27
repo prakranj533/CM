@@ -4,11 +4,11 @@
     <div class="text-h5 text-center">Probabilistic Career Maps</div>
     <h4 class="text-center subtitle-1">See your career – Search your path – Seek your guide</h4>
     <div class="tabs">
-      <div :class="{ active: activeTab == 0 }" @click="setActiveTab(0)">Sunburst</div>
-      <div :class="{ active: activeTab == 1 }" @click="setActiveTab(1)">Node Map</div>
+      <div :class="{ active: activeTab == 0 }" @click="setActiveTab(0)">Node Map</div>
+      <div :class="{ active: activeTab == 1 }" @click="setActiveTab(1)">Sunburst</div>
     </div>
-    <Sunburst v-show="activeTab == 0" />
-    <StickyForceLayout v-show="activeTab == 1" />
+    <StickyForceGraph v-show="activeTab == 0" />
+    <Sunburst v-show="activeTab == 1" />
     <div v-if="caller != 'app'" style="display: flex; justify-content: center" class="mt-12">
       <v-btn color="primary" elevation="5" large @click="goToCareerPathFinder">Career Path Finder</v-btn>
     </div>
@@ -37,7 +37,8 @@
 
 <script>
 import jwt from "jsonwebtoken";
-import StickyForceLayout from "../components/StickyForceLayout";
+//import StickyForceLayout from "../components/StickyForceLayout";
+import StickyForceGraph from "../components/StickyForceGraph";
 import Sunburst from "../components/Sunburst.vue";
 import nGraphGraphCreateGraph from "ngraph.graph";
 import nGraphCentrality from "ngraph.centrality";
@@ -47,7 +48,8 @@ import { adminApi } from "../utils/api";
 export default {
   name: "Home",
   components: {
-    StickyForceLayout,
+    //StickyForceLayout,
+    StickyForceGraph,
     Sunburst,
     Navbar,
   },
@@ -65,6 +67,7 @@ export default {
       const nodes = [];
       const traverse = (id) => {
         const node = map[id];
+        console.log(node.id, node.name);
         node.paths.forEach(({ to }) => {
           nodes.push({ source: id, destination: to });
           traverse(to);

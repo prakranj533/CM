@@ -165,6 +165,7 @@ export default {
         .append("text")
         .attr("dy", "0.35em")
         .attr("fill-opacity", (d) => +labelVisible(d.current))
+        // .attr('fill', '#fff')
         .attr("transform", (d) => labelTransform(d.current))
         .text((d) => d.data.name);
 

@@ -21,7 +21,7 @@ import PlanAdd from '../views/admin/plans/Add';
 import SchoolIndex from '../views/admin/schools/Index';
 import SchoolList from '../views/admin/schools/List';
 import SchoolAdd from '../views/admin/schools/Add';
-import SchoolCoupans from '../views/admin/schools/Coupans';
+import SchoolCoupons from '../views/admin/schools/Coupons';
 import SchoolDevices from '../views/admin/schools/Devices';
 import SchoolPolicies from '../views/admin/schools/Policies';
 import CounsellorIndex from '../views/admin/counsellors/Index';
@@ -135,9 +135,9 @@ const router = new VueRouter({
               props: true
             },
             {
-              path: "coupans/:id?",
-              name: "school-coupans",
-              component: SchoolCoupans,
+              path: "coupons/:id?",
+              name: "school-coupons",
+              component: SchoolCoupons,
               props: true
             },
             {

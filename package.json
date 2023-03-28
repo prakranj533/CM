@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --port=3000",
-    "build": "vue-cli-service build",
+    "build": "rm dist -rf && vue-cli-service build && rm dist/fonts -rf",
     "lint": "vue-cli-service lint",
     "server": "cd server && npm run devStart",
     "devStart": "concurrently \"npm run serve\" \"npm run server\"",
@@ -22,6 +22,7 @@
     "d3v4": "^4.2.2",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "force-graph": "^1.42.18",
     "formidable": "^1.2.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.1.4",

@@ -43,7 +43,7 @@
         <div class="action-links">
           <router-link :to="{ name: 'school-devices', params: { id: props.item._id } }">Devices</router-link>
           <router-link :to="{ name: 'school-policies', params: { id: props.item._id } }">Policies</router-link>
-          <router-link :to="{ name: 'school-coupans', params: { id: props.item._id } }">Coupans</router-link>
+          <router-link :to="{ name: 'school-coupons', params: { id: props.item._id } }">Coupons</router-link>
           <router-link :to="{ name: 'school-add', params: { id: props.item._id } }">Edit</router-link>
           <a @click="importStudents(props.item)">Import Students</a>
           <a @click="deleteSchool(props.item)">Delete</a>

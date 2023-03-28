@@ -33,6 +33,7 @@
         </v-col>
         <v-col cols="12" sm="4" md="4" class="pb-0">
           <v-btn color="primary" class="mr-1" @click="generateCoupons" depressed>Generate Coupons</v-btn>
+          <v-btn color="primary" class="mr-1" @click="exportCoupons" depressed>Export Coupons</v-btn>
         </v-col>
       </v-row>
     </v-form>
@@ -183,6 +184,28 @@ export default {
         .catch((err) => {
           console.log("err", err);
         });
+    },
+    async exportCoupons() {
+      const res = await adminApi.get(`/api/coupon/export/${this.id}`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("access-token"),
+        },
+        responseType: "blob",
+      });
+      if (res && res.data && res.data instanceof Blob) {
+        console.log(res.data);
+        //let ext = res.headers["ext"];
+        const url = window.URL.createObjectURL(new Blob([res.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `coupons_${new Date().getTime()}.csv`); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+        // this.students = res.data.data;
+        // this.$store.dispatch("setStudents", res.data.data);
+      } else if (!res.data.status) {
+        this.callError(res.data.message);
+      }
     },
     formatDate(date) {
       return moment(date).format("MM/DD/YYYY");

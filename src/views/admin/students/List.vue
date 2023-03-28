@@ -64,6 +64,7 @@ export default {
     headers: [
       { text: "Name", value: "first_name" },
       { text: "Last Name", value: "last_name", align: " d-none" },
+      { text: "School Name", value: "school_name" },
       { text: "Gender", value: "gender" },
       { text: "Occupation", value: "occupation" },
       { text: "Occupation", value: "otherOccupation", align: " d-none" },

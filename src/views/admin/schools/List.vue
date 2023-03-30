@@ -77,6 +77,11 @@ export default {
     },
     headers: [
       { text: "Name", value: "name" },
+      { text: "Address", value: "address" },
+      { text: "Security Deposite", value: "deposite" },
+      { text: "Deposite Date", value: "deposite_date" },
+      { text: "Agent Name", value: "agent_name" },
+      { text: "Google map link", value: "maplink" },
       { text: "Email", value: "email" },
       { text: "Phone No.", value: "phone_number" },
       { text: "Students", value: "no_of_students" },

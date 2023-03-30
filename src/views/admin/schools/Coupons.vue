@@ -20,16 +20,20 @@
         <v-col cols="12" sm="4" md="4" class="pb-0">
           <v-select
             v-model="duration"
-            :items="durations"
-            item-title="state"
-            item-value="abbr"
+            :items="plans"
+            item-text="name"
+            item-value="duration_days"
             label="Duration"
             persistent-hint
             return-object
             single-line
             outlined
             dense
-          ></v-select>
+          >
+            <template v-slot:item="data">
+              {{ data.item.name + " (" + data.item.duration_text + ")" }}
+            </template>
+          </v-select>
         </v-col>
         <v-col cols="12" sm="4" md="4" class="pb-0">
           <v-btn color="primary" class="mr-1" @click="generateCoupons" depressed>Generate Coupons</v-btn>
@@ -86,8 +90,8 @@ export default {
       { text: "S No.", value: "serialNo" },
       { text: "Code", value: "code" },
       { text: "Duration", value: "duration_text" },
-      { text: "Is Used", value: "is_used" },
-      { text: "Used On", value: "used_on" },
+      { text: "Count", value: "count" },
+      { text: "Used", value: "used_count" },
       { text: "Created At", value: "createdAt" },
       { text: "", value: "_id", width: "40px" },
     ],
@@ -109,6 +113,7 @@ export default {
     count: 0,
     duration: { text: "7 days", value: 7 },
     coupons: [],
+    plans: [],
     school: {},
     snackbar: {
       show: false,
@@ -118,9 +123,25 @@ export default {
   }),
   computed: {},
   created() {
+    this.getPlans();
     this.getCoupons();
   },
   methods: {
+    async getPlans() {
+      try {
+        const res = await adminApi.get("/api/plan", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("access-token"),
+          },
+        });
+        if (res.data.success) {
+          this.plans = res.data.data;
+          this.$store.dispatch("setPlans", res.data.data);
+        }
+      } catch (err) {
+        console.log("err", err);
+      }
+    },
     async getCoupons() {
       try {
         const response = await adminApi.get(`/api/coupon/school/${this.id}`, {
@@ -166,8 +187,8 @@ export default {
           `/api/coupon/school/${this.id}`,
           {
             count: this.count,
-            duration_days: this.duration.value,
-            duration_text: this.duration.text,
+            duration_days: this.duration.duration_days,
+            duration_text: this.duration.duration_text,
           },
           {
             headers: {

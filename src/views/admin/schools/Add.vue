@@ -14,12 +14,27 @@
             <v-text-field v-model="address" :rules="addressRules" label="Address" outlined dense />
           </v-col>
         </v-row>
-         <v-row>
-          <v-col cols="12" sm="4" md="46" class="pb-0">
-            <v-text-field v-model="latitude" :rules="latitudeRules" required label="Latitude" outlined dense />
+        <v-row>
+          <v-col cols="12" sm="4" md="4" class="pb-0">
+            <v-text-field v-model="deposite" :rules="depositeRules" required label="Security Deposite" outlined dense />
           </v-col>
           <v-col cols="12" sm="4" md="4" class="pb-0">
-            <v-text-field v-model="longitude" :rules="longitudeRules" required label="Longitude" outlined dense />
+            <v-text-field
+              v-model="deposite_date"
+              :rules="depositeDateRules"
+              required
+              label="Deposite Date"
+              outlined
+              dense
+            />
+          </v-col>
+          <v-col cols="12" sm="4" md="4" class="pb-0">
+            <v-text-field v-model="agent_name" label="Agent Name" outlined dense />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" sm="8" md="8" class="pb-0">
+            <v-text-field v-model="maplink" :rules="maplinkRules" required label="Google Map Link" outlined dense />
           </v-col>
           <v-col cols="12" sm="4" md="4" class="pb-0">
             <v-text-field v-model="pin_code" :rules="pincodeRules" required label="Pincode" outlined dense />
@@ -77,7 +92,7 @@
             />
           </v-col>
         </v-row>
-       
+
         <v-btn class="float-right" color="primary" @click="handleSavingSchool" depressed>Save</v-btn>
         <v-btn class="float-right mr-1" color="secondary" to="/admin/school/list" depressed>Cancel</v-btn>
       </v-form>
@@ -107,8 +122,10 @@ export default {
     no_of_students: "",
     branch: "",
     address: "",
-    latitude: "",
-    longitude: "",
+    maplink: "",
+    deposite: "",
+    deposite_date: "",
+    agent_name: "",
     pin_code: "",
     activePicker: null,
     showPassword: false,
@@ -122,12 +139,13 @@ export default {
     //   passwordLengthValidator,
     // ],
     addressRules: [(v) => !!v || "Address is required"],
+    depositeRules: [(v) => !!v || "Security Deposite is required"],
+    depositeDateRules: [(v) => !!v || "Deposite Date is required"],
     phoneNumberRules: [(v) => !!v || "Phone Number is required"],
     nameRules: [(v) => !!v || "School Name is required"],
     schoolbranchRules: [(v) => !!v || "Branch is required"],
     studentsRules: [(v) => !!v || "Students Number is required"],
-    latitudeRules: [(v) => !!v || "Latitude is required"],
-    longitudeRules: [(v) => !!v || "Longitude is required"],
+    maplinkRules: [(v) => !!v || "Google map link is required"],
     pincodeRules: [(v) => !!v || "Pincode is required"],
 
     snackbar: {
@@ -165,8 +183,10 @@ export default {
           address: "address",
           phone_number: "phone_number",
           no_of_students: "no_of_students",
-          latitude: "latitude",
-          longitude: "longitude",
+          maplink: "maplink",
+          deposite: "deposite",
+          deposite_date: "deposite_date",
+          agent_name: "agent_name",
           pin_code: "pin_code",
           id: "_id",
         };
@@ -206,8 +226,10 @@ export default {
           no_of_students: this.no_of_students,
           branch: this.branch,
           phone_number: this.phone_number,
-          latitude: this.latitude,
-          longitude: this.longitude,
+          maplink: this.maplink,
+          deposite: this.deposite,
+          deposite_date: this.deposite_date,
+          agent_name: this.agent_name,
           pin_code: this.pin_code,
         };
         if (this.email) {

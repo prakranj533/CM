@@ -31,6 +31,7 @@ import CounsellorAllocate from '../views/admin/counsellors/Allocate';
 import QueryIndex from '../views/admin/queries/Index';
 import QueryList from '../views/admin/queries/List';
 import QueryReply from '../views/admin/queries/Reply';
+import HistoryIndex from '../views/admin/history/Index';
 import ChangePassword from '../views/admin/ChangePassword';
 import ContactUsContent from '../views/admin/ContactUsContent';
 import SetVideo from '../views/admin/videos/Set';
@@ -237,6 +238,10 @@ const router = new VueRouter({
               props: true
             }
           ]
+        },
+        {
+          path: "history",
+          component: HistoryIndex
         },
         {
           path: "*",

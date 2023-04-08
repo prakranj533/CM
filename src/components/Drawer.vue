@@ -30,6 +30,7 @@ export default {
       { title: "Set Video", icon: "mdi-image", href:"/admin/set-video" },
       { title: "Manage Counsellor", icon: "mdi-image", href:"/admin/counsellor/list" },
       { title: "Reply to Student/User", icon: "mdi-image", href:"/admin/query/list" },
+      { title: "Transaction History", icon: "mdi-image", href:"/admin/history" },
       // { title: "User Career Map History", icon: "mdi-image", href:"/admin/career-map/history" },
       { title: "Contact Us", icon: "mdi-image", href:"/admin/contact-us" },
       { title: "ChangePassword", icon: "mdi-help-box", href:"/admin/change-password" },

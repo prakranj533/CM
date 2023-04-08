@@ -242,7 +242,7 @@ export default {
 
       try {
         const methodName = this.id ? "put" : "post";
-        const url = this.id ? `/update-student/${this.id}` : "/register-student";
+        const url = this.id ? `/update-student/${this.id}` : "/register-student-web";
         const dataToSave = {
           first_name: this.firstName,
           last_name: this.lastName,

@@ -89,6 +89,7 @@ export default {
     headers: [
       { text: "S No.", value: "serialNo" },
       { text: "Code", value: "code" },
+      { text: "Plan", value: "plan_name" },
       { text: "Duration", value: "duration_text" },
       { text: "Count", value: "count" },
       { text: "Used", value: "used_count" },
@@ -98,16 +99,6 @@ export default {
     countRules: [
       (v) => !!v || "No of Coupons to Generate is required",
       (v) => v <= 100 || "No of Coupons to Generate must be equal to or less then 100",
-    ],
-    durations: [
-      { text: "7 days", value: 7 },
-      { text: "15 days", value: 15 },
-      { text: "1 month", value: 30 },
-      { text: "2 months", value: 60 },
-      { text: "3 months", value: 90 },
-      { text: "6 months", value: 180 },
-      { text: "9 months", value: 270 },
-      { text: "1 year", value: 365 },
     ],
     search: "",
     count: 0,
@@ -187,6 +178,8 @@ export default {
           `/api/coupon/school/${this.id}`,
           {
             count: this.count,
+            plan_name: this.duration.name,
+            plan_id: this.duration._id,
             duration_days: this.duration.duration_days,
             duration_text: this.duration.duration_text,
           },

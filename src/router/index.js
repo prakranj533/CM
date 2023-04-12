@@ -32,6 +32,7 @@ import QueryIndex from '../views/admin/queries/Index';
 import QueryList from '../views/admin/queries/List';
 import QueryReply from '../views/admin/queries/Reply';
 import HistoryIndex from '../views/admin/history/Index';
+import InvoiceData from '../views/admin/history/Invoice';
 import ChangePassword from '../views/admin/ChangePassword';
 import ContactUsContent from '../views/admin/ContactUsContent';
 import SetVideo from '../views/admin/videos/Set';
@@ -241,7 +242,13 @@ const router = new VueRouter({
         },
         {
           path: "history",
-          component: HistoryIndex
+          component: HistoryIndex,
+        },
+        {
+          name: "invoice-data",
+          path: "invoice/:id",
+          component: InvoiceData,
+          props: true
         },
         {
           path: "*",

@@ -5,7 +5,7 @@
     <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details></v-text-field>
     <v-data-table
       :headers="headers"
-      :items="queries"
+      :items="historyData"
       :search="search"
       item-key="_id"
       class="elevation-1"
@@ -22,7 +22,15 @@
         {{ `${props.item.first_name || ""} ${props.item.last_name || ""}` }}
       </template>
       <template slot="item.data" slot-scope="props">
-        {{ `${props.item.type == 'PLAN_ACTIVATED' ? props.item.data.plan_name :''}` }}
+        {{ `${props.item.type == "PLAN_ACTIVATED" ? props.item.data.plan_name : ""}` }}
+        <div v-if="props.item.type == 'PLAN_APPLIED_NOT_ACTIVATED'">
+          <a @click="activatePlan(props.item)">Activate</a>
+        </div>
+      </template>
+      <template slot="item._id" slot-scope="props">
+        <div class="action-links">
+          <router-link :to="{ name: 'invoice-data', params: { id: props.item._id } }">Invoice</router-link>
+        </div>
       </template>
     </v-data-table>
   </div>
@@ -46,11 +54,12 @@ export default {
       { text: "Name", value: "user_name", align: "ws" },
       { text: "Phone No.", value: "phone_no" },
       { text: "Email.", value: "email" },
-      { text: "Type", value: "type" },
+      { text: "Type", value: "type", align: " d-none" },
       { text: "", value: "data" },
+      { text: "", value: "_id", width: "40px" },
     ],
     search: "",
-    queries: [],
+    historyData: [],
     snackbar: {
       show: false,
       status: "",
@@ -76,15 +85,25 @@ export default {
           },
         });
         if (res.data.success) {
-          this.queries = res.data.data;
-          this.$store.dispatch("setQueries", res.data.data);
+          this.historyData = res.data.data;
+          this.$store.dispatch("setHistoryData", res.data.data);
         }
       } catch (err) {
         console.log("err", err);
       }
     },
+    async activatePlan(history) {
+      const res = await adminApi.post("/api/payment/activate/" + history.data.payment_id, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("access-token"),
+        },
+      });
+      if (res.data.success) {
+        await this.getHistory();
+      }
+    },
     formatDate(date) {
-      return moment(date).format("MM/DD/YYYY");
+      return moment(date).format("MM/DD/YYYY hh:mm A");
     },
   },
 };

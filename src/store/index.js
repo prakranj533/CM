@@ -13,6 +13,7 @@ export default new Vuex.Store({
     devices: [],
     policies: [],
     plans: [],
+    hisotryData: [],
   },
   mutations: {
     updateUser: (state, payload) => {
@@ -63,6 +64,9 @@ export default new Vuex.Store({
     setPlans: (state, payload) => {
       state.plans = payload;
     },
+    setHistoryData: (state, payload) => {
+      state.hisotryData = payload;
+    },
   },
   actions: {
     updateAuthState: (context, payload) => {
@@ -100,6 +104,9 @@ export default new Vuex.Store({
     },
     setPlans: (context, payload) => {
       context.commit('setPlans', payload);
+    },
+    setHistoryData: (context, payload) => {
+      context.commit('setHistoryData', payload);
     },
   },
   modules: {

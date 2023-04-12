@@ -22,14 +22,18 @@
         {{ `${props.item.first_name || ""} ${props.item.last_name || ""}` }}
       </template>
       <template slot="item.data" slot-scope="props">
-        {{ `${props.item.type == "PLAN_ACTIVATED" ? props.item.data.plan_name : ""}` }}
-        <div v-if="props.item.type == 'PLAN_APPLIED_NOT_ACTIVATED'">
-          <a @click="activatePlan(props.item)">Activate</a>
-        </div>
+        {{
+          `${
+            props.item.type == "PLAN_ACTIVATED" || props.item.type == "PLAN_APPLIED_NOT_ACTIVATED"
+              ? props.item.data.plan_name
+              : ""
+          }`
+        }}
       </template>
       <template slot="item._id" slot-scope="props">
         <div class="action-links">
-          <router-link :to="{ name: 'invoice-data', params: { id: props.item._id } }">Invoice</router-link>
+          <a v-if="props.item.type == 'PLAN_APPLIED_NOT_ACTIVATED'" @click="activatePlan(props.item)">Activate</a>
+          <router-link v-else :to="{ name: 'invoice-data', params: { id: props.item._id } }">Invoice</router-link>
         </div>
       </template>
     </v-data-table>

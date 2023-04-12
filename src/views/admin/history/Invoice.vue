@@ -5,8 +5,8 @@
     <div>
       <div>Student Name: {{ invoiceData.user_name }}</div>
       <div>Phone Number: {{ invoiceData.phone_no }}</div>
-      <div>Plan: {{ invoiceData.data.plan_name }}</div>
-      <div v-if="invoiceData.data.plan_name">
+      <div>Plan: {{ (invoiceData.data || {}).plan_name }}</div>
+      <div v-if="invoiceData.data && invoiceData.data.plan_name">
         <div>
           Suscription Start: {{ invoiceData.data.subscription_start && formatDate(invoiceData.data.subscription_start) }}
         </div>

@@ -16,17 +16,10 @@
         </v-row>
         <v-row>
           <v-col cols="12" sm="4" md="4" class="pb-0">
-            <v-text-field v-model="deposite" :rules="depositeRules" required label="Security Deposite" outlined dense />
+            <v-text-field v-model="deposite" label="Security Deposite" outlined dense />
           </v-col>
           <v-col cols="12" sm="4" md="4" class="pb-0">
-            <v-text-field
-              v-model="deposite_date"
-              :rules="depositeDateRules"
-              required
-              label="Deposite Date"
-              outlined
-              dense
-            />
+            <v-text-field v-model="deposite_date" label="Deposite Date" outlined dense />
           </v-col>
           <v-col cols="12" sm="4" md="4" class="pb-0">
             <v-text-field v-model="agent_name" label="Agent Name" outlined dense />
@@ -34,7 +27,7 @@
         </v-row>
         <v-row>
           <v-col cols="12" sm="8" md="8" class="pb-0">
-            <v-text-field v-model="maplink" :rules="maplinkRules" required label="Google Map Link" outlined dense />
+            <v-text-field v-model="maplink" label="Google Map Link" outlined dense />
           </v-col>
           <v-col cols="12" sm="4" md="4" class="pb-0">
             <v-text-field v-model="pin_code" :rules="pincodeRules" required label="Pincode" outlined dense />
@@ -72,14 +65,7 @@
         </v-row>
         <v-row>
           <v-col cols="12" sm="6" md="6" class="pb-0">
-            <v-text-field
-              v-model="phone_number"
-              :rules="phoneNumberRules"
-              required
-              label="Phone Number"
-              outlined
-              dense
-            />
+            <v-text-field v-model="phone_number" label="Phone Number" outlined dense />
           </v-col>
           <v-col cols="12" sm="6" md="6" class="pb-0">
             <v-text-field
@@ -131,7 +117,7 @@ export default {
     showPassword: false,
     showConfirmPassword: false,
     emailRules: [
-      (v) => !!v || "Email is required",
+      // (v) => !!v || "Email is required",
       (v) => !v || /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || "Email must be valid",
     ],
     // passwordRules: [
@@ -139,13 +125,13 @@ export default {
     //   passwordLengthValidator,
     // ],
     addressRules: [(v) => !!v || "Address is required"],
-    depositeRules: [(v) => !!v || "Security Deposite is required"],
-    depositeDateRules: [(v) => !!v || "Deposite Date is required"],
-    phoneNumberRules: [(v) => !!v || "Phone Number is required"],
+    // depositeRules: [(v) => !!v || "Security Deposite is required"],
+    // depositeDateRules: [(v) => !!v || "Deposite Date is required"],
+    // phoneNumberRules: [(v) => !!v || "Phone Number is required"],
     nameRules: [(v) => !!v || "School Name is required"],
     schoolbranchRules: [(v) => !!v || "Branch is required"],
     studentsRules: [(v) => !!v || "Students Number is required"],
-    maplinkRules: [(v) => !!v || "Google map link is required"],
+    // maplinkRules: [(v) => !!v || "Google map link is required"],
     pincodeRules: [(v) => !!v || "Pincode is required"],
 
     snackbar: {

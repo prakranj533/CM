@@ -36,6 +36,12 @@
           <router-link v-else :to="{ name: 'invoice-data', params: { id: props.item._id } }">Invoice</router-link>
         </div>
       </template>
+      <template slot="item.data.subscription_start" slot-scope="props">
+        {{ props.item.data && formatDate(props.item.data.subscription_start) }}
+      </template>
+      <template slot="item.data.subscription_end" slot-scope="props">
+        {{ props.item.data && formatDate(props.item.data.subscription_end) }}
+      </template>
     </v-data-table>
   </div>
 </template>
@@ -58,8 +64,10 @@ export default {
       { text: "Name", value: "user_name", align: "ws" },
       { text: "Phone No.", value: "phone_no" },
       { text: "Email.", value: "email" },
-      { text: "Type", value: "type", align: " d-none" },
-      { text: "", value: "data" },
+      { text: "Plan", value: "data.plan_name" },
+      { text: "Amount", value: "plan_amount" },
+      { text: "Start Date", value: "data.subscription_start" },
+      { text: "End", value: "data.subscription_end" },
       { text: "", value: "_id", width: "40px" },
     ],
     search: "",
@@ -76,7 +84,8 @@ export default {
   },
   methods: {
     itemRowBackground: function (item) {
-      return `query-status-${item.status}`;
+      if (!item.data.subscription_end) return "";
+      return item.data.subscription_end < Date.now() ? "expired-sub" : "active-sub";
     },
     titleize(v) {
       return v.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
@@ -107,7 +116,7 @@ export default {
       }
     },
     formatDate(date) {
-      return moment(date).format("MM/DD/YYYY hh:mm A");
+      return date ? moment(date).format("MM/DD/YYYY") : "";
     },
   },
 };
@@ -123,10 +132,10 @@ export default {
   font-weight: bold;
   text-transform: uppercase;
 }
-.query-status-open {
+.active-sub {
   background-color: rgb(239, 255, 229);
 }
-.query-status-closed {
+.expired-sub {
   background-color: rgb(255, 238, 212);
 }
 .query-status-cancelled {

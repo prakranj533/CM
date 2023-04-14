@@ -44,7 +44,21 @@
         </v-row>
         <v-row>
           <v-col cols="12" class="py-0">
-            <v-text-field v-model="email" :rules="emailRules" label="Email" outlined dense  autocomplete="username" />
+            <v-autocomplete
+              outlined
+              dense
+              label="School"
+              :items="schools"
+              item-text="name"
+              item-value="name"
+              v-model="school"
+              return-object
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" class="py-0">
+            <v-text-field v-model="email" :rules="emailRules" label="Email" outlined dense autocomplete="username" />
           </v-col>
         </v-row>
         <v-row>
@@ -158,6 +172,7 @@ export default {
     activePicker: null,
     showPassword: false,
     showConfirmPassword: false,
+    school: "",
     emailRules: [
       // (v) => !!v || "Email is required",
       (v) => !v || /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || "Email must be valid",
@@ -174,6 +189,7 @@ export default {
     // }),
     occupations: [],
     standards: [],
+    schools: [],
     snackbar: {
       show: false,
       status: "",
@@ -192,6 +208,7 @@ export default {
   },
   created() {
     this.getSources();
+    this.getSchools();
   },
   async mounted() {
     if (this.id) {
@@ -217,6 +234,7 @@ export default {
         Object.keys(props).forEach((p) => {
           this.$set(this, p, d[props[p]]);
         });
+        this.$set(this, "school", { name: d["school_name"], id: d["school"] });
         this.$set(this, "passwordRules", [passwordLengthValidator]);
       }
     }
@@ -232,6 +250,20 @@ export default {
         if (res.data.success) {
           this.occupations = [{ id: "", name: "Other" }].concat(res.data.data);
           this.standards = res.data.data;
+        }
+      } catch (err) {
+        console.log("err", err);
+      }
+    },
+    async getSchools() {
+      try {
+        const res = await adminApi.get("/api/school", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("access-token"),
+          },
+        });
+        if (res.data.success) {
+          this.schools = res.data.data.map((x) => ({ name: x.name, id: x._id }));
         }
       } catch (err) {
         console.log("err", err);
@@ -253,8 +285,10 @@ export default {
           occupation: this.occupation,
           otherOccupation: this.otherOccupation,
           current_standard: this.currentStandard,
+          school_name: this.school.name,
+          school: this.school.id,
         };
-        if(this.email){
+        if (this.email) {
           dataToSave.email = this.email;
         }
         const response = await adminApiAuth[methodName](url, dataToSave);
@@ -272,7 +306,7 @@ export default {
         console.log(e);
         if (e?.response?.data.message === "Invalid data.") {
           this.callError(e?.response?.data.error.map((e) => Object.values(e).join(",")).join("<br/>"), true);
-        } else if(e?.response?.data.message){
+        } else if (e?.response?.data.message) {
           this.callError(e?.response?.data.message);
         } else {
           this.callError(e.message);

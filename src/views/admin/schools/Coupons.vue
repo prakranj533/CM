@@ -126,8 +126,8 @@ export default {
           },
         });
         if (res.data.success) {
-          this.plans = res.data.data;
-          this.$store.dispatch("setPlans", res.data.data);
+          this.plans = res.data.data.filter((x) => x.name != "Trial");
+          this.$store.dispatch("setPlans", this.plans);
         }
       } catch (err) {
         console.log("err", err);

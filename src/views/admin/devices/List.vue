@@ -94,6 +94,8 @@ export default {
             if (res.data.success) {
               const index = this.devices.indexOf(device);
               this.devices.splice(index, 1);
+            } else {
+              this.callError(res.data.message);
             }
           })
           .catch((err) => {

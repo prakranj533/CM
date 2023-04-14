@@ -5,7 +5,7 @@
     <UploadCSVDialog :config="createCsvDialogConfig" @upload="importData"></UploadCSVDialog>
     <v-row>
       <v-col class="text-right">
-        <v-btn color="primary" @click="openCsvDialog" depressed>Import Schools</v-btn>
+        <v-btn color="primary" @click="openCsvDialog" depressed style="margin-right: 5px">Import Schools</v-btn>
         <v-btn color="primary" to="/admin/school/add" depressed>+ New School</v-btn>
       </v-col>
     </v-row>
@@ -70,8 +70,8 @@ export default {
   mixins: [snackbarMixin],
   data: () => ({
     createCsvDialogConfig: {
-      id:'',
-      value: '',
+      id: "",
+      value: "",
       model: false,
       title: "Import Schools Data",
     },
@@ -160,6 +160,8 @@ export default {
             if (res.data.success) {
               const index = this.schools.indexOf(school);
               this.schools.splice(index, 1);
+            } else {
+              this.callError(res.data.message);
             }
           })
           .catch((err) => {

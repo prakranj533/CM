@@ -126,7 +126,7 @@ export default {
           },
         });
         if (res.data.success) {
-          this.plans = res.data.data.filter((x) => x.name != "Trial");
+          this.plans = res.data.data.filter((x) => x.name.toLowerCase() != "trial");
           this.$store.dispatch("setPlans", this.plans);
         }
       } catch (err) {

@@ -286,13 +286,18 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
 
-  function checkAccessToken(accessToken, loginPath) {
+  function checkAccessToken(accessToken, loginPath, role) {
     try {
-      const { exp } = jwt.decode(accessToken);
-      if (exp > (Date.now() / 1000)) {
-        next();
-      } else {
+      const claims = jwt.decode(accessToken);
+      const { exp, is_admin } = claims;
+      if (role && role === 'admin' && !is_admin) {
         next({ path: loginPath });
+      } else {
+        if (exp > (Date.now() / 1000)) {
+          next();
+        } else {
+          next({ path: loginPath });
+        }
       }
     } catch (e) {
       localStorage.removeItem('access-token');
@@ -300,11 +305,10 @@ router.beforeEach((to, from, next) => {
       next({ path: loginPath });
     }
   }
-
   if (to.matched.some(record => record.meta.requiresAuth && record.meta.is_admin)) {
     const accessToken = localStorage.getItem('access-token');
     if (!accessToken) next({ path: '/admin-login' });
-    checkAccessToken(accessToken, '/admin-login');
+    checkAccessToken(accessToken, '/admin-login', 'admin');
   } else if (to.matched.some(record => record.meta.requiresAuth)) {
     let urlParams = new URLSearchParams(window.location.search);
     let accessToken = urlParams.get("token") || localStorage.getItem('access-token');

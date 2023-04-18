@@ -2,7 +2,11 @@
   <div class="home">
     <Snackbar :snackbar="snackbar" />
     <div class="text-h5 text-center">Manage School</div>
-    <UploadCSVDialog :config="createCsvDialogConfig" @upload="importData"></UploadCSVDialog>
+    <UploadCSVDialog
+      :config="createCsvDialogConfig"
+      @upload="importData"
+      @downloadTemplate="downloadTemplate"
+    ></UploadCSVDialog>
     <v-row>
       <v-col class="text-right">
         <v-btn color="primary" @click="openCsvDialog" depressed style="margin-right: 5px">Import Schools</v-btn>
@@ -179,6 +183,24 @@ export default {
       this.createCsvDialogConfig.id = "schools";
       this.createCsvDialogConfig.title = "Import Schools Data";
       this.createCsvDialogConfig.model = true;
+    },
+    async downloadTemplate(templateType) {
+      const res = await adminApi.get(`/api/download/${templateType}-sample`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("access-token"),
+        },
+        responseType: "blob",
+      });
+      if (res && res.data && res.data instanceof Blob) {
+        const url = window.URL.createObjectURL(new Blob([res.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `${templateType}_sample.csv`); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+      } else if (!res.data.status) {
+        this.callError(res.data.message);
+      }
     },
     async importData(file, success, fail) {
       const formData = new FormData();

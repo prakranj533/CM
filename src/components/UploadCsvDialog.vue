@@ -26,6 +26,9 @@
           </form>
         </v-card-text>
         <v-card-actions>
+          <v-btn color="blue darken-1" v-if="this.$listeners.downloadTemplate" text @click="downloadTemplate">
+            Download Tempalte
+          </v-btn>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="config.model = false">Close</v-btn>
           <v-btn color="blue darken-1" text @click="uploadCsvFile" :disabled="!file">Upload</v-btn>
@@ -94,6 +97,12 @@ export default {
           })
           .then(success)
           .catch(fail);
+      }
+    },
+    downloadTemplate() {
+      if (this.$listeners && this.$listeners.upload) {
+        this.$emit("downloadTemplate", this.config.id);
+        return;
       }
     },
   },

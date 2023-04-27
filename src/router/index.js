@@ -77,6 +77,12 @@ const router = new VueRouter({
       component: Rank,
     },
     {
+      name: "public-invoice-data",
+      path: "/invoice/:id",
+      component: InvoiceData,
+      props: true
+    },
+    {
       path: "/admin",
       component: () => import(/* webpackChunkName: "AdminHome" */ '@/views/admin/Home.vue'),
       meta: {

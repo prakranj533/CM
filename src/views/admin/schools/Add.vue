@@ -19,7 +19,34 @@
             <v-text-field v-model="deposite" label="Security Deposite" outlined dense />
           </v-col>
           <v-col cols="12" sm="4" md="4" class="pb-0">
-            <v-text-field v-model="deposite_date" label="Deposite Date" outlined dense />
+            <v-menu
+              ref="depositeDate"
+              v-model="depositeMenu"
+              :close-on-content-click="false"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="deposite_date"
+                  label="Deposite Date"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                  outlined
+                  dense
+                  class="dob"
+                ></v-text-field>
+              </template>
+              <v-date-picker
+                v-model="deposite_date"
+                :active-picker.sync="activePicker"
+                :max="new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10)"
+                min="2020-01-01"
+                @change="saveDepositeDate"
+              ></v-date-picker>
+            </v-menu>
           </v-col>
           <v-col cols="12" sm="4" md="4" class="pb-0">
             <v-text-field v-model="agent_name" label="Agent Name" outlined dense />
@@ -141,7 +168,7 @@ export default {
     },
   }),
   watch: {
-    dobMenu(val) {
+    depositeMenu(val) {
       val && setTimeout(() => (this.activePicker = "YEAR"));
     },
   },
@@ -246,9 +273,9 @@ export default {
     titleize(v) {
       return v.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
     },
-    // saveDoB(date) {
-    //   this.$refs.dob.save(date);
-    // },
+    saveDepositeDate(date) {
+      this.$refs.depositeDate.save(date);
+    },
   },
 };
 </script>

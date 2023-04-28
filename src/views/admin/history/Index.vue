@@ -60,7 +60,8 @@ export default {
   mixins: [snackbarMixin],
   data: () => ({
     headers: [
-      { text: "Date", value: "createdAt" },
+      { text: "Transaction Date", value: "createdAt" },
+      { text: "School Name", value: "school", align: "ws" },
       { text: "Name", value: "user_name", align: "ws" },
       { text: "Phone No.", value: "phone_no" },
       { text: "Email.", value: "email" },

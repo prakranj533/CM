@@ -191,7 +191,7 @@ export default {
   font-weight: bold;
   text-transform: uppercase;
 }
-.query-status-open {
+.query-status-booked {
    background-color: rgb(239, 255, 229);
 }
 .query-status-closed {

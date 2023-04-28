@@ -14,7 +14,7 @@
         </v-row>
         <v-row>
           <v-col cols="12" class="py-0">
-            <v-text-field v-model="email" :rules="emailRules" label="Email" outlined dense id="email-counsellor" />
+            <v-text-field v-model="email" :rules="emailRules" label="Email" outlined dense id="email-counsellor" autocomplete="username"  />
           </v-col>
         </v-row>
         <v-row>
@@ -25,6 +25,7 @@
               :rules="passwordRules.concat(matchPasswordRule)"
               :type="showPassword ? 'text' : 'password'"
               label="Password"
+              autocomplete="new-password"
               @click:append="showPassword = !showPassword"
               outlined
               dense
@@ -80,7 +81,7 @@
             </v-menu>
           </v-col>
           <v-col cols="12" sm="6" md="6" class="pb-0">
-            <v-text-field v-model="phoneNumber" required label="Phone Number" outlined dense />
+            <v-text-field v-model="phoneNumber" type="tel" required label="Phone Number" :rules="phoneNumberRules" outlined dense />
           </v-col>
         </v-row>
         <v-btn class="float-right" color="primary" @click="handleSignUp" depressed>Save</v-btn>
@@ -124,6 +125,10 @@ export default {
     passwordRules: [
       (v) => !!v || "Password is required",
       (v) => (v && v.length >= 8) || "Password must be at least 8 characters long",
+    ],
+    phoneNumberRules:[
+      (v) => !!v || "Phone Number is required",
+      (v) => /^(?:\(\d{3}\)|\d{3}[.-]?)\d{3}[.-]?\d{4}$/.test(v) || "Phone Number must be valid",
     ],
     snackbar: {
       show: false,

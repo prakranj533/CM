@@ -27,7 +27,7 @@
       <template slot="item._id" slot-scope="props">
         <div class="action-links">
           <router-link :to="{ name: 'counsellor-add', params: { id: props.item._id } }">Edit</router-link>
-          <a @click="deleteStudent(props.item)">Delete</a>
+          <a @click="deleteCounsellor(props.item)">Delete</a>
           <router-link :to="{ name: 'counsellor-allocate', params: { id: props.item._id } }">Allocate</router-link>
         </div>
       </template>

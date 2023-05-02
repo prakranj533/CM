@@ -61,6 +61,7 @@ export default {
   data: () => ({
     headers: [
       { text: "Transaction Date", value: "createdAt" },
+      { text: "Type", value: "data.payment_mode", align: "ws" },
       { text: "School Name", value: "school", align: "ws" },
       { text: "Name", value: "user_name", align: "ws" },
       { text: "Phone No.", value: "phone_no" },

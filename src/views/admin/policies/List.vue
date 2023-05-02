@@ -98,6 +98,8 @@ export default {
             if (res.data.success) {
               const index = this.policies.indexOf(policy);
               this.policies.splice(index, 1);
+            } else {
+              this.callError(res.data.message);
             }
           })
           .catch((err) => {

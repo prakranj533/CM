@@ -1,7 +1,11 @@
 <template>
   <div class="home">
     <Snackbar :snackbar="snackbar" />
-    <div class="print-button"><button type="button" class="v-btn v-btn--has-bg theme--light v-size--default primary" onclick="window.print()">Print</button></div>
+    <div class="print-button">
+      <button type="button" class="v-btn v-btn--has-bg theme--light v-size--default primary" onclick="window.print()">
+        Print
+      </button>
+    </div>
     <div class="text-h5 text-center">Invoice</div>
     <header>
       <img src="./../../../assets/app_logo.png" alt="Anvil" />
@@ -13,12 +17,16 @@
           <p>
             Invoice Date:
             <strong>
-              {{ (invoiceData.data||{}).subscription_start && formatDate(invoiceData.data.subscription_start) }}
+              {{ (invoiceData.data || {}).subscription_start && formatDate(invoiceData.data.subscription_start) }}
             </strong>
           </p>
           <p>
             Invoice No:
             <strong>12345</strong>
+          </p>
+          <p v-if="invoiceData.data.payment_mode">
+            Payment Mode:
+            <strong>{{ invoiceData.data.payment_mode }}</strong>
           </p>
         </div>
         <div class="col-sm-6 text-right w-50">
@@ -75,7 +83,9 @@
             <tr>
               <td>&nbsp;</td>
               <td>
-                <h5>{{ (invoiceData.data||{}).subscription_end && formatDate(invoiceData.data.subscription_end) }}</h5>
+                <h5>
+                  {{ (invoiceData.data || {}).subscription_end && formatDate(invoiceData.data.subscription_end) }}
+                </h5>
               </td>
               <td>
                 <h5 class="text-pink">{{ invoiceData.plan_amount }} INR</h5>
@@ -166,7 +176,9 @@ export default {
   padding-right: 15px;
   padding-left: 15px;
 }
-.print-button{text-align: right;}
+.print-button {
+  text-align: right;
+}
 @media (min-width: 576px) {
   .col-sm-6 {
     -ms-flex: 0 0 50%;
@@ -174,8 +186,10 @@ export default {
     max-width: 50%;
   }
 }
-@media print{
-.print-button{display: none;}
+@media print {
+  .print-button {
+    display: none;
+  }
 }
 .mb-5,
 .my-5 {
@@ -241,8 +255,10 @@ tr td:nth-child(4) {
 .w-50 {
   width: 50%;
 }
-header img{width: 250px;
-    margin-left: -15px;
-    margin-top: -20px;
-    margin-bottom: -30px;}
+header img {
+  width: 250px;
+  margin-left: -15px;
+  margin-top: -20px;
+  margin-bottom: -30px;
+}
 </style>

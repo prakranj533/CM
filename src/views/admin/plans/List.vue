@@ -25,6 +25,9 @@
       <template slot="item.amount" slot-scope="props">
         {{ `₹ ${props.item.amount}/-` }}
       </template>
+      <template slot="item.mode" slot-scope="props">
+        {{ (props.item.mode || '').toUpperCase() }}
+      </template>
       <template slot="item._id" slot-scope="props">
         <div class="action-links">
           <router-link :to="{ name: 'plan-add', params: { id: props.item._id } }">Edit</router-link>
@@ -50,6 +53,7 @@ export default {
   data: () => ({
     headers: [
       { text: "Plan Name", value: "name" },
+      { text: "Plan Mode", value: "mode" },
       { text: "Duration", value: "duration_text" },
       { text: "Amount", value: "amount" },
       { text: "Description", value: "description" },

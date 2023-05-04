@@ -120,7 +120,7 @@ export default {
     showConfirmPassword: false,
     emailRules: [
       (v) => !!v || "Email is required",
-      (v) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || "Email must be valid",
+      (v) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,7})+$/.test(v) || "Email must be valid",
     ],
     passwordRules: [
       (v) => !!v || "Password is required",

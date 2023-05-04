@@ -10,6 +10,18 @@
           </v-col>
           <v-col cols="12" sm="12" md="12" class="pb-0">
             <v-select
+              v-model="mode"
+              :items="modes"
+              label="Plan Mode (test/live)"
+              persistent-hint
+              return-object
+              single-line
+              outlined
+              dense
+            ></v-select>
+          </v-col>
+          <v-col cols="12" sm="12" md="12" class="pb-0">
+            <v-select
               v-model="duration"
               :items="durations"
               item-title="state"
@@ -50,6 +62,7 @@ export default {
   data: () => ({
     name: "",
     duration: { text: "7 days", value: 7 },
+    mode: { text: "Test", value: "test" },
     amount: 0,
     description: "",
     planNameRules: [(v) => !!v || "Plan Name is required"],
@@ -58,6 +71,10 @@ export default {
       status: "",
       message: "",
     },
+    modes: [
+      { text: "Test", value: "test" },
+      { text: "Live", value: "live" },
+    ],
     durations: [
       { text: "7 days", value: 7 },
       { text: "15 days", value: 15 },
@@ -101,6 +118,7 @@ export default {
           duration_days: this.duration.value,
           duration_text: this.duration.text,
           description: this.description,
+          mode: this.mode.value,
         };
 
         const response = await adminApi[methodName](url, dataToSave, {

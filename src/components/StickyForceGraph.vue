@@ -400,6 +400,9 @@ export default {
   height: 500px;
   width: 100%;
 }
+.mobileView .svg-container {
+  height: auto;
+}
 .show-loader {
   display: block;
   width: 100px;

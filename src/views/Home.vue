@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home" :class="{mobileView: caller === 'app'}">
     <Navbar v-if="user && caller != 'app'" />
     <div class="text-h5 text-center">Probabilistic Career Maps</div>
     <h4 class="text-center subtitle-1">See your career – Search your path – Seek your guide</h4>

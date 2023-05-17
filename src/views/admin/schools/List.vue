@@ -31,6 +31,9 @@
       <template slot="item.createdAt" slot-scope="props">
         {{ formatDate(props.item.createdAt) }}
       </template>
+      <template slot="item.deposite_date" slot-scope="props">
+        {{ formatDate(props.item.deposite_date) }}
+      </template>
       <template slot="item.is_subscribed" slot-scope="props">
         {{ props.item.is_subscribed && props.item.sub_end ? "Yes" : "No" }}
       </template>

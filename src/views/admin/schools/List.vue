@@ -150,7 +150,7 @@ export default {
       }
     },
     formatDate(date) {
-      return moment(date).format("MM/DD/YYYY");
+      return moment(date).format("DD/MM/YYYY");
     },
     deleteSchool(school) {
       if (confirm("Are you sure you want to delete this item?")) {

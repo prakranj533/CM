@@ -118,7 +118,7 @@ export default {
       }
     },
     formatDate(date) {
-      return date ? moment(date).format("MM/DD/YYYY") : "";
+      return date ? moment(date).format("DD/MM/YYYY") : "";
     },
   },
 };

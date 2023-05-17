@@ -60,7 +60,7 @@ export default {
         });
     },
     formatDate(date) {
-      return moment(date).format("MM/DD/YYYY");
+      return moment(date).format("DD/MM/YYYY");
     },
     async handleNewStudent() {
       

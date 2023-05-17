@@ -137,7 +137,7 @@ export default {
       }
     },
     formatDate(date) {
-      return moment(date).format("MM/DD/YYYY");
+      return moment(date).format("DD/MM/YYYY");
     },
     async handleAllocate() {
       const data = this.selected.map((s) => ({ counsellor: this.id, student: s._id }));

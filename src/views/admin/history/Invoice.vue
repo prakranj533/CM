@@ -142,7 +142,7 @@ export default {
       return v.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
     },
     formatDate(date) {
-      return moment(date).format("MM/DD/YYYY");
+      return moment(date).format("DD/MM/YYYY");
     },
   },
 };

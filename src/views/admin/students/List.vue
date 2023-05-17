@@ -25,6 +25,9 @@
       <template slot="item.createdAt" slot-scope="props">
         {{ formatDate(props.item.createdAt) }}
       </template>
+      <template slot="item.dob" slot-scope="props">
+        {{ formatDate(props.item.dob) }}
+      </template>
       <template slot="item.is_subscribed" slot-scope="props">
         {{ props.item.is_subscribed && props.item.sub_end ? "Yes" : "No" }}
       </template>
@@ -133,7 +136,7 @@ export default {
       }
     },
     formatDate(date) {
-      return moment(date).format("MM/DD/YYYY");
+      return moment(date).format("DD/MM/YYYY");
     },
     deleteStudent(student) {
       if (confirm("Are you sure you want to delete this item?")) {

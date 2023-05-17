@@ -24,6 +24,9 @@
       <template slot="item.createdAt" slot-scope="props">
         {{ formatDate(props.item.createdAt) }}
       </template>
+      <template slot="item.dob" slot-scope="props">
+        {{ formatDate(props.item.dob) }}
+      </template>
       <template slot="item._id" slot-scope="props">
         <div class="action-links">
           <router-link :to="{ name: 'counsellor-add', params: { id: props.item._id } }">Edit</router-link>
@@ -77,7 +80,7 @@ export default {
       }
     },
     formatDate(date) {
-      return moment(date).format("MM/DD/YYYY");
+      return moment(date).format("DD/MM/YYYY");
     },
     async deleteCounsellor(counsellor) {
       if (confirm("Are you sure you want to delete this item?")) {

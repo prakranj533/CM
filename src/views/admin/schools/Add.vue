@@ -57,7 +57,7 @@
             <v-text-field v-model="maplink" label="Google Map Link" outlined dense />
           </v-col>
           <v-col cols="12" sm="4" md="4" class="pb-0">
-            <v-text-field v-model="pin_code" :rules="pincodeRules" required label="Pincode" outlined dense />
+            <v-text-field v-model="pin_code" :rules="pincodeRules" required label="Pincode" maxlength="6" type="number" outlined dense />
           </v-col>
         </v-row>
         <v-row>
@@ -92,7 +92,7 @@
         </v-row>
         <v-row>
           <v-col cols="12" sm="6" md="6" class="pb-0">
-            <v-text-field v-model="phone_number" label="Phone Number" outlined dense />
+            <v-text-field v-model="phone_number" label="Phone Number" :rules="phoneNumberRules" outlined dense maxlength="10" />
           </v-col>
           <v-col cols="12" sm="6" md="6" class="pb-0">
             <v-text-field
@@ -155,6 +155,7 @@ export default {
     // depositeRules: [(v) => !!v || "Security Deposite is required"],
     // depositeDateRules: [(v) => !!v || "Deposite Date is required"],
     // phoneNumberRules: [(v) => !!v || "Phone Number is required"],
+    phoneNumberRules: [(v) => /^(?:\(\d{3}\)|\d{3}[.-]?)\d{3}[.-]?\d{4}$/.test(v) || "Phone Number must be valid"],
     nameRules: [(v) => !!v || "School Name is required"],
     schoolbranchRules: [(v) => !!v || "Branch is required"],
     studentsRules: [(v) => !!v || "Students Number is required"],

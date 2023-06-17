@@ -6,7 +6,7 @@
       <v-form ref="signUpForm" lazy-validation>
         <v-row>
           <v-col cols="12" sm="12" md="12" class="pb-0">
-            <v-text-field v-model="name" :rules="planNameRules" required label="Plan Name" outlined dense />
+            <v-text-field v-model="name" :rules="planNameRules" required label="Plan Name"  maxlength="50" outlined dense />
           </v-col>
           <v-col cols="12" sm="12" md="12" class="pb-0">
             <v-select
@@ -35,10 +35,10 @@
             ></v-select>
           </v-col>
           <v-col cols="12" sm="12" md="12" class="pb-0">
-            <v-text-field v-model="amount" required label="Amount" outlined dense />
+            <v-text-field v-model="amount" required label="Amount" maxlength="5" outlined dense />
           </v-col>
           <v-col cols="12" sm="12" md="12" class="pb-0">
-            <v-text-field v-model="description" label="Description" outlined dense />
+            <v-text-field v-model="description" label="Description" maxlength="1000" outlined dense />
           </v-col>
         </v-row>
         <v-btn class="float-right" color="primary" @click="handleSavingPlan" depressed>Save</v-btn>
@@ -62,7 +62,7 @@ export default {
   data: () => ({
     name: "",
     duration: { text: "7 days", value: 7 },
-    mode: { text: "Test", value: "test" },
+    mode: { text: "Live", value: "live" },
     amount: 0,
     description: "",
     planNameRules: [(v) => !!v || "Plan Name is required"],
@@ -72,7 +72,7 @@ export default {
       message: "",
     },
     modes: [
-      { text: "Test", value: "test" },
+      // { text: "Test", value: "test" },
       { text: "Live", value: "live" },
     ],
     durations: [

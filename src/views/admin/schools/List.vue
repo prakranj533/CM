@@ -37,12 +37,7 @@
       <template slot="item.is_subscribed" slot-scope="props">
         {{ props.item.is_subscribed && props.item.sub_end ? "Yes" : "No" }}
       </template>
-      <template slot="item.sub_id" slot-scope="props">
-        {{ !!props.item.sub_id && props.item.sub_end ? "Yes" : "No" }}
-      </template>
-      <template slot="item.sub_end" slot-scope="props">
-        {{ (props.item.sub_end ? formatDate(props.item.sub_end) : "NA") || "NA" }}
-      </template>
+    
       <template slot="item.occupation" slot-scope="props">
         {{ props.item.occupation }}{{ props.item.occupation == "Other" ? "/" + props.item.otherOccupation : "" }}
       </template>
@@ -92,8 +87,8 @@ export default {
       { text: "Email", value: "email" },
       { text: "Phone No.", value: "phone_number" },
       { text: "Students", value: "no_of_students" },
-      { text: "Payment", value: "sub_id" },
-      { text: "Expiration", value: "sub_end" },
+      // { text: "Payment", value: "sub_id" },
+      // { text: "Expiration", value: "sub_end" },
       { text: "Created At", value: "createdAt" },
       { text: "", value: "_id", width: "40px" },
     ],

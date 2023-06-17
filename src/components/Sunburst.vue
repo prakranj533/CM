@@ -246,4 +246,7 @@ export default {
 .sunburst .svg-container {
   text-align: center;
 }
+.mobileView #sunburst-svg{
+  height: 340px;
+}
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <Snackbar :snackbar="snackbar" />
-    <div class="print-button">
+    <div class="print-button" v-if="caller != 'app'">
       <button type="button" class="v-btn v-btn--has-bg theme--light v-size--default primary" onclick="window.print()">
         Print
       </button>
@@ -22,7 +22,7 @@
           </p>
           <p>
             Invoice No:
-            <strong>12345</strong>
+            <strong>{{invoiceData.invoiceNo}}</strong>
           </p>
           <p v-if="invoiceData.data.payment_mode">
             Payment Mode:
@@ -115,6 +115,7 @@ export default {
   mixins: [snackbarMixin],
   props: ["id"],
   data: () => ({
+    caller: null,
     invoiceData: {},
     snackbar: {
       show: false,
@@ -123,7 +124,10 @@ export default {
     },
   }),
   computed: {},
-  created() {},
+  created() {
+    let urlParams = new URLSearchParams(window.location.search);
+    this.$set(this, "caller", urlParams.get("caller"));
+  },
   async mounted() {
     console.log(this.id);
     if (this.id) {

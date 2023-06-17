@@ -193,6 +193,8 @@ export default {
           if (res.data.success) {
             this.getCoupons();
             this.count = 0;
+          } else {
+            this.callError(res.data.message);
           }
         })
         .catch((err) => {

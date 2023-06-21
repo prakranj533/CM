@@ -102,6 +102,7 @@ export default {
           this.$set(this, p, d[p]);
         });
         this.duration = this.durations.find((x) => x.value === d.duration_days);
+        this.mode = this.modes.find((x) => x.value === d.mode);
       }
     }
   },

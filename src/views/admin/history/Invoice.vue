@@ -58,7 +58,7 @@
           <tbody>
             <tr>
               <td>1</td>
-              <td>Plan: {{ (invoiceData.data || {}).plan_name }}</td>
+              <td>Plan: {{ (invoiceData.data || {}).plan_name }} ({{invoiceData.plan_duration_text }})</td>
               <td>{{ invoiceData.plan_amount }} INR</td>
               <td>
                 <strong>{{ invoiceData.plan_amount }} INR</strong>

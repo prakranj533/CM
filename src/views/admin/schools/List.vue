@@ -41,6 +41,9 @@
       <template slot="item.occupation" slot-scope="props">
         {{ props.item.occupation }}{{ props.item.occupation == "Other" ? "/" + props.item.otherOccupation : "" }}
       </template>
+      <template slot="item.maplink" slot-scope="props">
+        <span style="word-break: break-all;">{{ props.item.maplink }}</span>
+      </template>
       <template slot="item._id" slot-scope="props">
         <div class="action-links">
           <router-link :to="{ name: 'school-devices', params: { id: props.item._id } }">Devices</router-link>
@@ -78,12 +81,12 @@ export default {
       title: "Import Schools Data",
     },
     headers: [
-      { text: "Name", value: "name" },
+      { text: "Name", value: "name", width: '200px' },
       { text: "Address", value: "address" },
       { text: "Security Deposite", value: "deposite" },
       { text: "Deposite Date", value: "deposite_date" },
       { text: "Agent Name", value: "agent_name" },
-      { text: "Google map link", value: "maplink" },
+      { text: "Google map link", value: "maplink", width: '300px' },
       { text: "Email", value: "email" },
       { text: "Phone No.", value: "phone_number" },
       { text: "Students", value: "no_of_students" },

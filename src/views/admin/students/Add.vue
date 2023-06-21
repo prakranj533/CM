@@ -129,6 +129,7 @@
             <v-text-field
               v-model="phoneNumber"
               :rules="phoneNumberRules"
+              maxlength="10"
               required
               label="Phone Number"
               outlined
@@ -181,7 +182,7 @@ export default {
       //(v) => !!v || "Password is required",
       passwordLengthValidator,
     ],
-    phoneNumberRules: [(v) => !!v || "Phone Number is required"],
+    phoneNumberRules: [(v) => /^(?:\(\d{3}\)|\d{3}[.-]?)\d{3}[.-]?\d{4}$/.test(v) || "Phone Number is required"],
     firstNameRules: [(v) => !!v || "First Name is required"],
     lastNameRules: [(v) => !!v || "Last Name is required"],
     // occupations: occupations.occupations.map((x) => {

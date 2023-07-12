@@ -22,7 +22,6 @@
             v-model="duration"
             :items="plans"
             item-text="name"
-            item-value="duration_days"
             label="Duration"
             persistent-hint
             return-object

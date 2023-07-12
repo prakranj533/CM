@@ -117,6 +117,7 @@
 import Snackbar from "../../../components/Snackbar.vue";
 import snackbarMixin from "../../../mixins/snackbar";
 import { adminApiAuth, adminApi } from "../../../utils/api";
+import { getDateStr } from '../../../utils/helper';
 // import occupations from "../../../data/occupations";
 const passwordLengthValidator = (v) => !v || (v && v.length >= 6) || "Password must be at least 6 characters long";
 export default {
@@ -245,6 +246,7 @@ export default {
           deposite_date: this.deposite_date,
           agent_name: this.agent_name,
           pin_code: this.pin_code,
+          createdDateStr: getDateStr()
         };
         if (this.email) {
           dataToSave.email = this.email;

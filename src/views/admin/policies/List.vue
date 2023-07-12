@@ -19,9 +19,9 @@
         'items-per-page-options': [10, 20, 50, 100, -1],
       }"
     >
-      <template slot="item.createdAt" slot-scope="props">
+      <!-- <template slot="item.createdAt" slot-scope="props">
         {{ formatDate(props.item.createdAt) }}
-      </template>
+      </template> -->
       <template slot="item.amount" slot-scope="props">
         {{ `₹ ${props.item.amount}/-` }}
       </template>
@@ -52,7 +52,7 @@ export default {
       { text: "Policy Name", value: "name" },
       { text: "Amount", value: "amount" },
       { text: "Description", value: "description" },
-      { text: "Created At", value: "createdAt" },
+      { text: "Created At", value: "createdDateStr" },
       { text: "", value: "_id", width: "40px" },
     ],
     search: "",

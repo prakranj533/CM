@@ -22,18 +22,18 @@
       <template slot="item.first_name" slot-scope="props">
         {{ props.item.first_name + " " + props.item.last_name }}
       </template>
-      <template slot="item.createdAt" slot-scope="props">
+      <!-- <template slot="item.createdAt" slot-scope="props">
         {{ formatDate(props.item.createdAt) }}
-      </template>
+      </template> -->
       <template slot="item.dob" slot-scope="props">
         {{ formatDate(props.item.dob) }}
       </template>
       <template slot="item.is_subscribed" slot-scope="props">
-        {{ props.item.is_subscribed && props.item.sub_end ? "Yes" : "No" }}
+        {{ props.item.sub_end ? "Yes" : "No" }}
       </template>
-      <template slot="item.sub_id" slot-scope="props">
+      <!-- <template slot="item.sub_id" slot-scope="props">
         {{ !!props.item.sub_id && props.item.sub_end ? "Yes" : "No" }}
-      </template>
+      </template> -->
       <template slot="item.sub_end" slot-scope="props">
         {{ (props.item.sub_end ? formatDate(props.item.sub_end) : "NA") || "NA" }}
       </template>
@@ -75,9 +75,9 @@ export default {
       { text: "Email", value: "email" },
       { text: "Phone No.", value: "phone_number" },
       { text: "Subscribed", value: "is_subscribed" },
-      { text: "Payment", value: "sub_id" },
+      // { text: "Payment", value: "sub_id" },
       { text: "Expiration", value: "sub_end" },
-      { text: "Created At", value: "createdAt" },
+      { text: "Created At", value: "createdDateStr" },
       { text: "", value: "_id", width: "40px" },
     ],
     search: "",

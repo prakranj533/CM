@@ -23,6 +23,7 @@
 import Snackbar from "../../../components/Snackbar.vue";
 import snackbarMixin from "../../../mixins/snackbar";
 import { adminApi } from "../../../utils/api";
+import { getDateStr } from '../../../utils/helper';
 export default {
   name: "Device-Add",
   components: {
@@ -83,7 +84,8 @@ export default {
         const url = this.id ? `/api/device/${this.id}` : "/api/device";
         const dataToSave = {
           name: this.name,
-          description: this.description
+          description: this.description,
+          createdDateStr: getDateStr(),
         };
 
         const response = await adminApi[methodName](url, dataToSave);

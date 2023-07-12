@@ -21,9 +21,9 @@
       <template slot="item.first_name" slot-scope="props">
         {{ props.item.first_name + " " + props.item.last_name }}
       </template>
-      <template slot="item.createdAt" slot-scope="props">
+      <!-- <template slot="item.createdAt" slot-scope="props">
         {{ formatDate(props.item.createdAt) }}
-      </template>
+      </template> -->
       <template slot="item.dob" slot-scope="props">
         {{ formatDate(props.item.dob) }}
       </template>
@@ -53,7 +53,7 @@ export default {
       { text: "DOB", value: "dob" },
       { text: "Email", value: "email" },
       { text: "Phone No.", value: "phone_number" },
-      { text: "Created At", value: "createdAt" },
+      { text: "Created At", value: "createdDateStr" },
       { text: "", value: "_id", width: "40px" },
     ],
     search: "",

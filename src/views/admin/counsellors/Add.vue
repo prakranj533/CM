@@ -112,6 +112,7 @@
 import Snackbar from "../../../components/Snackbar.vue";
 import snackbarMixin from "../../../mixins/snackbar";
 import { adminApiAuth, adminApi } from "../../../utils/api";
+import { getDateStr } from '../../../utils/helper';
 
 export default {
   name: "Counsellor-Add",
@@ -211,6 +212,7 @@ export default {
           phone_number: this.phoneNumber,
           occupation: this.occupation,
           current_standard: this.currentStandard,
+          createdDateStr: getDateStr(),
         });
         if (response.data.success) {
           this.callSuccess(response.data.message);

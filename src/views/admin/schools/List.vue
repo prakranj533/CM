@@ -28,9 +28,9 @@
       <template slot="item.first_name" slot-scope="props">
         {{ props.item.name }}
       </template>
-      <template slot="item.createdAt" slot-scope="props">
+      <!-- <template slot="item.createdAt" slot-scope="props">
         {{ formatDate(props.item.createdAt) }}
-      </template>
+      </template> -->
       <template slot="item.deposite_date" slot-scope="props">
         {{ formatDate(props.item.deposite_date) }}
       </template>
@@ -92,7 +92,7 @@ export default {
       { text: "Students", value: "no_of_students" },
       // { text: "Payment", value: "sub_id" },
       // { text: "Expiration", value: "sub_end" },
-      { text: "Created At", value: "createdAt" },
+      { text: "Created At", value: "createdDateStr" },
       { text: "", value: "_id", width: "40px" },
     ],
     search: "",

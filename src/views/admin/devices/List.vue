@@ -19,9 +19,9 @@
         'items-per-page-options': [10, 20, 50, 100, -1],
       }"
     >
-      <template slot="item.createdAt" slot-scope="props">
+      <!-- <template slot="item.createdAt" slot-scope="props">
         {{ formatDate(props.item.createdAt) }}
-      </template>
+      </template> -->
       <template slot="item._id" slot-scope="props">
         <div class="action-links">
           <router-link :to="{ name: 'device-add', params: { id: props.item._id } }">Edit</router-link>
@@ -48,7 +48,7 @@ export default {
     headers: [
       { text: "Device Name", value: "name" },
       { text: "Description", value: "description" },
-      { text: "Created At", value: "createdAt" },
+      { text: "Created At", value: "createdDateStr" },
       { text: "", value: "_id", width: "40px" },
     ],
     search: "",

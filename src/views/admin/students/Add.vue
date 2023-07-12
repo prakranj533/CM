@@ -148,6 +148,7 @@
 import Snackbar from "../../../components/Snackbar.vue";
 import snackbarMixin from "../../../mixins/snackbar";
 import { adminApiAuth, adminApi } from "../../../utils/api";
+import { getDateStr } from "../../../utils/helper";
 // import occupations from "../../../data/occupations";
 const passwordLengthValidator = (v) => !v || (v && v.length >= 6) || "Password must be at least 6 characters long";
 export default {
@@ -183,8 +184,14 @@ export default {
       passwordLengthValidator,
     ],
     phoneNumberRules: [(v) => /^(?:\(\d{3}\)|\d{3}[.-]?)\d{3}[.-]?\d{4}$/.test(v) || "Phone Number is required"],
-    firstNameRules: [(v) => !!v || "First Name is required"],
-    lastNameRules: [(v) => !!v || "Last Name is required"],
+    firstNameRules: [
+      (v) => !!v || "First Name is required",
+      (v) => !v || /^[A-Za-z]*$/.test(v) || "First Name must be valid",
+    ],
+    lastNameRules: [
+      (v) => !!v || "Last Name is required",
+      (v) => !v || /^[A-Za-z]*$/.test(v) || "First Name must be valid",
+    ],
     // occupations: occupations.occupations.map((x) => {
     //   return { name: x.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()) };
     // }),
@@ -288,6 +295,7 @@ export default {
           current_standard: this.currentStandard,
           school_name: this.school.name,
           school: this.school.id,
+          createdDateStr: getDateStr()
         };
         if (this.email) {
           dataToSave.email = this.email;

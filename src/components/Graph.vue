@@ -1,6 +1,6 @@
 <template>
   <div class="graph">
-    <div class="svg-container">
+    <div class="svg-container admin-dashboard-graph">
       <svg id="graph-svg" width="620" height="540"></svg>
     </div>
   </div>
@@ -231,6 +231,9 @@ export default {
 </script>
 
 <style lang="scss">
+.admin-dashboard-graph{
+  height: auto;
+}
 #graph-svg {
   .links {
     g {

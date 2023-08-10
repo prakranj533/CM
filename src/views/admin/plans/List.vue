@@ -28,12 +28,12 @@
       <template slot="item.mode" slot-scope="props">
         {{ (props.item.mode || '').toUpperCase() }}
       </template>
-      <template slot="item._id" slot-scope="props">
+      <!-- <template slot="item._id" slot-scope="props">
         <div class="action-links">
           <router-link :to="{ name: 'plan-add', params: { id: props.item._id } }">Edit</router-link>
           <a @click="deletePlan(props.item)">Delete</a>
         </div>
-      </template>
+      </template> -->
     </v-data-table>
   </div>
 </template>
@@ -58,7 +58,7 @@ export default {
       { text: "Amount", value: "amount" },
       { text: "Description", value: "description" },
       { text: "Created At", value: "createdAt" },
-      { text: "", value: "_id", width: "40px" },
+      // { text: "", value: "_id", width: "40px" },
     ],
     search: "",
     plans: [],
@@ -91,27 +91,27 @@ export default {
     formatDate(date) {
       return moment(date).format("DD/MM/YYYY");
     },
-    deletePlan(plan) {
-      if (confirm("Are you sure you want to delete this item?")) {
-        adminApi
-          .delete(`/api/plan/${plan._id}`, {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("access-token"),
-            },
-          })
-          .then((res) => {
-            if (res.data.success) {
-              const index = this.plans.indexOf(plan);
-              this.plans.splice(index, 1);
-            } else {
-              this.callError(res.data.message);
-            }
-          })
-          .catch((err) => {
-            console.log("err", err);
-          });
-      }
-    },
+    // deletePlan(plan) {
+    //   if (confirm("Are you sure you want to delete this item?")) {
+    //     adminApi
+    //       .delete(`/api/plan/${plan._id}`, {
+    //         headers: {
+    //           Authorization: "Bearer " + localStorage.getItem("access-token"),
+    //         },
+    //       })
+    //       .then((res) => {
+    //         if (res.data.success) {
+    //           const index = this.plans.indexOf(plan);
+    //           this.plans.splice(index, 1);
+    //         } else {
+    //           this.callError(res.data.message);
+    //         }
+    //       })
+    //       .catch((err) => {
+    //         console.log("err", err);
+    //       });
+    //   }
+    // },
   },
 };
 </script>

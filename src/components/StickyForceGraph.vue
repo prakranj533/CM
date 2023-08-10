@@ -40,8 +40,13 @@ export default {
     color: null,
     nodesById: {},
     data: {},
+    caller: null,
   }),
   watch: {},
+  created (){
+    let urlParams = new URLSearchParams(window.location.search);
+    this.$set(this, "caller", urlParams.get("caller"));
+  },
   mounted() {
     this.getJsonData();
     setTimeout(() => {
@@ -402,6 +407,9 @@ export default {
 }
 .mobileView .svg-container {
   height: auto;
+}
+.mobileView .svg-container #graph{
+  height: 320px !important;
 }
 .show-loader {
   display: block;

@@ -203,7 +203,7 @@ const router = new VueRouter({
               component: PlanList,
             },
             {
-              path: "add/:id?",
+              path: "add",
               name: "plan-add",
               component: PlanAdd,
               props: true

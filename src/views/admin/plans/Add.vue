@@ -90,21 +90,21 @@ export default {
   computed: {},
   created() {},
   async mounted() {
-    if (this.id) {
-      const response = await adminApi.get(`/api/plan/${this.id}`, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("access-token"),
-        },
-      });
-      if (response.data.success) {
-        var d = response.data.data[0];
-        Object.keys(d).forEach((p) => {
-          this.$set(this, p, d[p]);
-        });
-        this.duration = this.durations.find((x) => x.value === d.duration_days);
-        this.mode = this.modes.find((x) => x.value === d.mode);
-      }
-    }
+    // if (this.id) {
+    //   const response = await adminApi.get(`/api/plan/${this.id}`, {
+    //     headers: {
+    //       Authorization: "Bearer " + localStorage.getItem("access-token"),
+    //     },
+    //   });
+    //   if (response.data.success) {
+    //     var d = response.data.data[0];
+    //     Object.keys(d).forEach((p) => {
+    //       this.$set(this, p, d[p]);
+    //     });
+    //     this.duration = this.durations.find((x) => x.value === d.duration_days);
+    //     this.mode = this.modes.find((x) => x.value === d.mode);
+    //   }
+    // }
   },
   methods: {
     async handleSavingPlan() {

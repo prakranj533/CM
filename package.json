@@ -1,59 +1,28 @@
 {
   "name": "career-maps",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
-  },
-  "dependencies": {
-    "@mdi/font": "5.9.55",
-    "core-js": "^3.6.5",
-    "d3v4": "^4.2.2",
-    "ngraph.centrality": "^2.0.1",
-    "ngraph.graph": "^19.1.0",
-    "roboto-fontface": "*",
-    "uuid": "^8.3.2",
-    "vue": "^2.6.11",
-    "vue-router": "^3.2.0",
-    "vuetify": "^2.4.0",
-    "vuex": "^3.4.0"
+    "build": "npm run build -w @career-maps/core && npm run build -w @career-maps/api && npm run build -w @career-maps/web",
+    "dev": "concurrently -n api,web -c cyan,green \"npm:dev:api\" \"npm:dev:web\"",
+    "dev:api": "npm run dev -w @career-maps/api",
+    "dev:web": "npm run dev -w @career-maps/web",
+    "setup": "npm run build -w @career-maps/core && npm run db:push && npm run db:seed",
+    "db:push": "npm run db:push -w @career-maps/api",
+    "db:seed": "npm run db:seed -w @career-maps/api",
+    "ingest": "npm run ingest -w @career-maps/api",
+    "typecheck": "npm run typecheck -w @career-maps/core && npm run typecheck -w @career-maps/api && npm run typecheck -w @career-maps/web",
+    "test": "npm run test -w @career-maps/core"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.5.0",
-    "@vue/cli-plugin-e2e-cypress": "^4.5.0",
-    "@vue/cli-plugin-eslint": "^4.5.0",
-    "@vue/cli-plugin-unit-mocha": "^4.5.0",
-    "@vue/cli-service": "^4.5.0",
-    "@vue/test-utils": "^1.0.3",
-    "babel-eslint": "^10.1.0",
-    "chai": "^4.1.2",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^6.2.2",
-    "sass": "^1.32.0",
-    "sass-loader": "^10.0.0",
-    "vue-cli-plugin-vuetify": "^2.3.1",
-    "vue-template-compiler": "^2.6.11",
-    "vuetify-loader": "^1.7.0"
+    "concurrently": "^9.0.1",
+    "typescript": "^5.6.3"
   },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {}
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+  "engines": {
+    "node": ">=20"
+  }
 }

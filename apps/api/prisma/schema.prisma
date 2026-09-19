@@ -1,0 +1,225 @@
+// SQLite keeps local setup to a single file. Swap `provider` to "postgresql"
+// and re-run `prisma db push` to move to a hosted database — no model changes
+// are required (JSON is stored as text, so it is portable either way).
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------- career graph
+
+model Role {
+  id          String   @id
+  slug        String   @unique
+  name        String
+  category    String?
+  description String?
+  /// Betweenness centrality, recomputed on seed/import.
+  centrality  Float    @default(0)
+  inDegree    Int      @default(0)
+  outDegree   Int      @default(0)
+  updatedAt   DateTime @updatedAt
+
+  outgoing   RoleEdge[]      @relation("edgeFrom")
+  incoming   RoleEdge[]      @relation("edgeTo")
+  skills     RoleSkill[]
+  jobs       JobPosting[]
+  aliases    RoleAlias[]
+  roadmapsAt SavedRoadmap[]  @relation("roadmapFrom")
+  roadmapsTo SavedRoadmap[]  @relation("roadmapTo")
+
+  @@index([name])
+}
+
+/// Job-title shapes a curator has mapped onto a role. The graph is written in
+/// qualification language ("Software Job (IT)") while postings use industry
+/// titles ("Backend Engineer"), so aliases carry almost all of the match quality.
+model RoleAlias {
+  id     String @id @default(uuid())
+  roleId String
+  alias  String
+
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@unique([roleId, alias])
+}
+
+model RoleEdge {
+  id            String @id @default(uuid())
+  fromId        String
+  toId          String
+  durationYears Float  @default(0)
+  /// JSON array of skill names taken from the source sheet.
+  skillsJson    String @default("[]")
+
+  from Role @relation("edgeFrom", fields: [fromId], references: [id], onDelete: Cascade)
+  to   Role @relation("edgeTo", fields: [toId], references: [id], onDelete: Cascade)
+
+  @@unique([fromId, toId])
+  @@index([toId])
+}
+
+model Skill {
+  id       String @id @default(uuid())
+  name     String @unique
+  category String
+
+  roles RoleSkill[]
+  jobs  JobSkill[]
+}
+
+/// Skills attached to a role. `origin` distinguishes curated sheet data from
+/// signals aggregated out of scraped postings, so the two are never conflated.
+model RoleSkill {
+  id      String @id @default(uuid())
+  roleId  String
+  skillId String
+  origin  String @default("graph") // "graph" | "jobs"
+  /// Share of recent postings for this role that mention the skill (0..1).
+  demand  Float  @default(0)
+  mentions Int   @default(0)
+
+  role  Role  @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  skill Skill @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@unique([roleId, skillId, origin])
+  @@index([roleId, origin])
+}
+
+// ------------------------------------------------------------- scraped market
+
+model Source {
+  key       String    @id
+  name      String
+  homepage  String
+  kind      String // "html" | "feed" | "board"
+  enabled   Boolean   @default(true)
+  lastRunAt DateTime?
+
+  jobs JobPosting[]
+  runs IngestRun[]
+}
+
+model JobPosting {
+  id          String   @id @default(uuid())
+  sourceKey   String
+  /// Stable id from the source, used for de-duplication alongside url.
+  externalId  String
+  url         String   @unique
+  title       String
+  company     String
+  location    String?
+  isRemote    Boolean  @default(false)
+  description String   @default("")
+  salaryMin   Float?
+  salaryMax   Float?
+  salaryCurrency String?
+  salaryPeriod   String?
+  seniority   String?
+  postedAt    DateTime?
+  firstSeenAt DateTime @default(now())
+  lastSeenAt  DateTime @default(now())
+  /// Null when a posting's title could not be matched to a graph role.
+  roleId      String?
+  matchScore  Float    @default(0)
+  /// How roleId was decided: alias | exact | tokens. Null when unmatched.
+  matchReason String?
+
+  source Source     @relation(fields: [sourceKey], references: [key], onDelete: Cascade)
+  role   Role?      @relation(fields: [roleId], references: [id], onDelete: SetNull)
+  skills JobSkill[]
+
+  @@unique([sourceKey, externalId])
+  @@index([roleId, postedAt])
+  @@index([lastSeenAt])
+  @@index([title])
+}
+
+model JobSkill {
+  id       String @id @default(uuid())
+  jobId    String
+  skillId  String
+  mentions Int    @default(1)
+
+  job   JobPosting @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  skill Skill      @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@unique([jobId, skillId])
+  @@index([skillId])
+}
+
+model IngestRun {
+  id         String    @id @default(uuid())
+  sourceKey  String
+  startedAt  DateTime  @default(now())
+  finishedAt DateTime?
+  status     String    @default("running") // running | ok | error | skipped
+  jobsFound  Int       @default(0)
+  jobsNew    Int       @default(0)
+  jobsMatched Int      @default(0)
+  message    String?
+
+  source Source @relation(fields: [sourceKey], references: [key], onDelete: Cascade)
+
+  @@index([startedAt])
+}
+
+// --------------------------------------------------------------------- people
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  name         String?
+  avatarUrl    String?
+  /// Null for accounts created purely through OAuth.
+  passwordHash String?
+  createdAt    DateTime @default(now())
+
+  sessions      Session[]
+  oauthAccounts OAuthAccount[]
+  roadmaps      SavedRoadmap[]
+}
+
+model Session {
+  id        String   @id
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model OAuthAccount {
+  id             String @id @default(uuid())
+  provider       String
+  providerUserId String
+  userId         String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerUserId])
+}
+
+model SavedRoadmap {
+  id        String   @id @default(uuid())
+  userId    String
+  fromId    String
+  toId      String
+  title     String
+  /// Serialized CareerPath so a saved roadmap survives graph edits.
+  pathJson  String
+  notes     String?
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  from Role @relation("roadmapFrom", fields: [fromId], references: [id], onDelete: Cascade)
+  to   Role @relation("roadmapTo", fields: [toId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}

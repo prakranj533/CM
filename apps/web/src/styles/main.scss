@@ -1,0 +1,177 @@
+/* Brand palette, sampled from the logo. Keep in sync with plugins/vuetify.ts. */
+:root {
+  --brand-green: #056839;
+  --brand-green-dark: #034a28;
+  --brand-green-muted: #9dbba9;
+  --brand-amber: #fcb040;
+  --brand-amber-dark: #c4841f;
+}
+
+html,
+body {
+  scroll-behavior: smooth;
+}
+
+/* The logo is a square raster with a white field; round it slightly so it reads
+   as a mark rather than a photo, and never let it distort. */
+.brand-mark {
+  object-fit: contain;
+  border-radius: 6px;
+  flex: 0 0 auto;
+}
+
+.brand-lockup:hover .brand-mark {
+  transform: scale(1.04);
+  transition: transform 120ms ease;
+}
+
+/* Amber underline ties the chrome back to the accent in the mark. */
+.brand-appbar {
+  border-bottom: 3px solid var(--brand-amber) !important;
+}
+
+.page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 16px 64px;
+}
+
+.page-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.page-subtitle {
+  color: rgba(0, 0, 0, 0.6);
+  max-width: 68ch;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Career graph -------------------------------------------------------------- */
+
+.career-graph {
+  position: relative;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+
+  svg {
+    display: block;
+    width: 100%;
+    cursor: grab;
+    touch-action: none;
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  .graph-hint {
+    position: absolute;
+    left: 12px;
+    bottom: 10px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    font-size: 0.75rem;
+    color: rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+  }
+
+  .legend-dot {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    margin-right: 2px;
+
+    &--active {
+      background: var(--brand-green);
+    }
+
+    &--idle {
+      background: var(--brand-green-muted);
+    }
+  }
+
+  .link line {
+    stroke: #cbd5e1;
+    stroke-width: 1.2px;
+  }
+
+  .link text {
+    font-size: 9px;
+    fill: rgba(0, 0, 0, 0.45);
+    user-select: none;
+  }
+
+  .node {
+    cursor: pointer;
+
+    circle {
+      stroke: #fff;
+      stroke-width: 1.5px;
+      transition: r 120ms ease;
+    }
+
+    text {
+      font-size: 10px;
+      fill: rgba(0, 0, 0, 0.82);
+      user-select: none;
+      paint-order: stroke;
+      stroke: #fff;
+      stroke-width: 2.5px;
+      stroke-linejoin: round;
+    }
+  }
+
+  /* Focus mode: dim everything that isn't part of the hovered neighbourhood. */
+  &.has-focus {
+    .node,
+    .link {
+      opacity: 0.12;
+    }
+
+    .node.is-focus,
+    .link.is-focus {
+      opacity: 1;
+    }
+  }
+
+  /* Amber reads clearly on top of the green nodes, so the chosen route pops. */
+  .link.is-path line {
+    stroke: var(--brand-amber);
+    stroke-width: 4px;
+  }
+
+  .link.is-path text {
+    fill: var(--brand-amber-dark);
+    font-weight: 700;
+  }
+
+  .node.is-path circle {
+    stroke: var(--brand-amber);
+    stroke-width: 3px;
+  }
+}

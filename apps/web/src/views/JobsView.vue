@@ -131,7 +131,9 @@ const filters = ref({
 });
 
 const seniorityOptions = ["intern", "entry", "mid", "senior", "lead", "executive"];
-const sourceOptions = ["weworkremotely", "remoteok", "greenhouse", "lever"];
+// Fetched rather than hardcoded: the source list changes as adapters are added,
+// and a stale literal silently offers filters that match nothing.
+const sourceOptions = ref<string[]>([]);
 
 const activeChips = computed(() =>
   (
@@ -206,5 +208,13 @@ watch(
 onMounted(() => {
   readQuery();
   void load();
+  void api
+    .status()
+    .then((status) => {
+      sourceOptions.value = status.registeredSources.map((source) => source.key);
+    })
+    .catch(() => {
+      // A missing source list only costs the filter dropdown; the board still works.
+    });
 });
 </script>

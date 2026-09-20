@@ -2,7 +2,7 @@ import { env } from "../../env.js";
 import { parseDate, toPlainText } from "../html.js";
 import { parseSalary } from "../salary.js";
 import type { JobSource, RawJob, ScrapeContext } from "../types.js";
-import { prettifyBoard, splitList } from "./greenhouse.js";
+import { perBoardBudget, prettifyBoard, splitList } from "./shared.js";
 
 interface LeverPosting {
   id: string;
@@ -41,7 +41,7 @@ export const leverSource: JobSource = {
       }
       if (!Array.isArray(postings)) continue;
 
-      const perBoard = Math.max(1, Math.floor(ctx.maxJobs / Math.max(boards.length, 1)));
+      const perBoard = perBoardBudget(ctx.maxJobs, boards.length);
       let taken = 0;
 
       for (const posting of postings) {

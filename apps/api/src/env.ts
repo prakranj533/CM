@@ -29,8 +29,19 @@ const schema = z.object({
   /// Comma-separated Greenhouse/Lever board slugs to pull, e.g. "stripe,figma".
   /// A slug is the company id in its careers URL; unknown slugs are skipped with a
   /// warning, so verify new ones before relying on them.
-  GREENHOUSE_BOARDS: z.string().default("stripe,figma,discord,duolingo"),
+  GREENHOUSE_BOARDS: z.string().default("stripe,figma,discord,duolingo,groww"),
   LEVER_BOARDS: z.string().default("gopuff"),
+  /// Ashby hosts some India-headquartered employers the remote-first boards miss.
+  ASHBY_BOARDS: z.string().default("atlan,ramp,linear"),
+
+  /// Adzuna is the only high-volume source with real Indian coverage.
+  /// Free credentials: https://developer.adzuna.com
+  ADZUNA_APP_ID: z.string().default(""),
+  ADZUNA_APP_KEY: z.string().default(""),
+  /// Two-letter Adzuna country code: in, gb, us, de, au…
+  ADZUNA_COUNTRY: z.string().default("in"),
+  /// Optional keyword filter; empty pulls everything the country feed offers.
+  ADZUNA_QUERY: z.string().default(""),
 
   /// Daily schedule in cron syntax (default 03:15 server time). Empty disables it.
   INGEST_CRON: z.string().default("15 3 * * *"),

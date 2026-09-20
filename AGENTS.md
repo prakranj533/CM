@@ -85,7 +85,16 @@ These were all real bugs; there are regression tests for each in `packages/core`
 - Adapters must degrade, not throw: one dead company board or changed selector should log
   and continue. If a listing page parses to zero rows, log that the selectors look stale.
 - Company board slugs go dead as firms switch ATS vendors. Verify before adding:
-  `curl "https://api.lever.co/v0/postings/<slug>?mode=json"`.
+  `curl "https://api.lever.co/v0/postings/<slug>?mode=json"`. Most Indian companies use
+  their own portals or Naukri, so per-company ATS boards yield very little India data —
+  don't spend long there.
+- **Check `robots.txt` before writing an adapter**, not after. SmartRecruiters looked
+  ideal (Freshworks: 136 postings, 35 in India) but disallows all crawlers bar
+  LinkedInBot; the adapter was written and then deleted.
+- **Never fold a board's `tags` into the description.** Posters tag broadly for reach, so
+  tags inject skills the advert never mentions. Descriptions only.
+- Prefer sources that publish full descriptions. Adzuna returns truncated snippets, so it
+  is a volume/salary/location signal rather than a skills signal.
 
 ## Brand
 

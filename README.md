@@ -99,12 +99,31 @@ Sources live in `apps/api/src/scraper/sources/`, one file each, behind a single
 
 Current sources:
 
-| Source | Kind | Notes |
-| --- | --- | --- |
-| We Work Remotely | `html` | Real DOM scraping: category pages, then each posting page |
-| RemoteOK | `board` | Its published JSON feed |
-| Greenhouse | `board` | Per-company boards via the documented boards API |
-| Lever | `board` | Per-company postings endpoint |
+| Source | Kind | India coverage | Notes |
+| --- | --- | --- | --- |
+| **Adzuna** | `board` | **High** | Official API, `ADZUNA_COUNTRY=in`. **Needs a free key.** Structured salaries, but descriptions are truncated snippets |
+| Ashby | `board` | Some | Per-company boards; a few India-HQ employers |
+| Greenhouse | `board` | Some | Per-company boards via the documented boards API |
+| Lever | `board` | Some | Per-company postings endpoint |
+| Himalayas | `board` | Remote-global | Paginated; >100k postings available, richest descriptions |
+| RemoteOK | `board` | Remote-global | Published JSON feed |
+| Jobicy | `board` | Remote-global | Documented v2 API |
+| Working Nomads | `board` | Remote-global | Whole board in one response |
+| Remotive | `board` | Remote-global | Feed caps at 20 postings per request |
+| We Work Remotely | `html` | Remote-global | Real DOM scraping: category pages, then each posting page |
+
+> **Without Adzuna keys, India coverage is almost nil.** Every keyless source above
+> is a remote-first/global board: in a 454-posting corpus only 15 were India-located.
+> Set `ADZUNA_APP_ID` / `ADZUNA_APP_KEY` (free, from
+> [developer.adzuna.com](https://developer.adzuna.com)) to get real Indian demand data.
+
+Two source-quality rules learned the hard way:
+
+- **Board `tags` are not folded into descriptions.** Posters tag broadly for reach
+  (one Remotive advert tags `.Net, C, C#, C++, golang, java, ios…` at once), which made
+  the extractor attribute skills the advert never asked for. Only the description is used.
+- **Adzuna's `salary_is_predicted` results are dropped** rather than shown, since those
+  are Adzuna's estimates, not figures from the advert.
 
 Every request goes through `scraper/http.ts`, which checks `robots.txt`, rate-limits per
 host, honours `Crawl-delay`, times out, and retries `429`/`5xx` with backoff.
@@ -114,10 +133,13 @@ loaded lazily, with a clear error if it isn't installed.
 Each source is isolated: if one changes its markup or goes down, that adapter is recorded
 as failed in `IngestRun` and the rest still run. `/data` in the UI shows exactly what ran.
 
-> **Scope note.** LinkedIn, Indeed and Glassdoor are deliberately not targeted — they
-> forbid scraping and actively block it, so an adapter for them would be both legally
-> risky and permanently broken. The sources above are public feeds or sites whose
-> `robots.txt` permits the crawl.
+> **Scope note.** Sources deliberately excluded, with reasons, so the question isn't
+> reopened: **LinkedIn / Indeed / Glassdoor / Naukri** forbid scraping and actively block
+> it; **SmartRecruiters** publishes `User-agent: * / Disallow: /` (only LinkedInBot is
+> allowed), despite being the richest keyless India source; **Jooble** sits behind a
+> Cloudflare challenge; **Arbeitnow** had zero Indian postings and German-language
+> descriptions that would pollute skill extraction; **NCS (ncs.gov.in)** is a JavaScript
+> SPA with no documented public API.
 
 ### Why most postings aren't linked to a career stage
 

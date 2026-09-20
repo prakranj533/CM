@@ -2,6 +2,7 @@ import { env } from "../../env.js";
 import { decodeEscapedHtmlToText, parseDate } from "../html.js";
 import { parseSalary } from "../salary.js";
 import type { JobSource, RawJob, ScrapeContext } from "../types.js";
+import { perBoardBudget, prettifyBoard, splitList } from "./shared.js";
 
 interface GreenhouseJob {
   id: number;
@@ -41,7 +42,7 @@ export const greenhouseSource: JobSource = {
         continue;
       }
 
-      const perBoard = Math.max(1, Math.floor(ctx.maxJobs / Math.max(boards.length, 1)));
+      const perBoard = perBoardBudget(ctx.maxJobs, boards.length);
       let taken = 0;
 
       for (const job of payload.jobs ?? []) {
@@ -74,16 +75,4 @@ export const greenhouseSource: JobSource = {
   },
 };
 
-export function splitList(value: string): string[] {
-  return value
-    .split(",")
-    .map((entry) => entry.trim())
-    .filter((entry) => entry.length > 0);
-}
 
-export function prettifyBoard(slug: string): string {
-  return slug
-    .split(/[-_]/)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
-}

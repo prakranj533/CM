@@ -9,7 +9,6 @@ interface RemoteOkRow {
   position?: string;
   description?: string;
   location?: string;
-  tags?: string[];
   salary_min?: number | string;
   salary_max?: number | string;
   date?: string;
@@ -41,11 +40,11 @@ export const remoteOkSource: JobSource = {
       const externalId = String(row.id ?? row.slug ?? "");
       if (!url || !externalId) continue;
 
-      const description = toPlainText(row.description ?? "");
-      const tags = (row.tags ?? []).join(", ");
-      // Tags carry most of the skill signal on this board, so fold them into the
-      // text the skill extractor sees.
-      const body = tags ? `${description}\n\nTags: ${tags}` : description;
+      // Tags are deliberately NOT folded into the description. Posters here
+      // tag broadly for reach ("golang, java, ios, …" on a non-engineering role),
+      // and appending them made the skill extractor attribute skills the advert
+      // never asked for. The description is the honest signal.
+      const body = toPlainText(row.description ?? "");
       const salaryFromText = parseSalary(body);
       const min = numeric(row.salary_min) ?? salaryFromText?.min;
       const max = numeric(row.salary_max) ?? salaryFromText?.max;

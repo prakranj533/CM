@@ -152,6 +152,31 @@ model JobSkill {
   @@index([skillId])
 }
 
+/// Daily demand history — the series behind "where are jobs being created".
+///
+/// Two different measures, deliberately kept apart:
+///   created (flow)  postings first published that day. Reconstructible from
+///                   JobPosting.postedAt, so real history exists from day one.
+///   active  (stock) postings known to be open that day. Only measurable at
+///                   capture time — we never learn when an old posting closed —
+///                   so it stays null on backfilled days rather than being guessed.
+model DemandSnapshot {
+  id        String   @id @default(uuid())
+  /// UTC midnight of the day described.
+  day       DateTime
+  /// "total" | "skill" | "role" | "source"
+  dimension String
+  /// Skill name, role id, source key, or "all" for the total dimension.
+  key       String
+  created   Int      @default(0)
+  active    Int?
+  /// "live" = measured during a run, "backfill" = reconstructed from postedAt.
+  origin    String   @default("live")
+
+  @@unique([day, dimension, key])
+  @@index([dimension, day])
+}
+
 model IngestRun {
   id         String    @id @default(uuid())
   sourceKey  String

@@ -1,5 +1,6 @@
 import { prisma } from "../db.js";
 import { pruneStaleJobs, runIngest } from "../ingest/run.js";
+import { captureDailySnapshot } from "../ingest/snapshots.js";
 import { closeBrowser } from "../scraper/browser.js";
 import { SOURCES } from "../scraper/registry.js";
 
@@ -24,6 +25,10 @@ async function main(): Promise<void> {
     ...(sourceKeys.length ? { sourceKeys } : {}),
     log: (message) => console.log(message),
   });
+
+  // Capture the day's demand before pruning; skipping this would silently lose a
+  // day of history that cannot be reconstructed later.
+  await captureDailySnapshot({ log: (message) => console.log(message) });
 
   const pruned = await pruneStaleJobs();
   if (pruned > 0) console.log(`removed ${pruned} postings not seen recently`);

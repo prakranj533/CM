@@ -44,6 +44,69 @@
       </v-alert>
 
       <v-card border flat class="mb-4">
+        <v-card-title class="text-subtitle-1">Demand trends</v-card-title>
+        <v-card-subtitle class="text-caption">
+          Which skills are being asked for more than they were a month ago.
+        </v-card-subtitle>
+        <v-card-text>
+          <template v-if="trends?.ready && trends.movers.length">
+            <div v-for="mover in trends.movers" :key="mover.key" class="d-flex align-center justify-space-between py-1">
+              <span class="text-body-2">{{ mover.key }}</span>
+              <div class="d-flex align-center ga-2">
+                <span class="text-caption text-medium-emphasis">
+                  {{ mover.previous }} → {{ mover.recent }}
+                </span>
+                <v-chip size="x-small" :color="directionColor(mover.direction)" variant="tonal">
+                  {{ mover.changePct === null ? mover.direction : `${mover.changePct > 0 ? "+" : ""}${mover.changePct}%` }}
+                </v-chip>
+              </div>
+            </div>
+          </template>
+
+          <v-alert v-else type="info" variant="tonal" density="comfortable">
+            <div class="text-body-2">
+              <strong>Not enough history yet.</strong>
+              {{ trends?.explanation }}
+            </div>
+            <v-progress-linear
+              v-if="trends"
+              :model-value="(trends.liveDays / trends.daysNeeded) * 100"
+              color="primary"
+              height="6"
+              rounded
+              class="mt-3"
+            />
+            <div v-if="trends" class="text-caption mt-1">
+              {{ trends.liveDays }} of {{ trends.daysNeeded }} daily measurements recorded
+            </div>
+          </v-alert>
+        </v-card-text>
+      </v-card>
+
+      <v-card v-if="freshness?.weeks.length" border flat class="mb-4">
+        <v-card-title class="text-subtitle-1">How fresh is the board?</v-card-title>
+        <v-card-subtitle class="text-caption">
+          When the postings we currently hold were published.
+        </v-card-subtitle>
+        <v-card-text>
+          <div v-for="week in freshness.weeks" :key="week.weekStart" class="d-flex align-center ga-3 mb-1">
+            <span class="text-caption text-medium-emphasis" style="width: 92px">{{ week.weekStart }}</span>
+            <v-progress-linear
+              :model-value="(week.postings / maxWeek) * 100"
+              color="secondary"
+              height="10"
+              rounded
+              class="flex-grow-1"
+            />
+            <span class="text-caption" style="width: 40px">{{ week.postings }}</span>
+          </div>
+          <v-alert type="warning" variant="tonal" density="compact" class="mt-3 text-caption">
+            {{ freshness.caveat }}
+          </v-alert>
+        </v-card-text>
+      </v-card>
+
+      <v-card border flat class="mb-4">
         <v-card-title class="text-subtitle-1">Sources</v-card-title>
         <v-table density="comfortable">
           <thead>
@@ -117,14 +180,24 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { api } from "@/api/client";
-import type { StatusPayload } from "@/api/types";
+import type { FreshnessPayload, StatusPayload, TrendsPayload } from "@/api/types";
 import { relativeTime } from "@/utils/format";
 
 const status = ref<StatusPayload | null>(null);
+const trends = ref<TrendsPayload | null>(null);
+const freshness = ref<FreshnessPayload | null>(null);
 const loading = ref(true);
 const error = ref<string | null>(null);
+
+const maxWeek = computed(() => Math.max(1, ...(freshness.value?.weeks.map((week) => week.postings) ?? [1])));
+
+function directionColor(direction: string): string {
+  if (direction === "rising" || direction === "new") return "success";
+  if (direction === "falling") return "error";
+  return "grey";
+}
 
 function statusColor(value: string): string {
   if (value === "ok") return "success";
@@ -135,7 +208,14 @@ function statusColor(value: string): string {
 
 onMounted(async () => {
   try {
-    status.value = await api.status();
+    const [statusPayload, trendsPayload, freshnessPayload] = await Promise.all([
+      api.status(),
+      api.trends("skill"),
+      api.freshness(12),
+    ]);
+    status.value = statusPayload;
+    trends.value = trendsPayload;
+    freshness.value = freshnessPayload;
   } catch (caught) {
     error.value = caught instanceof Error ? caught.message : "Could not load status";
   } finally {

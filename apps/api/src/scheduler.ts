@@ -3,6 +3,7 @@ import type { FastifyInstance } from "fastify";
 import { pruneSessions } from "./auth/session.js";
 import { env } from "./env.js";
 import { pruneStaleJobs, runIngest } from "./ingest/run.js";
+import { captureDailySnapshot } from "./ingest/snapshots.js";
 import { invalidatePathCache } from "./routes/paths.js";
 
 let inFlight = false;
@@ -19,6 +20,9 @@ export async function refreshEverything(log: (message: string) => void): Promise
   inFlight = true;
   try {
     await runIngest({ log });
+    // Snapshot before pruning, so the day's stock reflects what was actually
+    // found rather than what survived housekeeping.
+    await captureDailySnapshot({ log });
     const pruned = await pruneStaleJobs();
     const sessions = await pruneSessions();
     invalidatePathCache();

@@ -11,6 +11,7 @@ import { jobRoutes } from "./routes/jobs.js";
 import { meRoutes } from "./routes/me.js";
 import { pathRoutes } from "./routes/paths.js";
 import { roleRoutes } from "./routes/roles.js";
+import { trendRoutes } from "./routes/trends.js";
 
 export async function buildServer(): Promise<FastifyInstance> {
   const app = Fastify({
@@ -49,6 +50,7 @@ export async function buildServer(): Promise<FastifyInstance> {
   await app.register(roleRoutes);
   await app.register(pathRoutes);
   await app.register(jobRoutes);
+  await app.register(trendRoutes);
   await app.register(authRoutes);
   await app.register(meRoutes);
   await app.register(adminRoutes);

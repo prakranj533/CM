@@ -5,3 +5,4 @@ export * from "./centrality.js";
 export * from "./legacy.js";
 export * from "./skills.js";
 export * from "./match.js";
+export * from "./trends.js";

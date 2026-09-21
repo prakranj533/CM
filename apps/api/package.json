@@ -12,7 +12,8 @@
     "db:studio": "prisma studio",
     "db:seed": "tsx src/cli/seed.ts",
     "ingest": "tsx src/cli/ingest.ts",
-    "rematch": "tsx src/cli/rematch.ts"
+    "rematch": "tsx src/cli/rematch.ts",
+    "snapshot": "tsx src/cli/snapshot.ts"
   },
   "prisma": {
     "schema": "prisma/schema.prisma"

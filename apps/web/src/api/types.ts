@@ -128,6 +128,31 @@ export interface SavedRoadmap {
   path: CareerPath | null;
 }
 
+export interface TrendMover {
+  key: string;
+  recent: number;
+  previous: number;
+  changePct: number | null;
+  direction: "rising" | "falling" | "flat" | "new" | "unknown";
+  insufficientData: boolean;
+}
+
+export interface TrendsPayload {
+  dimension: string;
+  windowDays: number;
+  movers: TrendMover[];
+  liveDays: number;
+  daysNeeded: number;
+  ready: boolean;
+  explanation: string;
+}
+
+export interface FreshnessPayload {
+  weeks: Array<{ weekStart: string; postings: number }>;
+  liveCaptureDays: number;
+  caveat: string;
+}
+
 export interface StatusPayload {
   registeredSources: Array<{ key: string; name: string; kind: string }>;
   sources: Array<{ key: string; name: string; homepage: string; kind: string; enabled: boolean; lastRunAt: string | null }>;

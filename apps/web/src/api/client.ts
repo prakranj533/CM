@@ -7,8 +7,10 @@ import type {
   PathsPayload,
   RoleDetail,
   RoleSummary,
+  FreshnessPayload,
   SavedRoadmap,
   StatusPayload,
+  TrendsPayload,
 } from "./types";
 
 export class ApiError extends Error {
@@ -83,6 +85,9 @@ export const api = {
       buildUrl("/api/skills/trending", { limit }),
     ),
   status: () => request<StatusPayload>("/api/status"),
+  trends: (dimension = "skill", windowDays = 28, limit = 15) =>
+    request<TrendsPayload>(buildUrl("/api/trends", { dimension, windowDays, limit })),
+  freshness: (weeks = 12) => request<FreshnessPayload>(buildUrl("/api/trends/freshness", { weeks })),
 
   me: () => request<{ user: AuthUser | null; providers: { password: boolean; google: boolean } }>("/api/auth/me"),
   login: (email: string, password: string) =>

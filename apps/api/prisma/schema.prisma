@@ -17,7 +17,10 @@ model Role {
   slug        String   @unique
   name        String
   category    String?
-  description String?
+  description   String?
+  /// Stable URI/code when the role comes from an external occupation catalog.
+  catalogUri    String?
+  catalogSource String?
   /// Betweenness centrality, recomputed on seed/import.
   centrality  Float    @default(0)
   inDegree    Int      @default(0)
@@ -33,6 +36,7 @@ model Role {
   roadmapsTo SavedRoadmap[]  @relation("roadmapTo")
 
   @@index([name])
+  @@index([catalogSource, catalogUri])
 }
 
 /// Job-title shapes a curator has mapped onto a role. The graph is written in
@@ -55,6 +59,8 @@ model RoleEdge {
   durationYears Float  @default(0)
   /// JSON array of skill names taken from the source sheet.
   skillsJson    String @default("[]")
+  /// "curated" for the original map, "catalog" for public occupation hierarchy edges.
+  origin        String @default("curated")
 
   from Role @relation("edgeFrom", fields: [fromId], references: [id], onDelete: Cascade)
   to   Role @relation("edgeTo", fields: [toId], references: [id], onDelete: Cascade)

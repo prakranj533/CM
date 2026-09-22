@@ -76,6 +76,12 @@ These were all real bugs; there are regression tests for each in `packages/core`
 - After changing the taxonomy or aliases, reprocess stored data instead of re-scraping:
   `npm run rematch -w @career-maps/api`.
 
+## Occupation catalog
+
+- `npm run catalog` imports the public ESCO occupation hierarchy. The ESCO search API's `offset` is a page number, not a row offset.
+- Imported hierarchy edges use `origin="catalog"`; graph seeding only replaces `origin="curated"` edges.
+- Keep general preparation milestones between school stages and imported careers. Do not connect professional occupations directly to 12th standard or invent occupation-specific Indian entrance tests without a verified source.
+
 ## Scraper rules
 
 - Every HTTP request goes through `scraper/http.ts` (robots check, per-host rate limit,

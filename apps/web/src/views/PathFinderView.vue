@@ -131,6 +131,43 @@
             />
           </v-card>
 
+          <v-card border flat class="mb-4">
+            <v-card-title class="text-subtitle-1">Skills required for this career</v-card-title>
+            <v-card-subtitle class="text-caption">{{ result.guidance.source }}</v-card-subtitle>
+            <v-card-text>
+              <div v-if="result.guidance.essentialSkills.length" class="d-flex flex-wrap ga-1">
+                <v-chip v-for="skill in result.guidance.essentialSkills" :key="skill" color="primary" variant="tonal">
+                  {{ skill }}
+                </v-chip>
+              </div>
+              <p v-else class="text-body-2 text-medium-emphasis mb-0">No verified skill profile is available yet.</p>
+              <template v-if="result.guidance.optionalSkills.length">
+                <div class="text-caption stat-label mt-4 mb-2">Useful additional skills</div>
+                <div class="d-flex flex-wrap ga-1">
+                  <v-chip v-for="skill in result.guidance.optionalSkills" :key="skill" variant="outlined">{{ skill }}</v-chip>
+                </div>
+              </template>
+            </v-card-text>
+          </v-card>
+
+          <v-card border flat class="mb-4">
+            <v-card-title class="text-subtitle-1">Tests and qualifications on this route</v-card-title>
+            <v-card-text>
+              <v-list v-if="routeRequirements.length" density="compact">
+                <v-list-item
+                  v-for="requirement in routeRequirements"
+                  :key="requirement.name"
+                  :prepend-icon="requirement.test ? 'mdi-file-document-check' : 'mdi-school'"
+                  :title="requirement.name"
+                  :subtitle="requirement.test ? 'Test or examination to clear' : 'Qualification or training milestone'"
+                />
+              </v-list>
+              <p v-else class="text-body-2 text-medium-emphasis mb-0">
+                This route does not yet contain a verified entrance-test requirement. Check the relevant Indian regulator or institution before applying.
+              </p>
+            </v-card-text>
+          </v-card>
+
           <v-card v-if="result.fastest" border flat>
             <v-card-title class="text-subtitle-1">Quickest route</v-card-title>
             <v-card-text>
@@ -191,6 +228,15 @@ const highlightedEdges = computed(() => {
   const path = result.value?.paths[tab.value];
   if (!path) return [];
   return path.steps.slice(1).map((step, index) => ({ from: path.steps[index]!.roleId, to: step.roleId }));
+});
+
+const routeRequirements = computed(() => {
+  const steps = result.value?.paths[tab.value]?.steps.slice(1, -1) ?? [];
+  const requirementPattern = /\b(10th|12th|degree|diploma|certificate|course|training|apprentice|membership|exam|test|jee|neet|cet|gate|upsc|ssc|entrance)\b/i;
+  const testPattern = /\b(exam|test|jee|neet|cet|gate|upsc|ssc|entrance)\b/i;
+  return steps
+    .filter((step) => requirementPattern.test(step.name))
+    .map((step) => ({ name: step.name, test: testPattern.test(step.name) }));
 });
 
 async function loadRoles(): Promise<void> {

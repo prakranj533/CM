@@ -61,7 +61,7 @@ async function main(): Promise<void> {
 
   // Replace transitions wholesale: an edge removed from the sheet must disappear
   // here too, and upserting alone would leave orphans behind.
-  await prisma.roleEdge.deleteMany({});
+  await prisma.roleEdge.deleteMany({ where: { origin: "curated" } });
   for (const edge of graph.edges) {
     await prisma.roleEdge.create({
       data: {
@@ -69,6 +69,7 @@ async function main(): Promise<void> {
         toId: edge.to,
         durationYears: edge.durationYears,
         skillsJson: JSON.stringify(edge.skills),
+        origin: "curated",
       },
     });
   }

@@ -11,10 +11,11 @@
     "dev": "concurrently -n api,web -c cyan,green \"npm:dev:api\" \"npm:dev:web\"",
     "dev:api": "npm run dev -w @career-maps/api",
     "dev:web": "npm run dev -w @career-maps/web",
-    "setup": "npm run build -w @career-maps/core && npm run db:push && npm run db:seed",
+    "setup": "npm run build -w @career-maps/core && npm run db:push && npm run db:seed && npm run catalog",
     "db:push": "npm run db:push -w @career-maps/api",
     "db:seed": "npm run db:seed -w @career-maps/api",
     "ingest": "npm run ingest -w @career-maps/api",
+  "catalog": "npm run catalog -w @career-maps/api",
     "typecheck": "npm run typecheck -w @career-maps/core && npm run typecheck -w @career-maps/api && npm run typecheck -w @career-maps/web",
     "test": "npm run test -w @career-maps/core"
   },

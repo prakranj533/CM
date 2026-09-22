@@ -5,7 +5,7 @@ import { parseSkills } from "./graph.js";
 
 const listQuery = z.object({
   search: z.string().trim().max(120).optional(),
-  limit: z.coerce.number().min(1).max(200).default(50),
+  limit: z.coerce.number().min(1).max(5000).default(50),
 });
 
 export async function roleRoutes(app: FastifyInstance): Promise<void> {

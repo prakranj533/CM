@@ -130,7 +130,11 @@ function render(): void {
 
   node
     .append("title")
-    .text((d) => `${d.name}\n${d.outDegree} next step(s)${d.openings ? ` · ${d.openings} live posting(s)` : ""}`);
+    .text((d) =>
+      d.summaryCount
+        ? `${d.name}\n${d.summaryCount} careers${d.openings ? ` · ${d.openings} live posting(s)` : ""}`
+        : `${d.name}\n${d.outDegree} next step(s)${d.openings ? ` · ${d.openings} live posting(s)` : ""}`,
+    );
 
   node
     .append("text")

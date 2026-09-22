@@ -2,6 +2,7 @@ import { PathFinder, type CareerGraph } from "@career-maps/core";
 import type { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { prisma } from "../db.js";
+import { fetchJson } from "../scraper/http.js";
 import { parseSkills } from "./graph.js";
 
 const query = z.object({
@@ -17,6 +18,49 @@ const query = z.object({
  * queries off the database entirely.
  */
 let cached: { finder: PathFinder; graph: CareerGraph; stamp: string } | null = null;
+const guidanceCache = new Map<string, { essentialSkills: string[]; optionalSkills: string[]; source: string }>();
+
+interface EscoOccupation {
+  _links?: {
+    hasEssentialSkill?: Array<{ title?: string }>;
+    hasOptionalSkill?: Array<{ title?: string }>;
+  };
+}
+
+async function getGuidance(roleId: string): Promise<{ essentialSkills: string[]; optionalSkills: string[]; source: string }> {
+  const cachedGuidance = guidanceCache.get(roleId);
+  if (cachedGuidance) return cachedGuidance;
+  const role = await prisma.role.findUnique({
+    where: { id: roleId },
+    select: {
+      catalogUri: true,
+      skills: { include: { skill: { select: { name: true } } }, orderBy: [{ demand: "desc" }, { mentions: "desc" }] },
+    },
+  });
+  if (!role) return { essentialSkills: [], optionalSkills: [], source: "none" };
+  if (role.catalogUri) {
+    try {
+      const url = `https://ec.europa.eu/esco/api/resource/occupation?uri=${encodeURIComponent(role.catalogUri)}&language=en`;
+      const resource = await fetchJson<EscoOccupation>(url);
+      const guidance = {
+        essentialSkills: (resource._links?.hasEssentialSkill ?? []).flatMap((skill) => (skill.title ? [skill.title] : [])).slice(0, 30),
+        optionalSkills: (resource._links?.hasOptionalSkill ?? []).flatMap((skill) => (skill.title ? [skill.title] : [])).slice(0, 15),
+        source: "ESCO",
+      };
+      guidanceCache.set(roleId, guidance);
+      return guidance;
+    } catch {
+      return { essentialSkills: [], optionalSkills: [], source: "ESCO unavailable" };
+    }
+  }
+  const guidance = {
+    essentialSkills: role.skills.map((link) => link.skill.name).slice(0, 30),
+    optionalSkills: [],
+    source: "Career Maps and observed jobs",
+  };
+  guidanceCache.set(roleId, guidance);
+  return guidance;
+}
 
 async function getFinder(): Promise<{ finder: PathFinder; graph: CareerGraph }> {
   const [latest, count] = await Promise.all([
@@ -64,6 +108,7 @@ export async function pathRoutes(app: FastifyInstance): Promise<void> {
 
     const paths = finder.findAllPaths(source.id, target.id, { maxPaths, maxDepth });
     const subgraph = finder.subgraphBetween(source.id, target.id, { maxPaths, maxDepth });
+    const guidance = await getGuidance(target.id);
 
     return {
       from: { slug: source.slug, name: source.name },
@@ -71,6 +116,7 @@ export async function pathRoutes(app: FastifyInstance): Promise<void> {
       count: paths.length,
       fastest: finder.fastestPath(source.id, target.id),
       paths,
+      guidance,
       subgraph: {
         nodes: subgraph.nodes.map((node) => ({ id: node.id, slug: node.slug, name: node.name })),
         edges: subgraph.edges,

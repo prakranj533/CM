@@ -4,8 +4,8 @@
       <div>
         <h1 class="page-title">Explore the career map</h1>
         <p class="page-subtitle mt-1">
-          Every circle is a stage — a qualification, an exam or a job. Lines show how you get from one to the next and
-          how long it typically takes. Filled circles have live openings attached.
+          Start with broad career families, like a map viewed from far away. Click a family to zoom into its careers,
+          then click a career for requirements, live jobs and planning.
         </p>
       </div>
       <v-autocomplete
@@ -20,6 +20,12 @@
         style="min-width: 320px; max-width: 420px"
         @update:model-value="openRole"
       />
+    </div>
+
+    <div v-if="selectedFamily" class="d-flex align-center ga-2 mb-4">
+      <v-btn variant="tonal" prepend-icon="mdi-arrow-left" @click="showOverview">All career families</v-btn>
+      <v-chip color="primary" variant="flat">{{ selectedFamily }}</v-chip>
+      <span class="text-caption text-medium-emphasis">Zoomed into this career family</span>
     </div>
 
     <v-row dense class="mb-2">
@@ -40,7 +46,14 @@
       <v-col cols="12" lg="8">
         <v-card border flat>
           <v-skeleton-loader v-if="loading" type="image" height="620" />
-          <CareerGraph v-else :nodes="graph.nodes" :edges="graph.edges" :height="620" @select="openRole" />
+          <CareerGraph
+            v-else
+            :nodes="graph.nodes"
+            :edges="graph.edges"
+            :height="620"
+            :label-all="!selectedFamily"
+            @select="selectMapNode"
+          />
         </v-card>
       </v-col>
 
@@ -102,19 +115,20 @@ import { skillColor } from "@/utils/format";
 
 const router = useRouter();
 const graph = ref<CareerGraphPayload>({ nodes: [], edges: [] });
+const overview = ref<CareerGraphPayload>({ nodes: [], edges: [] });
+const selectedFamily = ref<string | null>(null);
+const roleOptions = ref<Array<{ name: string; slug: string }>>([]);
 const hubs = ref<Array<{ slug: string; name: string; centrality: number; inDegree: number; outDegree: number }>>([]);
 const trending = ref<Array<{ name: string; category: string; postings: number }>>([]);
 const loading = ref(true);
 const error = ref<string | null>(null);
 const jumpTo = ref<string | null>(null);
 
-const roleOptions = computed(() =>
-  [...graph.value.nodes].sort((a, b) => a.name.localeCompare(b.name)).map((node) => ({ name: node.name, slug: node.slug })),
-);
+const totalCareers = computed(() => overview.value.nodes.reduce((total, node) => total + (node.summaryCount ?? 0), 0));
 
 const stats = computed(() => [
-  { label: "Career stages", value: graph.value.nodes.length },
-  { label: "Transitions", value: graph.value.edges.length },
+  { label: selectedFamily.value ? "Careers in family" : "Career stages", value: selectedFamily.value ? graph.value.nodes.length : totalCareers.value },
+  { label: selectedFamily.value ? "Connections" : "Career families", value: selectedFamily.value ? graph.value.edges.length : overview.value.nodes.length },
   { label: "Stages with openings", value: graph.value.nodes.filter((node) => node.openings > 0).length },
   { label: "Live postings", value: graph.value.nodes.reduce((total, node) => total + node.openings, 0) },
 ]);
@@ -124,12 +138,15 @@ async function load(): Promise<void> {
   error.value = null;
   try {
     // Independent requests, so fetch them together rather than in sequence.
-    const [graphPayload, hubsPayload, skillsPayload] = await Promise.all([
-      api.graph(),
+    const [overviewPayload, rolesPayload, hubsPayload, skillsPayload] = await Promise.all([
+      api.graphOverview(),
+      api.roles({ limit: 5000 }),
       api.hubs(12),
       api.trendingSkills(18),
     ]);
-    graph.value = graphPayload;
+    overview.value = overviewPayload;
+    graph.value = overviewPayload;
+    roleOptions.value = rolesPayload.roles.map((role) => ({ name: role.name, slug: role.slug }));
     hubs.value = hubsPayload.hubs;
     trending.value = skillsPayload.skills;
   } catch (caught) {
@@ -137,6 +154,28 @@ async function load(): Promise<void> {
   } finally {
     loading.value = false;
   }
+}
+
+async function selectMapNode(slug: string): Promise<void> {
+  if (slug.startsWith("family:")) {
+    const family = slug.slice("family:".length);
+    loading.value = true;
+    try {
+      graph.value = await api.graph(family);
+      selectedFamily.value = family;
+    } catch (caught) {
+      error.value = caught instanceof Error ? caught.message : "Could not open this career family";
+    } finally {
+      loading.value = false;
+    }
+    return;
+  }
+  await router.push(`/roles/${slug}`);
+}
+
+function showOverview(): void {
+  selectedFamily.value = null;
+  graph.value = overview.value;
 }
 
 function openRole(slug: string | null): void {

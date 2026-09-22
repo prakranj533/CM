@@ -7,6 +7,7 @@ export interface GraphNode {
   inDegree: number;
   outDegree: number;
   openings: number;
+  summaryCount?: number;
 }
 
 export interface GraphEdge {
@@ -100,6 +101,7 @@ export interface PathsPayload {
   count: number;
   fastest: CareerPath | null;
   paths: CareerPath[];
+  guidance: { essentialSkills: string[]; optionalSkills: string[]; source: string };
   subgraph: { nodes: Array<{ id: string; slug: string; name: string }>; edges: GraphEdge[] };
 }
 

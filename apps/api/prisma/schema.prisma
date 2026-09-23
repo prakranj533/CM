@@ -21,6 +21,7 @@ model Role {
   /// Stable URI/code when the role comes from an external occupation catalog.
   catalogUri    String?
   catalogSource String?
+  catalogCode   String?
   /// Betweenness centrality, recomputed on seed/import.
   centrality  Float    @default(0)
   inDegree    Int      @default(0)
@@ -37,6 +38,7 @@ model Role {
 
   @@index([name])
   @@index([catalogSource, catalogUri])
+  @@index([catalogSource, category, catalogCode])
 }
 
 /// Job-title shapes a curator has mapped onto a role. The graph is written in

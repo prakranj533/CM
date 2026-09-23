@@ -4,8 +4,8 @@
       <div>
         <h1 class="page-title">Explore the career map</h1>
         <p class="page-subtitle mt-1">
-          Start with broad career families, like a map viewed from far away. Click a family to zoom into its careers,
-          then click a career for requirements, live jobs and planning.
+          Start with broad career families, then zoom into smaller subfamilies before opening individual careers.
+          Each level reveals only enough detail to stay readable.
         </p>
       </div>
       <v-autocomplete
@@ -22,10 +22,18 @@
       />
     </div>
 
-    <div v-if="selectedFamily" class="d-flex align-center ga-2 mb-4">
-      <v-btn variant="tonal" prepend-icon="mdi-arrow-left" @click="showOverview">All career families</v-btn>
-      <v-chip color="primary" variant="flat">{{ selectedFamily }}</v-chip>
-      <span class="text-caption text-medium-emphasis">Zoomed into this career family</span>
+    <div v-if="selectedFamily" class="d-flex flex-wrap align-center ga-2 mb-4">
+      <v-btn variant="tonal" prepend-icon="mdi-arrow-left" @click="goBack">
+        {{ selectedSpecialty ? selectedSubfamilyName : selectedSubfamily ? selectedFamily : "All career families" }}
+      </v-btn>
+      <v-chip color="primary" :variant="selectedSubfamily ? 'tonal' : 'flat'">{{ selectedFamily }}</v-chip>
+      <v-icon v-if="selectedSubfamily" icon="mdi-chevron-right" size="small" />
+      <v-chip v-if="selectedSubfamily" color="primary" :variant="selectedSpecialty ? 'tonal' : 'flat'">
+        {{ selectedSubfamilyName }}
+      </v-chip>
+      <v-icon v-if="selectedSpecialty" icon="mdi-chevron-right" size="small" />
+      <v-chip v-if="selectedSpecialty" color="primary" variant="flat">{{ selectedSpecialtyName }}</v-chip>
+      <span class="text-caption text-medium-emphasis">{{ mapLevelText }}</span>
     </div>
 
     <v-row dense class="mb-2">
@@ -51,7 +59,7 @@
             :nodes="graph.nodes"
             :edges="graph.edges"
             :height="620"
-            :label-all="!selectedFamily"
+            :label-all="!selectedSpecialty"
             @select="selectMapNode"
           />
         </v-card>
@@ -117,6 +125,10 @@ const router = useRouter();
 const graph = ref<CareerGraphPayload>({ nodes: [], edges: [] });
 const overview = ref<CareerGraphPayload>({ nodes: [], edges: [] });
 const selectedFamily = ref<string | null>(null);
+const selectedSubfamily = ref<string | null>(null);
+const selectedSubfamilyName = ref<string | null>(null);
+const selectedSpecialty = ref<string | null>(null);
+const selectedSpecialtyName = ref<string | null>(null);
 const roleOptions = ref<Array<{ name: string; slug: string }>>([]);
 const hubs = ref<Array<{ slug: string; name: string; centrality: number; inDegree: number; outDegree: number }>>([]);
 const trending = ref<Array<{ name: string; category: string; postings: number }>>([]);
@@ -125,11 +137,28 @@ const error = ref<string | null>(null);
 const jumpTo = ref<string | null>(null);
 
 const totalCareers = computed(() => overview.value.nodes.reduce((total, node) => total + (node.summaryCount ?? 0), 0));
+const careersAtLevel = computed(() =>
+  selectedSpecialty.value ? graph.value.nodes.length : graph.value.nodes.reduce((total, node) => total + (node.summaryCount ?? 0), 0),
+);
+const mapLevelText = computed(() => {
+  if (selectedSpecialty.value) return "Individual careers in this specialty";
+  if (selectedSubfamily.value) return "Choose a focused career specialty";
+  return "Choose a smaller career subfamily";
+});
 
 const stats = computed(() => [
-  { label: selectedFamily.value ? "Careers in family" : "Career stages", value: selectedFamily.value ? graph.value.nodes.length : totalCareers.value },
-  { label: selectedFamily.value ? "Connections" : "Career families", value: selectedFamily.value ? graph.value.edges.length : overview.value.nodes.length },
-  { label: "Stages with openings", value: graph.value.nodes.filter((node) => node.openings > 0).length },
+  { label: selectedFamily.value ? "Careers in this area" : "Career stages", value: selectedFamily.value ? careersAtLevel.value : totalCareers.value },
+  {
+    label: selectedSpecialty.value
+      ? "Career connections"
+      : selectedSubfamily.value
+        ? "Career specialties"
+        : selectedFamily.value
+          ? "Career subfamilies"
+          : "Career families",
+    value: selectedSpecialty.value ? graph.value.edges.length : graph.value.nodes.length,
+  },
+  { label: "Areas with openings", value: graph.value.nodes.filter((node) => node.openings > 0).length },
   { label: "Live postings", value: graph.value.nodes.reduce((total, node) => total + node.openings, 0) },
 ]);
 
@@ -157,25 +186,63 @@ async function load(): Promise<void> {
 }
 
 async function selectMapNode(slug: string): Promise<void> {
-  if (slug.startsWith("family:")) {
-    const family = slug.slice("family:".length);
-    loading.value = true;
-    try {
-      graph.value = await api.graph(family);
+  loading.value = true;
+  error.value = null;
+  try {
+    if (slug.startsWith("family:")) {
+      const family = slug.slice("family:".length);
+      graph.value = await api.graphOverview(family);
       selectedFamily.value = family;
-    } catch (caught) {
-      error.value = caught instanceof Error ? caught.message : "Could not open this career family";
-    } finally {
-      loading.value = false;
+      selectedSubfamily.value = null;
+      selectedSubfamilyName.value = null;
+      selectedSpecialty.value = null;
+      selectedSpecialtyName.value = null;
+      return;
     }
-    return;
+    if (slug.startsWith("subfamily:") && selectedFamily.value) {
+      const subfamily = slug.slice("subfamily:".length);
+      selectedSubfamilyName.value = graph.value.nodes.find((node) => node.slug === slug)?.name ?? "Career subfamily";
+      graph.value = await api.graphOverview(selectedFamily.value, subfamily);
+      selectedSubfamily.value = subfamily;
+      selectedSpecialty.value = null;
+      selectedSpecialtyName.value = null;
+      return;
+    }
+    if (slug.startsWith("specialty:") && selectedFamily.value && selectedSubfamily.value) {
+      const specialty = slug.slice("specialty:".length);
+      selectedSpecialtyName.value = graph.value.nodes.find((node) => node.slug === slug)?.name ?? "Career specialty";
+      graph.value = await api.graph(selectedFamily.value, selectedSubfamily.value, specialty);
+      selectedSpecialty.value = specialty;
+      return;
+    }
+    await router.push(`/roles/${slug}`);
+  } catch (caught) {
+    error.value = caught instanceof Error ? caught.message : "Could not open this part of the career map";
+  } finally {
+    loading.value = false;
   }
-  await router.push(`/roles/${slug}`);
 }
 
-function showOverview(): void {
-  selectedFamily.value = null;
-  graph.value = overview.value;
+async function goBack(): Promise<void> {
+  loading.value = true;
+  try {
+    if (selectedSpecialty.value && selectedFamily.value && selectedSubfamily.value) {
+      graph.value = await api.graphOverview(selectedFamily.value, selectedSubfamily.value);
+      selectedSpecialty.value = null;
+      selectedSpecialtyName.value = null;
+      return;
+    }
+    if (selectedSubfamily.value && selectedFamily.value) {
+      graph.value = await api.graphOverview(selectedFamily.value);
+      selectedSubfamily.value = null;
+      selectedSubfamilyName.value = null;
+      return;
+    }
+    selectedFamily.value = null;
+    graph.value = overview.value;
+  } finally {
+    loading.value = false;
+  }
 }
 
 function openRole(slug: string | null): void {

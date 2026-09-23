@@ -96,6 +96,7 @@ async function main(): Promise<void> {
         description: `Occupation from the ESCO public classification (${occupation.code ?? "no code"}).`,
         catalogUri: occupation.uri,
         catalogSource: "esco",
+        catalogCode: occupation.code ?? null,
       })),
       ...Object.entries(PREPARATION).map(([key, preparation]) => ({
         id: preparation.id,
@@ -105,6 +106,7 @@ async function main(): Promise<void> {
         description: "General preparation milestone. Exact requirements vary by occupation and institution.",
         catalogUri: `career-maps:preparation:${key}`,
         catalogSource: "esco",
+        catalogCode: `prep-${key}`,
       })),
     ],
   });

@@ -94,6 +94,13 @@ function render(): void {
     .join<SVGGElement>("g")
     .attr("class", (d) => `link ${pathKeys.has(`${idOf(d.source)}->${idOf(d.target)}`) ? "is-path" : ""}`);
 
+  link
+    .attr("opacity", 0)
+    .transition()
+    .duration(350)
+    .delay((_d, index) => Math.min(index * 3, 400))
+    .attr("opacity", 1);
+
   link.append("line");
   link
     .append("text")
@@ -120,6 +127,13 @@ function render(): void {
       focusIds.value = null;
       applyFocus(null);
     });
+
+  node
+    .attr("opacity", 0)
+    .transition()
+    .duration(500)
+    .delay((_d, index) => Math.min(index * 10, 700))
+    .attr("opacity", 1);
 
   // Brand green marks stages with live demand; muted green keeps the rest legible
   // without competing for attention.

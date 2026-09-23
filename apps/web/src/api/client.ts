@@ -63,8 +63,10 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
 }
 
 export const api = {
-  graph: (family?: string) => request<CareerGraphPayload>(buildUrl("/api/graph", { family })),
-  graphOverview: () => request<CareerGraphPayload>("/api/graph/overview"),
+  graph: (family?: string, subfamily?: string, specialty?: string) =>
+    request<CareerGraphPayload>(buildUrl("/api/graph", { family, subfamily, specialty })),
+  graphOverview: (family?: string, subfamily?: string) =>
+    request<CareerGraphPayload>(buildUrl("/api/graph/overview", { family, subfamily })),
   hubs: (limit = 15) =>
     request<{ hubs: Array<{ slug: string; name: string; centrality: number; inDegree: number; outDegree: number }> }>(
       buildUrl("/api/graph/hubs", { limit }),

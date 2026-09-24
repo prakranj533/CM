@@ -1,136 +1,106 @@
 import { createHash } from "node:crypto";
 import { slugify } from "@career-maps/core";
+import { load } from "cheerio";
 import { prisma } from "../db.js";
-import { fetchJson } from "../scraper/http.js";
+import { fetchText } from "../scraper/http.js";
 
-const ESCO_SEARCH = "https://ec.europa.eu/esco/api/search";
-const PAGE_SIZE = 100;
+const NCO_URL = "https://dge.gov.in/nat";
 const ROOT_ROLE_NAMES = ["10th (S.S.C.)", "12th (H.S.C.)", "12th Science", "12th Commerce", "12th Arts"];
 
 const PREPARATION = {
   degree: { id: "catalog-prep-degree", name: "Bachelor's degree or equivalent professional qualification", years: 3 },
   technical: { id: "catalog-prep-technical", name: "Diploma or technical degree", years: 2 },
-  vocational: { id: "catalog-prep-vocational", name: "Vocational training, apprenticeship or certification", years: 1 },
+  vocational: { id: "catalog-prep-vocational", name: "ITI, vocational training, apprenticeship or certification", years: 1 },
   foundation: { id: "catalog-prep-foundation", name: "Job-ready foundational skills training", years: 0.5 },
   defence: { id: "catalog-prep-defence", name: "Defence entrance test, medical and fitness assessment", years: 0.5 },
 } as const;
 
-function preparationFor(category: string): keyof typeof PREPARATION {
-  if (category === "Managers" || category === "Professionals") return "degree";
-  if (category === "Technicians and associate professionals") return "technical";
-  if (category === "Elementary occupations") return "foundation";
-  if (category === "Armed forces") return "defence";
+interface NcoOccupation {
+  code: string;
+  title: string;
+  division: string;
+  subdivision: string;
+  group: string;
+  family: string;
+}
+
+function preparationFor(division: string): keyof typeof PREPARATION {
+  if (division === "Managers" || division === "Professionals") return "degree";
+  if (division.includes("Technicians")) return "technical";
+  if (division.includes("Elementary")) return "foundation";
+  if (division.includes("Armed")) return "defence";
   return "vocational";
 }
 
-interface EscoResult {
-  uri: string;
-  title?: string;
-  code?: string;
-  preferredLabel?: { en?: string; "en-us"?: string };
-  broaderOccupation?: string[];
+function roleId(occupation: NcoOccupation): string {
+  return `nco:${createHash("sha1").update(`${occupation.code}:${occupation.title}`).digest("hex").slice(0, 24)}`;
 }
 
-interface EscoPage {
-  total: number;
-  _embedded?: { results?: EscoResult[] };
-}
-
-function roleId(uri: string): string {
-  return `esco:${createHash("sha1").update(uri).digest("hex").slice(0, 24)}`;
-}
-
-function categoryFor(code: string | undefined): string {
-  const group = code?.charAt(0);
-  return (
-    {
-      "0": "Armed forces",
-      "1": "Managers",
-      "2": "Professionals",
-      "3": "Technicians and associate professionals",
-      "4": "Clerical support workers",
-      "5": "Services and sales workers",
-      "6": "Skilled agricultural workers",
-      "7": "Craft and trades workers",
-      "8": "Plant and machine operators",
-      "9": "Elementary occupations",
-    }[group ?? ""] ?? "Other occupations"
-  );
-}
-
-function titleFor(result: EscoResult): string {
-  return result.title?.trim() || result.preferredLabel?.en?.trim() || result.preferredLabel?.["en-us"]?.trim() || "Unnamed occupation";
-}
-
-async function fetchOccupations(): Promise<EscoResult[]> {
-  const results: EscoResult[] = [];
-  let total = Number.POSITIVE_INFINITY;
-  for (let pageNumber = 0; results.length < total; pageNumber += 1) {
-    const url = `${ESCO_SEARCH}?language=en&type=occupation&limit=${PAGE_SIZE}&offset=${pageNumber}&text=`;
-    const page = await fetchJson<EscoPage>(url);
-    total = page.total;
-    const rows = page._embedded?.results ?? [];
-    results.push(...rows);
-    console.log(`ESCO occupations: ${results.length}/${total}`);
-    if (rows.length === 0) break;
+async function fetchOccupations(): Promise<NcoOccupation[]> {
+  const occupations: NcoOccupation[] = [];
+  for (let page = 0; page < 50; page += 1) {
+    const html = await fetchText(`${NCO_URL}?page=${page}`);
+    const $ = load(html);
+    let pageRows = 0;
+    $("main table tbody tr").each((_index, row) => {
+      const cells = $(row)
+        .find("td")
+        .map((_cellIndex, cell) => $(cell).text().replace(/\s+/g, " ").trim())
+        .get();
+      if (cells.length < 8 || !cells[1] || !cells[2]) return;
+      occupations.push({
+        title: cells[1],
+        code: cells[2],
+        division: cells[4] || "Other occupations",
+        subdivision: cells[5] || "Other occupations",
+        group: cells[6] || "Other occupations",
+        family: cells[7] || "Other occupations",
+      });
+      pageRows += 1;
+    });
+    console.log(`NCO occupations: ${occupations.length}`);
+    const hasNext = $("a").toArray().some((link) => $(link).text().trim() === "Next");
+    if (pageRows === 0 || !hasNext) break;
   }
-  return [...new Map(results.map((result) => [result.uri, result])).values()].filter(
-    (result) => result.uri && titleFor(result) !== "Unnamed occupation",
-  );
+  return [...new Map(occupations.map((occupation) => [`${occupation.code}:${occupation.title}`, occupation])).values()];
 }
 
 async function main(): Promise<void> {
   const occupations = await fetchOccupations();
-  const byUri = new Map(occupations.map((occupation) => [occupation.uri, occupation]));
-  const ids = new Map(occupations.map((occupation) => [occupation.uri, roleId(occupation.uri)]));
-
-  await prisma.role.deleteMany({ where: { catalogSource: "esco" } });
+  await prisma.role.deleteMany({ where: { catalogSource: { in: ["esco", "nco"] } } });
 
   await prisma.role.createMany({
     data: [
       ...occupations.map((occupation) => ({
-        id: ids.get(occupation.uri)!,
-        slug: `esco-${slugify(titleFor(occupation))}-${(occupation.code ?? ids.get(occupation.uri)!).replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`.slice(0, 100),
-        name: titleFor(occupation),
-        category: categoryFor(occupation.code),
-        description: `Occupation from the ESCO public classification (${occupation.code ?? "no code"}).`,
-        catalogUri: occupation.uri,
-        catalogSource: "esco",
-        catalogCode: occupation.code ?? null,
+        id: roleId(occupation),
+        slug: `nco-${slugify(occupation.title)}-${occupation.code.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`.slice(0, 100),
+        name: occupation.title,
+        category: occupation.division,
+        description: `${occupation.family}. Indian National Classification of Occupations 2015 code ${occupation.code}.`,
+        catalogUri: NCO_URL,
+        catalogSource: "nco",
+        catalogCode: occupation.code,
       })),
       ...Object.entries(PREPARATION).map(([key, preparation]) => ({
         id: preparation.id,
         slug: `career-preparation-${key}`,
         name: preparation.name,
         category: "Career preparation",
-        description: "General preparation milestone. Exact requirements vary by occupation and institution.",
+        description: "General Indian preparation milestone. Exact requirements vary by occupation, regulator and institution.",
         catalogUri: `career-maps:preparation:${key}`,
-        catalogSource: "esco",
+        catalogSource: "nco",
         catalogCode: `prep-${key}`,
       })),
     ],
   });
 
-  const hierarchyEdges = occupations.flatMap((occupation) => {
-    const childId = ids.get(occupation.uri);
-    if (!childId) return [];
-    return (occupation.broaderOccupation ?? [])
-      .map((parentUri) => {
-        const parentId = ids.get(parentUri);
-        return parentId ? { fromId: parentId, toId: childId, durationYears: 0.5, skillsJson: "[]", origin: "catalog" } : null;
-      })
-      .filter((edge): edge is NonNullable<typeof edge> => edge !== null);
-  });
-
-  const rootOccupations = occupations.filter(
-    (occupation) => !(occupation.broaderOccupation ?? []).some((parentUri) => byUri.has(parentUri)),
-  );
-  const preparationEdges = rootOccupations.flatMap((occupation) => {
-    const rootId = ids.get(occupation.uri);
-    if (!rootId) return [];
-    const preparation = PREPARATION[preparationFor(categoryFor(occupation.code))];
-    return [{ fromId: preparation.id, toId: rootId, durationYears: 0.5, skillsJson: "[]", origin: "catalog" }];
-  });
+  const preparationEdges = occupations.map((occupation) => ({
+    fromId: PREPARATION[preparationFor(occupation.division)].id,
+    toId: roleId(occupation),
+    durationYears: 0.5,
+    skillsJson: "[]",
+    origin: "catalog",
+  }));
   const educationRoles = await prisma.role.findMany({ where: { name: { in: ROOT_ROLE_NAMES } }, select: { id: true, name: true } });
   const educationEdges = educationRoles.flatMap((role) =>
     Object.entries(PREPARATION)
@@ -144,17 +114,15 @@ async function main(): Promise<void> {
       })),
   );
 
-  await prisma.roleEdge.createMany({ data: [...hierarchyEdges, ...preparationEdges, ...educationEdges] });
+  await prisma.roleEdge.createMany({ data: [...preparationEdges, ...educationEdges] });
   await prisma.$executeRawUnsafe(`
     UPDATE Role
     SET inDegree = (SELECT COUNT(*) FROM RoleEdge WHERE RoleEdge.toId = Role.id),
         outDegree = (SELECT COUNT(*) FROM RoleEdge WHERE RoleEdge.fromId = Role.id),
         centrality = (SELECT COUNT(*) FROM RoleEdge WHERE RoleEdge.toId = Role.id OR RoleEdge.fromId = Role.id)
-    WHERE catalogSource = 'esco'
+    WHERE catalogSource = 'nco'
   `);
-  console.log(
-    `imported ${occupations.length} ESCO occupations and ${hierarchyEdges.length + preparationEdges.length + educationEdges.length} planning transitions`,
-  );
+  console.log(`imported ${occupations.length} Indian NCO-2015 occupations and ${preparationEdges.length + educationEdges.length} planning transitions`);
 }
 
 main().catch((error: unknown) => {

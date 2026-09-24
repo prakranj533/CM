@@ -78,9 +78,11 @@ These were all real bugs; there are regression tests for each in `packages/core`
 
 ## Occupation catalog
 
-- `npm run catalog` imports the public ESCO occupation hierarchy. The ESCO search API's `offset` is a page number, not a row offset.
-- Imported hierarchy edges use `origin="catalog"`; graph seeding only replaces `origin="curated"` edges.
+- `npm run catalog` imports India's official NCO-2015 catalogue from the Directorate General of Employment search pages.
+- Imported planning edges use `origin="catalog"`; graph seeding only replaces `origin="curated"` edges.
+- NCO codes align with ISCO and drive the family/subfamily/specialty map levels. Keep the full NCO code in `Role.catalogCode`.
 - Keep general preparation milestones between school stages and imported careers. Do not connect professional occupations directly to 12th standard or invent occupation-specific Indian entrance tests without a verified source.
+- Salaries are stored in their source currency. Convert only for display/aggregation, label non-INR conversions as indicative, and never overwrite the original currency fields.
 
 ## Scraper rules
 

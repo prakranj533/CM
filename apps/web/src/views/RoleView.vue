@@ -142,7 +142,7 @@
                 </v-col>
                 <v-col cols="6">
                   <div class="stat-value">{{ salaryRange ?? "—" }}</div>
-                  <div class="stat-label">Typical advertised pay</div>
+                  <div class="stat-label">Indicative annual pay (INR)</div>
                 </v-col>
               </v-row>
               <v-divider class="my-3" />
@@ -176,7 +176,7 @@ import CareerGraph from "@/components/CareerGraph.vue";
 import JobCard from "@/components/JobCard.vue";
 import { api } from "@/api/client";
 import type { GraphEdge, GraphNode, RoleDetail } from "@/api/types";
-import { formatYears, pluralize, skillColor } from "@/utils/format";
+import { formatInr, formatYears, pluralize, skillColor } from "@/utils/format";
 
 const route = useRoute();
 const router = useRouter();
@@ -187,8 +187,8 @@ const error = ref<string | null>(null);
 const salaryRange = computed(() => {
   const market = detail.value?.market;
   if (!market?.avgSalaryMin && !market?.avgSalaryMax) return null;
-  const format = (value: number | null): string | null => (value ? `${Math.round(value / 1000)}k` : null);
-  return [format(market.avgSalaryMin), format(market.avgSalaryMax)].filter(Boolean).join("–");
+  const format = (value: number | null): string | null => (value ? formatInr(value) : null);
+  return [format(market.avgSalaryMin), format(market.avgSalaryMax)].filter(Boolean).join(" – ");
 });
 
 /**

@@ -1,6 +1,13 @@
-const CURRENCY_SYMBOLS: Record<string, string> = { USD: "$", EUR: "€", GBP: "£", INR: "₹" };
+const INR_PER_UNIT: Record<string, number> = {
+  INR: 1,
+  USD: 84,
+  EUR: 91,
+  GBP: 108,
+  CAD: 62,
+  AUD: 55,
+};
 
-/** "$120k – $150k / year", or null when the posting had no usable salary. */
+/** "₹12 lakh – ₹15 lakh / year", or null when the posting had no usable salary. */
 export function formatSalary(job: {
   salaryMin: number | null;
   salaryMax: number | null;
@@ -8,19 +15,25 @@ export function formatSalary(job: {
   salaryPeriod: string | null;
 }): string | null {
   const { salaryMin, salaryMax, salaryCurrency, salaryPeriod } = job;
-  if (!salaryMin && !salaryMax) return null;
+  if ((!salaryMin && !salaryMax) || !salaryCurrency) return null;
+  const rate = INR_PER_UNIT[salaryCurrency.toUpperCase()];
+  if (!rate) return null;
 
-  const symbol = salaryCurrency ? (CURRENCY_SYMBOLS[salaryCurrency] ?? `${salaryCurrency} `) : "";
-  const low = salaryMin ? `${symbol}${compact(salaryMin)}` : null;
-  const high = salaryMax && salaryMax !== salaryMin ? `${symbol}${compact(salaryMax)}` : null;
+  const low = salaryMin ? formatInr(salaryMin * rate) : null;
+  const high = salaryMax && salaryMax !== salaryMin ? formatInr(salaryMax * rate) : null;
   const range = [low, high].filter(Boolean).join(" – ");
-  return salaryPeriod ? `${range} / ${salaryPeriod}` : range;
+  const approximate = salaryCurrency.toUpperCase() === "INR" ? "" : "≈ ";
+  return `${approximate}${range}${salaryPeriod ? ` / ${salaryPeriod}` : ""}`;
 }
 
-function compact(value: number): string {
-  if (value >= 1_000_000) return `${Number.parseFloat((value / 1_000_000).toFixed(1))}m`;
-  if (value >= 1000) return `${Math.round(value / 1000)}k`;
-  return String(Math.round(value));
+export function formatInr(value: number): string {
+  if (value >= 10_000_000) return `₹${Number.parseFloat((value / 10_000_000).toFixed(1))} crore`;
+  if (value >= 100_000) return `₹${Number.parseFloat((value / 100_000).toFixed(1))} lakh`;
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 0,
+  }).format(value);
 }
 
 /** "3 days ago" — postings are only meaningful with recency attached. */

@@ -34,11 +34,12 @@ async function getGuidance(roleId: string): Promise<{ essentialSkills: string[];
     where: { id: roleId },
     select: {
       catalogUri: true,
+      catalogSource: true,
       skills: { include: { skill: { select: { name: true } } }, orderBy: [{ demand: "desc" }, { mentions: "desc" }] },
     },
   });
   if (!role) return { essentialSkills: [], optionalSkills: [], source: "none" };
-  if (role.catalogUri) {
+  if (role.catalogSource === "esco" && role.catalogUri) {
     try {
       const url = `https://ec.europa.eu/esco/api/resource/occupation?uri=${encodeURIComponent(role.catalogUri)}&language=en`;
       const resource = await fetchJson<EscoOccupation>(url);
@@ -56,7 +57,7 @@ async function getGuidance(roleId: string): Promise<{ essentialSkills: string[];
   const guidance = {
     essentialSkills: role.skills.map((link) => link.skill.name).slice(0, 30),
     optionalSkills: [],
-    source: "Career Maps and observed jobs",
+    source: role.catalogSource === "nco" ? "India NCO-2015 and observed jobs" : "Career Maps and observed jobs",
   };
   guidanceCache.set(roleId, guidance);
   return guidance;

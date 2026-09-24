@@ -61,7 +61,7 @@ export async function roleRoutes(app: FastifyInstance): Promise<void> {
     if (!role) return reply.code(404).send({ error: "Role not found" });
 
     const since = new Date(Date.now() - 60 * 24 * 60 * 60 * 1000);
-    const [recentJobs, stats, seniorityBreakdown] = await Promise.all([
+    const [recentJobs, stats, seniorityBreakdown, salaryRows] = await Promise.all([
       prisma.jobPosting.findMany({
         where: { roleId: role.id },
         orderBy: [{ postedAt: "desc" }, { firstSeenAt: "desc" }],
@@ -86,17 +86,34 @@ export async function roleRoutes(app: FastifyInstance): Promise<void> {
       prisma.jobPosting.aggregate({
         where: { roleId: role.id, lastSeenAt: { gte: since } },
         _count: { _all: true },
-        _avg: { salaryMin: true, salaryMax: true },
       }),
       prisma.jobPosting.groupBy({
         by: ["seniority"],
         where: { roleId: role.id, lastSeenAt: { gte: since } },
         _count: { _all: true },
       }),
+      prisma.jobPosting.findMany({
+        where: {
+          roleId: role.id,
+          lastSeenAt: { gte: since },
+          salaryCurrency: { not: null },
+          OR: [{ salaryMin: { not: null } }, { salaryMax: { not: null } }],
+        },
+        select: { salaryMin: true, salaryMax: true, salaryCurrency: true, salaryPeriod: true },
+      }),
     ]);
 
     const remoteCount = await prisma.jobPosting.count({
       where: { roleId: role.id, lastSeenAt: { gte: since }, isRemote: true },
+    });
+
+    const salaryMins = salaryRows.flatMap((row) => {
+      const value = annualInr(row.salaryMin, row.salaryCurrency, row.salaryPeriod);
+      return value === null ? [] : [value];
+    });
+    const salaryMaxes = salaryRows.flatMap((row) => {
+      const value = annualInr(row.salaryMax, row.salaryCurrency, row.salaryPeriod);
+      return value === null ? [] : [value];
     });
 
     const curatedSkills = role.skills.filter((link) => link.origin === "graph");
@@ -138,8 +155,8 @@ export async function roleRoutes(app: FastifyInstance): Promise<void> {
       market: {
         postings: stats._count._all,
         remoteShare: stats._count._all ? Math.round((remoteCount / stats._count._all) * 100) / 100 : 0,
-        avgSalaryMin: stats._avg.salaryMin ? Math.round(stats._avg.salaryMin) : null,
-        avgSalaryMax: stats._avg.salaryMax ? Math.round(stats._avg.salaryMax) : null,
+        avgSalaryMin: average(salaryMins),
+        avgSalaryMax: average(salaryMaxes),
         seniority: seniorityBreakdown
           .map((row) => ({ level: row.seniority ?? "unknown", count: row._count._all }))
           .sort((a, b) => b.count - a.count),
@@ -147,4 +164,18 @@ export async function roleRoutes(app: FastifyInstance): Promise<void> {
       recentJobs,
     };
   });
+}
+
+const INR_RATES: Record<string, number> = { INR: 1, USD: 84, EUR: 91, GBP: 108, CAD: 62, AUD: 55 };
+const PERIODS_PER_YEAR: Record<string, number> = { year: 1, month: 12, day: 260, hour: 2080 };
+
+function annualInr(amount: number | null, currency: string | null, period: string | null): number | null {
+  if (!amount || !currency) return null;
+  const rate = INR_RATES[currency.toUpperCase()];
+  if (!rate) return null;
+  return amount * rate * (period ? PERIODS_PER_YEAR[period] ?? 1 : 1);
+}
+
+function average(values: number[]): number | null {
+  return values.length ? Math.round(values.reduce((sum, value) => sum + value, 0) / values.length) : null;
 }

@@ -2,8 +2,8 @@
   <div class="page">
     <h1 class="page-title">Plan a path</h1>
     <p class="page-subtitle mt-1 mb-6">
-      Pick where you are now and where you want to end up. Every route in the curated map is listed, cheapest first,
-      with the time each step takes.
+      Pick your current education stage and an Indian NCO-2015 career. Routes show preparation time, skills,
+      qualifications and verified entrance-test milestones.
     </p>
 
     <v-card border flat class="pa-4 mb-6">

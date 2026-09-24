@@ -49,7 +49,7 @@ const SUBFAMILY_NAMES: Record<string, string> = {
 };
 
 function familyWhere(family: string): Prisma.RoleWhereInput {
-  return family === "Curated pathways" ? { catalogSource: null } : { catalogSource: "esco", category: family };
+  return family === "Curated pathways" ? { catalogSource: null } : { catalogSource: "nco", category: family };
 }
 
 export async function graphRoutes(app: FastifyInstance): Promise<void> {
@@ -72,7 +72,7 @@ export async function graphRoutes(app: FastifyInstance): Promise<void> {
         ? role.catalogCode?.match(/^\d{3}/)?.[0] ?? "all"
         : family
           ? role.catalogCode?.match(/^\d{2}/)?.[0] ?? "all"
-          : role.catalogSource === "esco"
+          : role.catalogSource === "nco"
             ? role.category ?? "Other occupations"
             : "Curated pathways";
       const name = family && !subfamily ? SUBFAMILY_NAMES[key] ?? `${family} pathways` : key;

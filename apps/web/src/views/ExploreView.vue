@@ -4,8 +4,8 @@
       <div>
         <h1 class="page-title">Explore the career map</h1>
         <p class="page-subtitle mt-1">
-          Start with broad career families, then zoom into smaller subfamilies before opening individual careers.
-          Each level reveals only enough detail to stay readable.
+          Explore Indian careers from the Government of India's NCO-2015 classification. Zoom from broad families into
+          subfamilies and specialties before opening an individual career.
         </p>
       </div>
       <v-autocomplete

@@ -2,8 +2,8 @@
   <div class="page">
     <h1 class="page-title">Live jobs</h1>
     <p class="page-subtitle mt-1 mb-6">
-      Collected daily from public job sources. Skills are extracted from each description, so you can filter by what is
-      actually being asked for.
+      Collected daily from public job sources for Indian career planning. Salaries are shown in rupees; ≈ marks a
+      indicative conversion from the posting's original currency.
     </p>
 
     <v-card border flat class="pa-4 mb-6">

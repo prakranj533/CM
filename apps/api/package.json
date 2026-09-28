@@ -8,16 +8,11 @@
     "build": "tsc -p tsconfig.json",
     "start": "node dist/index.js",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "db:push": "prisma db push --skip-generate && prisma generate",
-    "db:studio": "prisma studio",
     "db:seed": "tsx src/cli/seed.ts",
     "ingest": "tsx src/cli/ingest.ts",
     "rematch": "tsx src/cli/rematch.ts",
     "snapshot": "tsx src/cli/snapshot.ts",
     "catalog": "tsx src/cli/catalog.ts"
-  },
-  "prisma": {
-    "schema": "prisma/schema.prisma"
   },
   "dependencies": {
     "@career-maps/core": "*",
@@ -25,11 +20,11 @@
     "@fastify/cors": "^9.0.1",
     "@fastify/oauth2": "^7.8.1",
     "@fastify/rate-limit": "^9.1.0",
-    "@prisma/client": "^5.22.0",
     "bcryptjs": "^2.4.3",
     "cheerio": "^1.0.0",
     "dotenv": "^16.4.5",
     "fastify": "^4.28.1",
+    "firebase-admin": "^14.4.0",
     "node-cron": "^3.0.3",
     "robots-parser": "^3.0.1",
     "zod": "^3.23.8"
@@ -42,7 +37,6 @@
     "@types/node": "^22.7.5",
     "@types/node-cron": "^3.0.11",
     "pino-pretty": "^11.3.0",
-    "prisma": "^5.22.0",
     "tsx": "^4.19.1",
     "typescript": "^5.6.3"
   }

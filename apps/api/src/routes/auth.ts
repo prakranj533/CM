@@ -1,9 +1,11 @@
+import { randomUUID } from "node:crypto";
 import fastifyOauth2, { type OAuth2Namespace } from "@fastify/oauth2";
 import type { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { createSession, destroySession, hashPassword, setSessionCookie, verifyPassword } from "../auth/session.js";
-import { prisma } from "../db.js";
 import { env, googleOAuthEnabled } from "../env.js";
+import { createUserIfEmailAvailable, linkOAuthUser, userByEmail } from "../store.js";
+import type { OAuthAccountRecord, UserRecord } from "../firestore.js";
 
 /**
  * @fastify/oauth2 hangs the provider presets off its exported function, but the
@@ -32,18 +34,19 @@ export async function authRoutes(app: FastifyInstance): Promise<void> {
       return reply.code(400).send({ error: "Invalid details", details: parsed.error.flatten().fieldErrors });
     }
     const { email, password, name } = parsed.data;
-
-    const existing = await prisma.user.findUnique({ where: { email }, select: { id: true } });
-    if (existing) return reply.code(409).send({ error: "An account with that email already exists" });
-
-    const user = await prisma.user.create({
-      data: { email, name: name ?? null, passwordHash: await hashPassword(password) },
-      select: { id: true, email: true, name: true, avatarUrl: true },
-    });
+    const user: UserRecord = {
+      id: randomUUID(),
+      email,
+      name: name ?? null,
+      avatarUrl: null,
+      passwordHash: await hashPassword(password),
+      createdAt: new Date(),
+    };
+    if (!(await createUserIfEmailAvailable(user))) return reply.code(409).send({ error: "An account with that email already exists" });
 
     const session = await createSession(user.id);
     setSessionCookie(reply, session.id, session.expiresAt);
-    return reply.code(201).send({ user });
+    return reply.code(201).send({ user: { id: user.id, email: user.email, name: user.name, avatarUrl: user.avatarUrl } });
   });
 
   app.post("/api/auth/login", { config: { rateLimit: { max: 10, timeWindow: "10 minutes" } } }, async (request, reply) => {
@@ -51,7 +54,7 @@ export async function authRoutes(app: FastifyInstance): Promise<void> {
     if (!parsed.success) return reply.code(400).send({ error: "Enter an email and password" });
     const { email, password } = parsed.data;
 
-    const user = await prisma.user.findUnique({ where: { email } });
+    const user = await userByEmail(email);
     // Identical response whether the email is unknown or the password is wrong,
     // so the endpoint can't be used to enumerate registered addresses.
     const invalid = { error: "Email or password is incorrect" };
@@ -104,31 +107,18 @@ export async function authRoutes(app: FastifyInstance): Promise<void> {
       if (!profile.email) throw new Error("Google account has no email address");
 
       const email = profile.email.toLowerCase();
-      const existingLink = await prisma.oAuthAccount.findUnique({
-        where: { provider_providerUserId: { provider: "google", providerUserId: profile.sub } },
-        select: { userId: true },
-      });
-
-      let userId = existingLink?.userId;
-      if (!userId) {
-        // Link to an existing password account with the same verified address
-        // instead of creating a duplicate user.
-        const user = await prisma.user.upsert({
-          where: { email },
-          create: { email, name: profile.name ?? null, avatarUrl: profile.picture ?? null },
-          update: {
-            name: profile.name ?? undefined,
-            avatarUrl: profile.picture ?? undefined,
-          },
-          select: { id: true },
-        });
-        userId = user.id;
-        await prisma.oAuthAccount.create({
-          data: { provider: "google", providerUserId: profile.sub, userId },
-        });
-      }
-
-      const session = await createSession(userId);
+      const user = await linkOAuthUser(
+        { id: `google:${profile.sub}`, provider: "google", providerUserId: profile.sub, userId: "" } satisfies OAuthAccountRecord,
+        {
+          id: randomUUID(),
+          email,
+          name: profile.name ?? null,
+          avatarUrl: profile.picture ?? null,
+          passwordHash: null,
+          createdAt: new Date(),
+        } satisfies UserRecord,
+      );
+      const session = await createSession(user.id);
       setSessionCookie(reply, session.id, session.expiresAt);
       return reply.redirect(`${env.WEB_ORIGIN}/`);
     } catch (error) {

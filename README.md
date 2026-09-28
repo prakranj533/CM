@@ -7,18 +7,20 @@ The career pathway data is **curated** (a maintained sheet of stages and transit
 The job market data is **collected daily** from public job sources, with skills extracted
 from each posting and aggregated per role.
 
-![stack](https://img.shields.io/badge/Vue-3-42b883) ![stack](https://img.shields.io/badge/Fastify-4-black) ![stack](https://img.shields.io/badge/Prisma-5-2d3748)
+![stack](https://img.shields.io/badge/Vue-3-42b883) ![stack](https://img.shields.io/badge/Fastify-4-black) ![stack](https://img.shields.io/badge/Firebase-Firestore-ffca28)
 
 ---
 
 ## Quick start
 
-Requires **Node 20+** (developed on 22).
+Requires **Node 20+** (developed on 22) and a JDK on `PATH` for the Firestore emulator.
 
 ```bash
 npm install
-npm run setup      # build core, create the SQLite DB, import the career graph
-npm run dev        # API on :4000, web on :5173
+cp apps/api/.env.example apps/api/.env
+npm run dev:firestore  # keep this emulator running in a separate terminal
+npm run setup          # seed Firestore with the career graph
+npm run dev            # API on :4000, web on :5173
 ```
 
 Open <http://localhost:5173>.
@@ -44,8 +46,9 @@ packages/core/        Framework-free domain logic (TypeScript, unit tested)
   legacy.ts           Import the v1 nodeMap.json, detect cycles
   data/nodeMap.json   The curated career graph (214 stages, 258 transitions)
 
-apps/api/             Fastify + Prisma (SQLite by default)
-  prisma/schema.prisma
+apps/api/             Fastify + Firebase Admin SDK (Cloud Firestore)
+  src/firestore.ts    Admin SDK setup and Firestore document types
+  src/store.ts        Firestore persistence functions
   src/scraper/        robots-aware HTTP, optional Playwright, one file per source
   src/ingest/         Orchestration, role aliases, skill/demand aggregation
   src/routes/         graph, roles, paths, jobs, auth, me, admin/status
@@ -64,7 +67,8 @@ legacy/               The original Vue 2 app, kept for reference (see legacy/REA
 | Command | What it does |
 | --- | --- |
 | `npm run dev` | API + web with hot reload |
-| `npm run setup` | Build core, `prisma db push`, import the career graph |
+| `npm run dev:firestore` | Start the local Firestore emulator |
+| `npm run setup` | Build core and seed the Firestore career graph |
 | `npm run db:seed` | Re-import the graph (safe to re-run; refuses cyclic data) |
 | `npm run ingest` | Collect jobs now (same code path as the daily job) |
 | `npm run rematch -w @career-maps/api` | Re-extract skills + re-match roles offline, no scraping |
@@ -79,7 +83,8 @@ except OAuth and the admin token. Notable settings:
 
 | Variable | Default | Notes |
 | --- | --- | --- |
-| `DATABASE_URL` | `file:./dev.db` | Switch `provider` in `schema.prisma` to `postgresql` for a hosted DB |
+| `FIREBASE_PROJECT_ID` | `careermaps-d6f9e` | Project containing the Firestore database |
+| `FIRESTORE_EMULATOR_HOST` | `127.0.0.1:8080` | Local Firestore emulator; omit in Cloud Run |
 | `INGEST_CRON` | `15 3 * * *` | Daily collection. Empty string disables it |
 | `INGEST_ON_BOOT` | `false` | Run one collection immediately on server start |
 | `SCRAPER_DELAY_MS` | `1200` | Politeness delay per host (robots.txt `Crawl-delay` wins if larger) |
@@ -203,4 +208,9 @@ UUIDs on every import, so links and saved data broke on each refresh.
   `npm run ingest` from an external scheduler.
 - Set `SESSION_SECRET`, and `WEB_ORIGIN` to the deployed frontend origin (CORS +
   OAuth redirects depend on it).
-- SQLite is fine for a single instance; move to Postgres before running more than one.
+- Firebase Hosting and Cloud Run deploy from GitHub through `.github/workflows/deploy.yml`.
+  Create the Firestore database in Native mode before the first deploy. Store `SESSION_SECRET`
+  in Secret Manager; configure GitHub secrets `GCP_WIF_PROVIDER` and
+  `GCP_DEPLOY_SERVICE_ACCOUNT`, and repository variable `CLOUD_RUN_SERVICE_ACCOUNT`.
+  The Cloud Run service account needs Firestore read/write and Secret Manager access.
+  Local development uses the Firestore emulator; Cloud Run uses Application Default Credentials.

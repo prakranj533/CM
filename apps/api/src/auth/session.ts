@@ -1,8 +1,8 @@
 import { randomBytes } from "node:crypto";
 import bcrypt from "bcryptjs";
 import type { FastifyReply, FastifyRequest } from "fastify";
-import { prisma } from "../db.js";
 import { env, isProduction } from "../env.js";
+import { deleteExpiredSessions, deleteSession, saveSession, sessionById, userById } from "../store.js";
 
 export const SESSION_COOKIE = "cm_session";
 
@@ -24,7 +24,7 @@ export async function verifyPassword(password: string, hash: string): Promise<bo
 export async function createSession(userId: string): Promise<{ id: string; expiresAt: Date }> {
   const id = randomBytes(32).toString("hex");
   const expiresAt = new Date(Date.now() + env.SESSION_TTL_DAYS * 24 * 60 * 60 * 1000);
-  await prisma.session.create({ data: { id, userId, expiresAt } });
+  await saveSession({ id, userId, expiresAt, createdAt: new Date() });
   return { id, expiresAt };
 }
 
@@ -41,7 +41,7 @@ export function setSessionCookie(reply: FastifyReply, sessionId: string, expires
 
 export async function destroySession(request: FastifyRequest, reply: FastifyReply): Promise<void> {
   const sessionId = readSessionId(request);
-  if (sessionId) await prisma.session.deleteMany({ where: { id: sessionId } });
+  if (sessionId) await deleteSession(sessionId);
   reply.clearCookie(SESSION_COOKIE, { path: "/" });
 }
 
@@ -57,22 +57,18 @@ export async function loadUser(request: FastifyRequest): Promise<SessionUser | n
   const sessionId = readSessionId(request);
   if (!sessionId) return null;
 
-  const session = await prisma.session.findUnique({
-    where: { id: sessionId },
-    include: { user: { select: { id: true, email: true, name: true, avatarUrl: true } } },
-  });
+  const session = await sessionById(sessionId);
   if (!session) return null;
-
   if (session.expiresAt.getTime() < Date.now()) {
-    await prisma.session.delete({ where: { id: session.id } }).catch(() => undefined);
+    await deleteSession(session.id).catch(() => undefined);
     return null;
   }
 
-  return session.user;
+  const user = await userById(session.userId);
+  return user ? { id: user.id, email: user.email, name: user.name, avatarUrl: user.avatarUrl } : null;
 }
 
 /** Remove expired rows; called from the daily scheduler. */
 export async function pruneSessions(): Promise<number> {
-  const { count } = await prisma.session.deleteMany({ where: { expiresAt: { lt: new Date() } } });
-  return count;
+  return deleteExpiredSessions(new Date());
 }

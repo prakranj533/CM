@@ -1,0 +1,41 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "demandSnapshots",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "dimension", "order": "ASCENDING" },
+        { "fieldPath": "key", "order": "ASCENDING" },
+        { "fieldPath": "day", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "demandSnapshots",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "dimension", "order": "ASCENDING" },
+        { "fieldPath": "key", "order": "ASCENDING" },
+        { "fieldPath": "origin", "order": "ASCENDING" },
+        { "fieldPath": "day", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "demandSnapshots",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "dimension", "order": "ASCENDING" },
+        { "fieldPath": "origin", "order": "ASCENDING" },
+        { "fieldPath": "day", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "roadmaps",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "userId", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

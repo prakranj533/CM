@@ -1,6 +1,7 @@
+import { randomUUID } from "node:crypto";
 import { extractSkills, detectSeniority, matchRole, type RoleIndexEntry } from "@career-maps/core";
-import { prisma } from "../db.js";
-import { env } from "../env.js";
+import { allJobs, allRoles, deleteJobs, findJobs, jobById, jobIdForExternal, saveJob, saveIngestRun, saveRoles, sourceByKey, searchTokens, upsertSource } from "../store.js";
+import type { IngestRunRecord, JobRecord, RoleRecord } from "../firestore.js";
 import { closeBrowser } from "../scraper/browser.js";
 import { createScrapeContext, getSource, SOURCES } from "../scraper/registry.js";
 import { RobotsDisallowedError, type JobSource, type RawJob } from "../scraper/types.js";
@@ -49,19 +50,29 @@ export async function runIngest(options: { sourceKeys?: string[]; log?: Logger }
     : SOURCES;
 
   await ensureSourceRows(selected);
-
-  const roleIndex = await loadRoleIndex();
-  const skillCache = new Map<string, string>();
+  const [roleIndex, roles] = await Promise.all([loadRoleIndex(), allRoles()]);
+  const rolesById = new Map(roles.map((role) => [role.id, role]));
   const results: SourceResult[] = [];
 
   for (const source of selected) {
-    const row = await prisma.source.findUnique({ where: { key: source.key } });
+    const row = await sourceByKey(source.key);
     if (row && !row.enabled) {
       results.push({ source: source.key, status: "skipped", found: 0, created: 0, updated: 0, matched: 0 });
       continue;
     }
 
-    const run = await prisma.ingestRun.create({ data: { sourceKey: source.key, status: "running" } });
+    const run: IngestRunRecord = {
+      id: randomUUID(),
+      sourceKey: source.key,
+      startedAt: new Date(),
+      finishedAt: null,
+      status: "running",
+      jobsFound: 0,
+      jobsNew: 0,
+      jobsMatched: 0,
+      message: null,
+    };
+    await saveIngestRun(run);
     const result: SourceResult = { source: source.key, status: "ok", found: 0, created: 0, updated: 0, matched: 0 };
 
     try {
@@ -71,7 +82,7 @@ export async function runIngest(options: { sourceKeys?: string[]; log?: Logger }
 
       for (const raw of rawJobs) {
         try {
-          const outcome = await persistJob(source.key, raw, roleIndex, skillCache);
+          const outcome = await persistJob(source.key, raw, roleIndex, rolesById);
           if (outcome.created) result.created += 1;
           else result.updated += 1;
           if (outcome.matched) result.matched += 1;
@@ -90,19 +101,17 @@ export async function runIngest(options: { sourceKeys?: string[]; log?: Logger }
       log(`[${source.key}] FAILED: ${result.message}`);
     }
 
-    await prisma.ingestRun.update({
-      where: { id: run.id },
-      data: {
-        status: result.status,
-        finishedAt: new Date(),
-        jobsFound: result.found,
-        jobsNew: result.created,
-        jobsMatched: result.matched,
-        message: result.message ?? null,
-      },
+    await saveIngestRun({
+      ...run,
+      status: result.status,
+      finishedAt: new Date(),
+      jobsFound: result.found,
+      jobsNew: result.created,
+      jobsMatched: result.matched,
+      message: result.message ?? null,
     });
-    await prisma.source.update({ where: { key: source.key }, data: { lastRunAt: new Date() } });
-
+    const latestSource = await sourceByKey(source.key);
+    if (latestSource) await upsertSource({ ...latestSource, lastRunAt: new Date() });
     results.push(result);
   }
 
@@ -117,10 +126,14 @@ export async function runIngest(options: { sourceKeys?: string[]; log?: Logger }
 
 async function ensureSourceRows(sources: JobSource[]): Promise<void> {
   for (const source of sources) {
-    await prisma.source.upsert({
-      where: { key: source.key },
-      create: { key: source.key, name: source.name, homepage: source.homepage, kind: source.kind },
-      update: { name: source.name, homepage: source.homepage, kind: source.kind },
+    const existing = await sourceByKey(source.key);
+    await upsertSource({
+      key: source.key,
+      name: source.name,
+      homepage: source.homepage,
+      kind: source.kind,
+      enabled: existing?.enabled ?? true,
+      lastRunAt: existing?.lastRunAt ?? null,
     });
   }
 }
@@ -129,70 +142,51 @@ async function persistJob(
   sourceKey: string,
   raw: RawJob,
   roleIndex: RoleIndexEntry[],
-  skillCache: Map<string, string>,
+  rolesById: Map<string, RoleRecord>,
 ): Promise<{ created: boolean; matched: boolean }> {
   const match = matchRole(raw.title, roleIndex);
-  const seniority = detectSeniority(raw.title);
+  const matchedRole = match ? rolesById.get(match.roleId) : undefined;
   const now = new Date();
-
-  const data = {
+  const id = jobIdForExternal(sourceKey, raw.externalId);
+  const existing = await jobById(id);
+  const skills = extractSkills(`${raw.title}\n${raw.description}`).map((skill) => ({
+    name: skill.name,
+    category: skill.category,
+    mentions: skill.hits,
+  }));
+  const title = raw.title.trim().slice(0, 300);
+  const company = raw.company.trim().slice(0, 200);
+  const description = raw.description.slice(0, 40000);
+  const job: JobRecord = {
+    id,
     sourceKey,
     externalId: raw.externalId,
     url: raw.url,
-    title: raw.title.trim().slice(0, 300),
-    company: raw.company.trim().slice(0, 200),
+    title,
+    company,
     location: raw.location?.trim().slice(0, 200) ?? null,
     isRemote: raw.isRemote ?? false,
-    description: raw.description.slice(0, 40000),
+    description,
     salaryMin: raw.salaryMin ?? null,
     salaryMax: raw.salaryMax ?? null,
     salaryCurrency: raw.salaryCurrency ?? null,
     salaryPeriod: raw.salaryPeriod ?? null,
-    seniority,
+    seniority: detectSeniority(raw.title),
     postedAt: raw.postedAt ?? null,
+    firstSeenAt: existing?.firstSeenAt ?? now,
+    lastSeenAt: now,
     roleId: match?.roleId ?? null,
+    roleSlug: matchedRole?.slug ?? null,
+    roleName: matchedRole?.name ?? null,
     matchScore: match?.score ?? 0,
     matchReason: match?.reason ?? null,
-    lastSeenAt: now,
+    skills,
+    skillNames: skills.map((skill) => skill.name),
+    searchTokens: searchTokens(`${title} ${company} ${description}`),
   };
 
-  const existing = await prisma.jobPosting.findUnique({
-    where: { sourceKey_externalId: { sourceKey, externalId: raw.externalId } },
-    select: { id: true },
-  });
-
-  const job = existing
-    ? await prisma.jobPosting.update({ where: { id: existing.id }, data })
-    : await prisma.jobPosting.create({ data: { ...data, firstSeenAt: now } });
-
-  // Skills are re-derived on every pass so taxonomy improvements apply to the
-  // whole corpus, not only to newly discovered postings.
-  await syncJobSkills(job.id, `${raw.title}\n${raw.description}`, skillCache);
-
-  return { created: !existing, matched: Boolean(match) };
-}
-
-/** Replace a posting's extracted skills from its text. */
-async function syncJobSkills(jobId: string, text: string, skillCache: Map<string, string>): Promise<number> {
-  const skills = extractSkills(text);
-  await prisma.jobSkill.deleteMany({ where: { jobId } });
-  for (const skill of skills) {
-    const skillId = await resolveSkillId(skill.name, skill.category, skillCache);
-    await prisma.jobSkill.create({ data: { jobId, skillId, mentions: skill.hits } });
-  }
-  return skills.length;
-}
-
-async function resolveSkillId(name: string, category: string, cache: Map<string, string>): Promise<string> {
-  const cached = cache.get(name);
-  if (cached) return cached;
-  const skill = await prisma.skill.upsert({
-    where: { name },
-    create: { name, category },
-    update: { category },
-  });
-  cache.set(name, skill.id);
-  return skill.id;
+  const created = await saveJob(job);
+  return { created, matched: Boolean(match) };
 }
 
 /**
@@ -202,48 +196,50 @@ async function resolveSkillId(name: string, category: string, cache: Map<string,
  * comparable across roles regardless of how many openings each one has.
  */
 export async function recomputeRoleDemand(): Promise<void> {
-  const since = new Date(Date.now() - DEMAND_WINDOW_DAYS * 24 * 60 * 60 * 1000);
+  const now = new Date();
+  const demandSince = new Date(now.getTime() - DEMAND_WINDOW_DAYS * 24 * 60 * 60 * 1000);
+  const currentSince = new Date(now.getTime() - STALE_AFTER_DAYS * 24 * 60 * 60 * 1000);
+  const [roles, jobs] = await Promise.all([allRoles(), findJobs({ lastSeenAfter: demandSince })]);
+  const currentJobs = jobs.filter((job) => job.lastSeenAt >= currentSince);
+  const demandJobs = jobs.filter((job) => job.lastSeenAt >= demandSince && job.roleId);
+  const jobsByRole = new Map<string, JobRecord[]>();
+  const openingsByRole = new Map<string, number>();
 
-  const roleIds = (
-    await prisma.jobPosting.findMany({
-      where: { roleId: { not: null }, lastSeenAt: { gte: since } },
-      select: { roleId: true },
-      distinct: ["roleId"],
-    })
-  )
-    .map((row) => row.roleId)
-    .filter((id): id is string => Boolean(id));
+  for (const job of currentJobs) {
+    if (job.roleId) openingsByRole.set(job.roleId, (openingsByRole.get(job.roleId) ?? 0) + 1);
+  }
+  for (const job of demandJobs) {
+    if (!job.roleId) continue;
+    const list = jobsByRole.get(job.roleId) ?? [];
+    list.push(job);
+    jobsByRole.set(job.roleId, list);
+  }
 
-  for (const roleId of roleIds) {
-    const jobs = await prisma.jobPosting.findMany({
-      where: { roleId, lastSeenAt: { gte: since } },
-      select: { id: true, skills: { select: { skillId: true, mentions: true } } },
-    });
-    if (jobs.length === 0) continue;
-
-    const totals = new Map<string, { postings: number; mentions: number }>();
-    for (const job of jobs) {
-      for (const link of job.skills) {
-        const entry = totals.get(link.skillId) ?? { postings: 0, mentions: 0 };
+  const updated = roles.map((role) => {
+    const roleJobs = jobsByRole.get(role.id) ?? [];
+    const totals = new Map<string, { category: string; postings: number; mentions: number }>();
+    for (const job of roleJobs) {
+      for (const skill of job.skills) {
+        const entry = totals.get(skill.name) ?? { category: skill.category, postings: 0, mentions: 0 };
         entry.postings += 1;
-        entry.mentions += link.mentions;
-        totals.set(link.skillId, entry);
+        entry.mentions += skill.mentions;
+        totals.set(skill.name, entry);
       }
     }
-
-    await prisma.roleSkill.deleteMany({ where: { roleId, origin: "jobs" } });
-    for (const [skillId, entry] of totals) {
-      await prisma.roleSkill.create({
-        data: {
-          roleId,
-          skillId,
-          origin: "jobs",
-          demand: entry.postings / jobs.length,
-          mentions: entry.mentions,
-        },
-      });
-    }
-  }
+    const marketSkills = [...totals.entries()].map(([name, value]) => ({
+      name,
+      category: value.category,
+      origin: "jobs" as const,
+      demand: roleJobs.length ? value.postings / roleJobs.length : 0,
+      mentions: value.mentions,
+    }));
+    return {
+      ...role,
+      openingCount: openingsByRole.get(role.id) ?? 0,
+      skills: [...role.skills.filter((skill) => skill.origin === "graph"), ...marketSkills],
+    };
+  });
+  await saveRoles(updated, true);
 }
 
 /**
@@ -257,31 +253,28 @@ export async function rematchJobs(
   log: Logger = console.log,
 ): Promise<{ total: number; matched: number; changed: number }> {
   const roleIndex = await loadRoleIndex();
-  const skillCache = new Map<string, string>();
-  const jobs = await prisma.jobPosting.findMany({
-    select: { id: true, title: true, description: true, roleId: true, matchReason: true },
-  });
-
+  const roles = new Map((await allRoles()).map((role) => [role.id, role]));
+  const jobs = await allJobs();
   let matched = 0;
   let changed = 0;
 
   for (const job of jobs) {
-    await syncJobSkills(job.id, `${job.title}\n${job.description}`, skillCache);
-
+    const skills = extractSkills(`${job.title}\n${job.description}`).map((skill) => ({ name: skill.name, category: skill.category, mentions: skill.hits }));
     const match = matchRole(job.title, roleIndex);
+    const role = match ? roles.get(match.roleId) : undefined;
     if (match) matched += 1;
-    // Compare the reason too: a posting can keep its role while the evidence for
-    // it changes (e.g. an alias was added that now explains an overlap match).
-    if ((match?.roleId ?? null) === job.roleId && (match?.reason ?? null) === job.matchReason) continue;
-    await prisma.jobPosting.update({
-      where: { id: job.id },
-      data: {
-        roleId: match?.roleId ?? null,
-        matchScore: match?.score ?? 0,
-        matchReason: match?.reason ?? null,
-      },
+    if ((match?.roleId ?? null) !== job.roleId || (match?.reason ?? null) !== job.matchReason) changed += 1;
+    await saveJob({
+      ...job,
+      roleId: match?.roleId ?? null,
+      roleSlug: role?.slug ?? null,
+      roleName: role?.name ?? null,
+      matchScore: match?.score ?? 0,
+      matchReason: match?.reason ?? null,
+      skills,
+      skillNames: skills.map((skill) => skill.name),
+      searchTokens: searchTokens(`${job.title} ${job.company} ${job.description}`),
     });
-    changed += 1;
   }
 
   await recomputeRoleDemand();
@@ -292,8 +285,10 @@ export async function rematchJobs(
 /** Drop postings no source has confirmed for a while, keeping the board current. */
 export async function pruneStaleJobs(days = STALE_AFTER_DAYS): Promise<number> {
   const cutoff = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
-  const { count } = await prisma.jobPosting.deleteMany({ where: { lastSeenAt: { lt: cutoff } } });
-  return count;
+  const stale = await findJobs({ lastSeenBefore: cutoff });
+  await deleteJobs(stale);
+  await recomputeRoleDemand();
+  return stale.length;
 }
 
 export function ingestEnabledSourceKeys(): string[] {

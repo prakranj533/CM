@@ -1,7 +1,6 @@
 import type { FastifyInstance } from "fastify";
 import { z } from "zod";
-import { prisma } from "../db.js";
-import { parseSkills } from "./graph.js";
+import { allRoles, findJobs, roleBySlug } from "../store.js";
 
 const listQuery = z.object({
   search: z.string().trim().max(120).optional(),
@@ -15,20 +14,10 @@ export async function roleRoutes(app: FastifyInstance): Promise<void> {
     if (!parsed.success) return reply.code(400).send({ error: "Invalid query", details: parsed.error.flatten() });
     const { search, limit } = parsed.data;
 
-    const roles = await prisma.role.findMany({
-      // SQLite's LIKE is already case-insensitive for ASCII, so no `mode` needed.
-      where: search ? { name: { contains: search } } : undefined,
-      select: {
-        slug: true,
-        name: true,
-        category: true,
-        centrality: true,
-        outDegree: true,
-        _count: { select: { jobs: true } },
-      },
-      orderBy: search ? { name: "asc" } : { centrality: "desc" },
-      take: limit,
-    });
+    const roles = (await allRoles())
+      .filter((role) => !search || role.name.toLowerCase().includes(search.toLowerCase()))
+      .sort(search ? (a, b) => a.name.localeCompare(b.name) : (a, b) => b.centrality - a.centrality)
+      .slice(0, limit);
 
     return {
       roles: roles.map((role) => ({
@@ -37,7 +26,7 @@ export async function roleRoutes(app: FastifyInstance): Promise<void> {
         category: role.category,
         centrality: Math.round(role.centrality * 100) / 100,
         nextSteps: role.outDegree,
-        openings: role._count.jobs,
+        openings: role.openingCount,
       })),
     };
   });
@@ -49,64 +38,33 @@ export async function roleRoutes(app: FastifyInstance): Promise<void> {
    */
   app.get("/api/roles/:slug", async (request, reply) => {
     const { slug } = request.params as { slug: string };
-
-    const role = await prisma.role.findUnique({
-      where: { slug },
-      include: {
-        outgoing: { include: { to: { select: { slug: true, name: true } } } },
-        incoming: { include: { from: { select: { slug: true, name: true } } } },
-        skills: { include: { skill: { select: { name: true, category: true } } } },
-      },
-    });
+    const role = await roleBySlug(slug);
     if (!role) return reply.code(404).send({ error: "Role not found" });
 
     const since = new Date(Date.now() - 60 * 24 * 60 * 60 * 1000);
-    const [recentJobs, stats, seniorityBreakdown, salaryRows] = await Promise.all([
-      prisma.jobPosting.findMany({
-        where: { roleId: role.id },
-        orderBy: [{ postedAt: "desc" }, { firstSeenAt: "desc" }],
-        take: 12,
-        select: {
-          id: true,
-          title: true,
-          company: true,
-          location: true,
-          isRemote: true,
-          url: true,
-          salaryMin: true,
-          salaryMax: true,
-          salaryCurrency: true,
-          salaryPeriod: true,
-          seniority: true,
-          postedAt: true,
-          firstSeenAt: true,
-          sourceKey: true,
-        },
-      }),
-      prisma.jobPosting.aggregate({
-        where: { roleId: role.id, lastSeenAt: { gte: since } },
-        _count: { _all: true },
-      }),
-      prisma.jobPosting.groupBy({
-        by: ["seniority"],
-        where: { roleId: role.id, lastSeenAt: { gte: since } },
-        _count: { _all: true },
-      }),
-      prisma.jobPosting.findMany({
-        where: {
-          roleId: role.id,
-          lastSeenAt: { gte: since },
-          salaryCurrency: { not: null },
-          OR: [{ salaryMin: { not: null } }, { salaryMax: { not: null } }],
-        },
-        select: { salaryMin: true, salaryMax: true, salaryCurrency: true, salaryPeriod: true },
-      }),
-    ]);
-
-    const remoteCount = await prisma.jobPosting.count({
-      where: { roleId: role.id, lastSeenAt: { gte: since }, isRemote: true },
-    });
-
+    const [allRoleDocs, roleJobs] = await Promise.all([allRoles(), findJobs({ roleId: role.id })]);
+    const rolesById = new Map(allRoleDocs.map((entry) => [entry.id, entry]));
+    const marketJobs = roleJobs.filter((job) => job.lastSeenAt >= since);
+    const recentJobs = [...roleJobs]
+      .sort((a, b) => (b.postedAt?.getTime() ?? b.firstSeenAt.getTime()) - (a.postedAt?.getTime() ?? a.firstSeenAt.getTime()))
+      .slice(0, 12)
+      .map(({ id, title, company, location, isRemote, url, salaryMin, salaryMax, salaryCurrency, salaryPeriod, seniority, postedAt, firstSeenAt, sourceKey }) => ({
+        id,
+        title,
+        company,
+        location,
+        isRemote,
+        url,
+        salaryMin,
+        salaryMax,
+        salaryCurrency,
+        salaryPeriod,
+        seniority,
+        postedAt,
+        firstSeenAt,
+        sourceKey,
+      }));
+    const salaryRows = marketJobs.filter((job) => job.salaryCurrency && (job.salaryMin !== null || job.salaryMax !== null));
     const salaryMins = salaryRows.flatMap((row) => {
       const value = annualInr(row.salaryMin, row.salaryCurrency, row.salaryPeriod);
       return value === null ? [] : [value];
@@ -115,10 +73,14 @@ export async function roleRoutes(app: FastifyInstance): Promise<void> {
       const value = annualInr(row.salaryMax, row.salaryCurrency, row.salaryPeriod);
       return value === null ? [] : [value];
     });
-
-    const curatedSkills = role.skills.filter((link) => link.origin === "graph");
+    const seniority = new Map<string, number>();
+    for (const job of marketJobs) {
+      const level = job.seniority ?? "unknown";
+      seniority.set(level, (seniority.get(level) ?? 0) + 1);
+    }
+    const curatedSkills = role.skills.filter((skill) => skill.origin === "graph");
     const marketSkills = role.skills
-      .filter((link) => link.origin === "jobs")
+      .filter((skill) => skill.origin === "jobs")
       .sort((a, b) => b.demand - a.demand)
       .slice(0, 25);
 
@@ -131,34 +93,29 @@ export async function roleRoutes(app: FastifyInstance): Promise<void> {
         centrality: Math.round(role.centrality * 100) / 100,
       },
       nextSteps: role.outgoing
-        .map((edge) => ({
-          slug: edge.to.slug,
-          name: edge.to.name,
-          durationYears: edge.durationYears,
-          skills: parseSkills(edge.skillsJson),
-        }))
+        .flatMap((edge) => {
+          const next = rolesById.get(edge.toId);
+          return next ? [{ slug: next.slug, name: next.name, durationYears: edge.durationYears, skills: edge.skills }] : [];
+        })
         .sort((a, b) => a.durationYears - b.durationYears),
-      prerequisites: role.incoming.map((edge) => ({
-        slug: edge.from.slug,
-        name: edge.from.name,
-        durationYears: edge.durationYears,
-        skills: parseSkills(edge.skillsJson),
-      })),
-      curatedSkills: curatedSkills.map((link) => ({ name: link.skill.name, category: link.skill.category })),
-      marketSkills: marketSkills.map((link) => ({
-        name: link.skill.name,
-        category: link.skill.category,
-        /** Share of recent postings mentioning this skill, 0..1. */
-        demand: Math.round(link.demand * 100) / 100,
-        mentions: link.mentions,
+      prerequisites: role.incoming.flatMap((edge) => {
+        const previous = rolesById.get(edge.fromId);
+        return previous ? [{ slug: previous.slug, name: previous.name, durationYears: edge.durationYears, skills: edge.skills }] : [];
+      }),
+      curatedSkills: curatedSkills.map((skill) => ({ name: skill.name, category: skill.category })),
+      marketSkills: marketSkills.map((skill) => ({
+        name: skill.name,
+        category: skill.category,
+        demand: Math.round(skill.demand * 100) / 100,
+        mentions: skill.mentions,
       })),
       market: {
-        postings: stats._count._all,
-        remoteShare: stats._count._all ? Math.round((remoteCount / stats._count._all) * 100) / 100 : 0,
+        postings: marketJobs.length,
+        remoteShare: marketJobs.length ? Math.round((marketJobs.filter((job) => job.isRemote).length / marketJobs.length) * 100) / 100 : 0,
         avgSalaryMin: average(salaryMins),
         avgSalaryMax: average(salaryMaxes),
-        seniority: seniorityBreakdown
-          .map((row) => ({ level: row.seniority ?? "unknown", count: row._count._all }))
+        seniority: [...seniority.entries()]
+          .map(([level, count]) => ({ level, count }))
           .sort((a, b) => b.count - a.count),
       },
       recentJobs,

@@ -1,7 +1,8 @@
 import { createHash } from "node:crypto";
 import { slugify } from "@career-maps/core";
 import { load } from "cheerio";
-import { prisma } from "../db.js";
+import { allRoleEdges, allRoles, deleteRoles, edgeId, saveRoles } from "../store.js";
+import type { RoleRecord } from "../firestore.js";
 import { fetchText } from "../scraper/http.js";
 
 const NCO_URL = "https://dge.gov.in/nat";
@@ -65,64 +66,113 @@ async function fetchOccupations(): Promise<NcoOccupation[]> {
   return [...new Map(occupations.map((occupation) => [`${occupation.code}:${occupation.title}`, occupation])).values()];
 }
 
+function newRole(id: string, slug: string, name: string, category: string, description: string, catalogUri: string, catalogCode: string): RoleRecord {
+  return {
+    id,
+    slug,
+    name,
+    nameLower: name.toLowerCase(),
+    category,
+    description,
+    catalogUri,
+    catalogSource: "nco",
+    catalogCode,
+    centrality: 0,
+    inDegree: 0,
+    outDegree: 0,
+    openingCount: 0,
+    aliases: [],
+    skills: [],
+    incoming: [],
+    outgoing: [],
+    updatedAt: new Date(),
+  };
+}
+
 async function main(): Promise<void> {
   const occupations = await fetchOccupations();
-  await prisma.role.deleteMany({ where: { catalogSource: { in: ["esco", "nco"] } } });
+  const existing = await allRoles();
+  const removed = existing.filter((role) => role.catalogSource === "esco" || role.catalogSource === "nco");
+  const removedIds = new Set(removed.map((role) => role.id));
+  await deleteRoles([...removedIds]);
 
-  await prisma.role.createMany({
-    data: [
-      ...occupations.map((occupation) => ({
-        id: roleId(occupation),
-        slug: `nco-${slugify(occupation.title)}-${occupation.code.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`.slice(0, 100),
-        name: occupation.title,
-        category: occupation.division,
-        description: `${occupation.family}. Indian National Classification of Occupations 2015 code ${occupation.code}.`,
-        catalogUri: NCO_URL,
-        catalogSource: "nco",
-        catalogCode: occupation.code,
-      })),
-      ...Object.entries(PREPARATION).map(([key, preparation]) => ({
-        id: preparation.id,
-        slug: `career-preparation-${key}`,
-        name: preparation.name,
-        category: "Career preparation",
-        description: "General Indian preparation milestone. Exact requirements vary by occupation, regulator and institution.",
-        catalogUri: `career-maps:preparation:${key}`,
-        catalogSource: "nco",
-        catalogCode: `prep-${key}`,
-      })),
-    ],
-  });
+  const rolesById = new Map(
+    existing
+      .filter((role) => !removedIds.has(role.id))
+      .map((role) => [role.id, {
+        ...role,
+        outgoing: (role.outgoing ?? []).filter((edge) => !removedIds.has(edge.toId)),
+        incoming: (role.incoming ?? []).filter((edge) => !removedIds.has(edge.fromId)),
+      }]),
+  );
+  const imported = [
+    ...occupations.map((occupation) => newRole(
+      roleId(occupation),
+      `nco-${slugify(occupation.title)}-${occupation.code.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`.slice(0, 100),
+      occupation.title,
+      occupation.division,
+      `${occupation.family}. Indian National Classification of Occupations 2015 code ${occupation.code}.`,
+      NCO_URL,
+      occupation.code,
+    )),
+    ...Object.entries(PREPARATION).map(([key, preparation]) => newRole(
+      preparation.id,
+      `career-preparation-${key}`,
+      preparation.name,
+      "Career preparation",
+      "General Indian preparation milestone. Exact requirements vary by occupation, regulator and institution.",
+      `career-maps:preparation:${key}`,
+      `prep-${key}`,
+    )),
+  ];
+  for (const role of imported) rolesById.set(role.id, role);
 
-  const preparationEdges = occupations.map((occupation) => ({
+  const rootRoles = [...rolesById.values()].filter((role) => ROOT_ROLE_NAMES.includes(role.name));
+  const edges: Array<{ fromId: string; toId: string; durationYears: number; skills: string[]; origin: "catalog" }> = occupations.map((occupation) => ({
     fromId: PREPARATION[preparationFor(occupation.division)].id,
     toId: roleId(occupation),
     durationYears: 0.5,
-    skillsJson: "[]",
-    origin: "catalog",
+    skills: [],
+    origin: "catalog" as const,
   }));
-  const educationRoles = await prisma.role.findMany({ where: { name: { in: ROOT_ROLE_NAMES } }, select: { id: true, name: true } });
-  const educationEdges = educationRoles.flatMap((role) =>
-    Object.entries(PREPARATION)
-      .filter(([key]) => role.name !== "10th (S.S.C.)" || key !== "degree")
-      .map(([, preparation]) => ({
-        fromId: role.id,
-        toId: preparation.id,
-        durationYears: preparation.years,
-        skillsJson: "[]",
-        origin: "catalog",
-      })),
-  );
+  for (const role of rootRoles) {
+    for (const [key, preparation] of Object.entries(PREPARATION)) {
+      if (role.name === "10th (S.S.C.)" && key === "degree") continue;
+      edges.push({ fromId: role.id, toId: preparation.id, durationYears: preparation.years, skills: [], origin: "catalog" });
+    }
+  }
 
-  await prisma.roleEdge.createMany({ data: [...preparationEdges, ...educationEdges] });
-  await prisma.$executeRawUnsafe(`
-    UPDATE Role
-    SET inDegree = (SELECT COUNT(*) FROM RoleEdge WHERE RoleEdge.toId = Role.id),
-        outDegree = (SELECT COUNT(*) FROM RoleEdge WHERE RoleEdge.fromId = Role.id),
-        centrality = (SELECT COUNT(*) FROM RoleEdge WHERE RoleEdge.toId = Role.id OR RoleEdge.fromId = Role.id)
-    WHERE catalogSource = 'nco'
-  `);
-  console.log(`imported ${occupations.length} Indian NCO-2015 occupations and ${preparationEdges.length + educationEdges.length} planning transitions`);
+  for (const edge of edges) {
+    const record = { ...edge, id: edgeId(edge.fromId, edge.toId) };
+    const from = rolesById.get(edge.fromId);
+    const to = rolesById.get(edge.toId);
+    if (!from || !to) continue;
+    from.outgoing = [...from.outgoing.filter((existingEdge) => existingEdge.id !== record.id), record];
+    to.incoming = [...to.incoming.filter((existingEdge) => existingEdge.id !== record.id), record];
+  }
+
+  const all = [...rolesById.values()];
+  const allEdges = allRoleEdges(all);
+  const degrees = new Map<string, { incoming: number; outgoing: number }>();
+  for (const edge of allEdges) {
+    const from = degrees.get(edge.fromId) ?? { incoming: 0, outgoing: 0 };
+    from.outgoing += 1;
+    degrees.set(edge.fromId, from);
+    const to = degrees.get(edge.toId) ?? { incoming: 0, outgoing: 0 };
+    to.incoming += 1;
+    degrees.set(edge.toId, to);
+  }
+  for (const role of all) {
+    const degree = degrees.get(role.id) ?? { incoming: 0, outgoing: 0 };
+    if (role.catalogSource === "nco") {
+      role.inDegree = degree.incoming;
+      role.outDegree = degree.outgoing;
+      role.centrality = degree.incoming + degree.outgoing;
+    }
+    role.updatedAt = new Date();
+  }
+  await saveRoles(all, true);
+  console.log(`imported ${occupations.length} Indian NCO-2015 occupations and ${edges.length} planning transitions`);
 }
 
 main().catch((error: unknown) => {

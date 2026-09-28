@@ -1,4 +1,3 @@
-import { prisma } from "../db.js";
 import { pruneStaleJobs, runIngest } from "../ingest/run.js";
 import { captureDailySnapshot } from "../ingest/snapshots.js";
 import { closeBrowser } from "../scraper/browser.js";
@@ -49,5 +48,4 @@ main()
   })
   .finally(async () => {
     await closeBrowser();
-    await prisma.$disconnect();
   });

@@ -1,9 +1,8 @@
 import { PathFinder, type CareerGraph } from "@career-maps/core";
 import type { FastifyInstance } from "fastify";
 import { z } from "zod";
-import { prisma } from "../db.js";
+import { allRoleEdges, allRoles, roleById } from "../store.js";
 import { fetchJson } from "../scraper/http.js";
-import { parseSkills } from "./graph.js";
 
 const query = z.object({
   from: z.string().min(1),
@@ -30,14 +29,7 @@ interface EscoOccupation {
 async function getGuidance(roleId: string): Promise<{ essentialSkills: string[]; optionalSkills: string[]; source: string }> {
   const cachedGuidance = guidanceCache.get(roleId);
   if (cachedGuidance) return cachedGuidance;
-  const role = await prisma.role.findUnique({
-    where: { id: roleId },
-    select: {
-      catalogUri: true,
-      catalogSource: true,
-      skills: { include: { skill: { select: { name: true } } }, orderBy: [{ demand: "desc" }, { mentions: "desc" }] },
-    },
-  });
+  const role = await roleById(roleId);
   if (!role) return { essentialSkills: [], optionalSkills: [], source: "none" };
   if (role.catalogSource === "esco" && role.catalogUri) {
     try {
@@ -55,7 +47,7 @@ async function getGuidance(roleId: string): Promise<{ essentialSkills: string[];
     }
   }
   const guidance = {
-    essentialSkills: role.skills.map((link) => link.skill.name).slice(0, 30),
+    essentialSkills: [...role.skills].sort((a, b) => b.demand - a.demand || b.mentions - a.mentions).map((link) => link.name).slice(0, 30),
     optionalSkills: [],
     source: role.catalogSource === "nco" ? "India NCO-2015 and observed jobs" : "Career Maps and observed jobs",
   };
@@ -64,25 +56,18 @@ async function getGuidance(roleId: string): Promise<{ essentialSkills: string[];
 }
 
 async function getFinder(): Promise<{ finder: PathFinder; graph: CareerGraph }> {
-  const [latest, count] = await Promise.all([
-    prisma.role.findFirst({ orderBy: { updatedAt: "desc" }, select: { updatedAt: true } }),
-    prisma.role.count(),
-  ]);
-  const stamp = `${latest?.updatedAt.toISOString() ?? "empty"}:${count}`;
+  const roles = await allRoles();
+  const latest = roles.reduce((stamp, role) => Math.max(stamp, role.updatedAt.getTime()), 0);
+  const stamp = `${latest}:${roles.length}`;
   if (cached?.stamp === stamp) return cached;
-
-  const [roles, edges] = await Promise.all([
-    prisma.role.findMany({ select: { id: true, slug: true, name: true, category: true } }),
-    prisma.roleEdge.findMany({ select: { fromId: true, toId: true, durationYears: true, skillsJson: true } }),
-  ]);
 
   const graph: CareerGraph = {
     nodes: roles.map((role) => ({ id: role.id, slug: role.slug, name: role.name, category: role.category })),
-    edges: edges.map((edge) => ({
+    edges: allRoleEdges(roles).map((edge) => ({
       from: edge.fromId,
       to: edge.toId,
       durationYears: edge.durationYears,
-      skills: parseSkills(edge.skillsJson),
+      skills: edge.skills,
     })),
   };
 

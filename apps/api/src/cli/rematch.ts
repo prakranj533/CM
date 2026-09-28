@@ -1,4 +1,4 @@
-import { prisma } from "../db.js";
+import { allJobs, allRoles } from "../store.js";
 import { rematchJobs } from "../ingest/run.js";
 import { syncRoleAliases } from "../ingest/roleIndex.js";
 
@@ -11,32 +11,28 @@ import { syncRoleAliases } from "../ingest/roleIndex.js";
 async function main(): Promise<void> {
   await syncRoleAliases();
   await rematchJobs();
-
-  const rows = await prisma.jobPosting.groupBy({
-    by: ["roleId", "matchReason"],
-    where: { roleId: { not: null } },
-    _count: { _all: true },
-  });
-  const roles = await prisma.role.findMany({
-    where: { id: { in: rows.map((row) => row.roleId).filter((id): id is string => Boolean(id)) } },
-    select: { id: true, name: true },
-  });
+  const [jobs, roles] = await Promise.all([allJobs(), allRoles()]);
   const names = new Map(roles.map((role) => [role.id, role.name]));
+  const groups = new Map<string, { roleId: string; reason: string | null; count: number }>();
 
-  const unmatched = await prisma.jobPosting.count({ where: { roleId: null } });
-  console.log("\nrole                          via      postings");
-  for (const row of rows.sort((a, b) => b._count._all - a._count._all)) {
-    const name = (names.get(row.roleId ?? "") ?? "?").slice(0, 28).padEnd(30);
-    console.log(`${name}${(row.matchReason ?? "-").padEnd(9)}${row._count._all}`);
+  for (const job of jobs) {
+    if (!job.roleId) continue;
+    const key = `${job.roleId}\u0000${job.matchReason ?? ""}`;
+    const group = groups.get(key) ?? { roleId: job.roleId, reason: job.matchReason, count: 0 };
+    group.count += 1;
+    groups.set(key, group);
   }
+
+  console.log("\nrole                          via      postings");
+  for (const row of [...groups.values()].sort((a, b) => b.count - a.count)) {
+    const name = (names.get(row.roleId) ?? "?").slice(0, 28).padEnd(30);
+    console.log(`${name}${(row.reason ?? "-").padEnd(9)}${row.count}`);
+  }
+  const unmatched = jobs.filter((job) => !job.roleId).length;
   console.log(`\n${unmatched} postings remain unmatched (still browsable on the jobs board)`);
 }
 
-main()
-  .catch((error: unknown) => {
-    console.error(error);
-    process.exitCode = 1;
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+main().catch((error: unknown) => {
+  console.error(error);
+  process.exitCode = 1;
+});

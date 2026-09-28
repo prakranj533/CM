@@ -1,8 +1,8 @@
 import { timingSafeEqual } from "node:crypto";
 import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
-import { prisma } from "../db.js";
 import { env } from "../env.js";
+import { allRoles, allSources, countJobs, matchedJobCount, recentIngestRuns } from "../store.js";
 import { runIngest } from "../ingest/run.js";
 import { SOURCES } from "../scraper/registry.js";
 import { invalidatePathCache } from "./paths.js";
@@ -15,13 +15,14 @@ let running: Promise<unknown> | null = null;
 export async function adminRoutes(app: FastifyInstance): Promise<void> {
   /** Public health/status view: what ran, when, and whether it worked. */
   app.get("/api/status", async () => {
-    const [sources, runs, jobCount, roleCount, matchedCount] = await Promise.all([
-      prisma.source.findMany({ orderBy: { key: "asc" } }),
-      prisma.ingestRun.findMany({ orderBy: { startedAt: "desc" }, take: 20 }),
-      prisma.jobPosting.count(),
-      prisma.role.count(),
-      prisma.jobPosting.count({ where: { roleId: { not: null } } }),
+    const [sources, runs, jobCount, roles, matchedCount] = await Promise.all([
+      allSources(),
+      recentIngestRuns(20),
+      countJobs(),
+      allRoles(),
+      matchedJobCount(),
     ]);
+    const roleCount = roles.length;
 
     return {
       registeredSources: SOURCES.map((source) => ({ key: source.key, name: source.name, kind: source.kind })),

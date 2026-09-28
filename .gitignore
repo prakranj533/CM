@@ -12,6 +12,7 @@ dist/
 *.db
 *.db-journal
 .cache/
+.firebase/
 scrape-dumps/
 
 # Log files

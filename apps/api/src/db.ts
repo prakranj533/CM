@@ -1,10 +1,7 @@
-import { PrismaClient } from "@prisma/client";
-import { env } from "./env.js";
+import { firestore } from "./firestore.js";
 
-export const prisma = new PrismaClient({
-  log: env.NODE_ENV === "development" ? ["warn", "error"] : ["error"],
-});
+export { firestore };
 
 export async function disconnect(): Promise<void> {
-  await prisma.$disconnect();
+  await firestore.terminate();
 }

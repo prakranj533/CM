@@ -1,5 +1,5 @@
 import { addDays, growthFor, startOfUtcDay, type GrowthResult, type SeriesPoint } from "@career-maps/core";
-import { prisma } from "../db.js";
+import { allJobs, findJobs, findSnapshot, querySnapshots, saveSnapshot } from "../store.js";
 
 type Logger = (message: string) => void;
 
@@ -31,80 +31,52 @@ export async function captureDailySnapshot(options: { day?: Date; log?: Logger }
   const log = options.log ?? (() => undefined);
   const day = startOfUtcDay(options.day ?? new Date());
   const nextDay = addDays(day, 1);
-
-  // "Open today" = confirmed present by a run that happened today. If no ingest
-  // has run yet today this is zero, which is the truthful answer.
-  const activeWhere = { lastSeenAt: { gte: day } };
-  const createdWhere = { postedAt: { gte: day, lt: nextDay } };
-
-  const rows: Array<{ dimension: Dimension; key: string; created: number; active: number }> = [];
-
-  const [activeTotal, createdTotal] = await Promise.all([
-    prisma.jobPosting.count({ where: activeWhere }),
-    prisma.jobPosting.count({ where: createdWhere }),
-  ]);
-  rows.push({ dimension: "total", key: "all", created: createdTotal, active: activeTotal });
-
-  for (const [dimension, field] of [
-    ["source", "sourceKey"],
-    ["role", "roleId"],
-  ] as const) {
-    const active = await prisma.jobPosting.groupBy({ by: [field], where: activeWhere, _count: { _all: true } });
-    const created = await prisma.jobPosting.groupBy({ by: [field], where: createdWhere, _count: { _all: true } });
-    const createdBy = new Map(created.map((row) => [row[field], row._count._all]));
-
-    for (const row of active) {
-      const key = row[field];
-      if (!key) continue;
-      rows.push({
-        dimension,
-        key,
-        created: createdBy.get(key) ?? 0,
-        active: row._count._all,
-      });
-    }
-  }
-
-  const skillRows = await snapshotSkills(activeWhere, createdWhere);
-  rows.push(...skillRows);
+  const [activeJobs, allJobs] = await Promise.all([findJobs({ lastSeenAfter: day }), findJobs({ postedAfter: day })]);
+  const createdJobs = allJobs.filter((job) => job.postedAt && job.postedAt < nextDay);
+  const rows: Array<{ dimension: Dimension; key: string; created: number; active: number }> = [
+    { dimension: "total", key: "all", created: createdJobs.length, active: activeJobs.length },
+  ];
+  appendGroups(rows, "source", activeJobs, createdJobs, (job) => job.sourceKey);
+  appendGroups(rows, "role", activeJobs, createdJobs, (job) => job.roleId);
+  rows.push(...snapshotSkills(activeJobs, createdJobs));
 
   for (const row of rows) {
-    await prisma.demandSnapshot.upsert({
-      where: { day_dimension_key: { day, dimension: row.dimension, key: row.key } },
-      create: { day, dimension: row.dimension, key: row.key, created: row.created, active: row.active, origin: LIVE },
-      // A re-run on the same day replaces the measurement rather than doubling it.
-      update: { created: row.created, active: row.active, origin: LIVE },
-    });
+    await saveSnapshot({ id: "", day, ...row, origin: LIVE });
   }
 
-  log(`snapshot ${day.toISOString().slice(0, 10)}: ${activeTotal} open, ${createdTotal} published today, ${rows.length} rows`);
+  log(`snapshot ${day.toISOString().slice(0, 10)}: ${activeJobs.length} open, ${createdJobs.length} published today, ${rows.length} rows`);
   return { rows: rows.length };
 }
 
-async function snapshotSkills(
-  activeWhere: object,
-  createdWhere: object,
-): Promise<Array<{ dimension: Dimension; key: string; created: number; active: number }>> {
-  const [activeGroups, createdGroups] = await Promise.all([
-    prisma.jobSkill.groupBy({ by: ["skillId"], where: { job: activeWhere }, _count: { _all: true } }),
-    prisma.jobSkill.groupBy({ by: ["skillId"], where: { job: createdWhere }, _count: { _all: true } }),
-  ]);
-  if (activeGroups.length === 0) return [];
-
-  const skills = await prisma.skill.findMany({
-    where: { id: { in: activeGroups.map((row) => row.skillId) } },
-    select: { id: true, name: true },
-  });
-  const nameById = new Map(skills.map((skill) => [skill.id, skill.name]));
-  const createdBy = new Map(createdGroups.map((row) => [row.skillId, row._count._all]));
-
-  const rows: Array<{ dimension: Dimension; key: string; created: number; active: number }> = [];
-  for (const row of activeGroups) {
-    const name = nameById.get(row.skillId);
-    if (!name) continue;
-    rows.push({ dimension: "skill", key: name, created: createdBy.get(row.skillId) ?? 0, active: row._count._all });
+function appendGroups(
+  rows: Array<{ dimension: Dimension; key: string; created: number; active: number }>,
+  dimension: "source" | "role",
+  activeJobs: Awaited<ReturnType<typeof findJobs>>,
+  createdJobs: Awaited<ReturnType<typeof findJobs>>,
+  keyOf: (job: (typeof activeJobs)[number]) => string | null,
+): void {
+  const active = new Map<string, number>();
+  const created = new Map<string, number>();
+  for (const job of activeJobs) {
+    const key = keyOf(job);
+    if (key) active.set(key, (active.get(key) ?? 0) + 1);
   }
-  return rows;
+  for (const job of createdJobs) {
+    const key = keyOf(job);
+    if (key) created.set(key, (created.get(key) ?? 0) + 1);
+  }
+  for (const [key, count] of active) rows.push({ dimension, key, created: created.get(key) ?? 0, active: count });
+}
+
+function snapshotSkills(
+  activeJobs: Awaited<ReturnType<typeof findJobs>>,
+  createdJobs: Awaited<ReturnType<typeof findJobs>>,
+): Array<{ dimension: Dimension; key: string; created: number; active: number }> {
+  const active = new Map<string, number>();
+  const created = new Map<string, number>();
+  for (const job of activeJobs) for (const skill of new Set(job.skills.map((entry) => entry.name))) active.set(skill, (active.get(skill) ?? 0) + 1);
+  for (const job of createdJobs) for (const skill of new Set(job.skills.map((entry) => entry.name))) created.set(skill, (created.get(skill) ?? 0) + 1);
+  return [...active.entries()].map(([key, count]) => ({ dimension: "skill", key, created: created.get(key) ?? 0, active: count }));
 }
 
 /**
@@ -120,14 +92,10 @@ export async function backfillFromPostedAt(
   const days = options.days ?? 120;
   const today = startOfUtcDay(new Date());
   const from = addDays(today, -days);
+  const [all, dated] = await Promise.all([allJobs(), findJobs({ postedAfter: from })]);
+  const postings = dated.filter((posting) => posting.postedAt && posting.postedAt < today);
+  const postingsWithoutDate = all.filter((posting) => !posting.postedAt).length;
 
-  const postings = await prisma.jobPosting.findMany({
-    where: { postedAt: { gte: from, lt: today } },
-    select: { postedAt: true, sourceKey: true, roleId: true, skills: { select: { skill: { select: { name: true } } } } },
-  });
-  const postingsWithoutDate = await prisma.jobPosting.count({ where: { postedAt: null } });
-
-  // dimension -> key -> day(ms) -> count
   const tally = new Map<Dimension, Map<string, Map<number, number>>>();
   const bump = (dimension: Dimension, key: string, dayMs: number): void => {
     const byKey = tally.get(dimension) ?? new Map<string, Map<number, number>>();
@@ -143,34 +111,19 @@ export async function backfillFromPostedAt(
     bump("total", "all", dayMs);
     bump("source", posting.sourceKey, dayMs);
     if (posting.roleId) bump("role", posting.roleId, dayMs);
-    // De-duplicate: a posting mentioning a skill five times still counts once.
-    const seen = new Set<string>();
-    for (const link of posting.skills) {
-      if (seen.has(link.skill.name)) continue;
-      seen.add(link.skill.name);
-      bump("skill", link.skill.name, dayMs);
-    }
+    for (const skill of new Set(posting.skills.map((entry) => entry.name))) bump("skill", skill, dayMs);
   }
 
   let rows = 0;
   const daysTouched = new Set<number>();
-
   for (const [dimension, byKey] of tally) {
     for (const [key, series] of byKey) {
       for (const [dayMs, created] of series) {
         daysTouched.add(dayMs);
         const day = new Date(dayMs);
-        const existing = await prisma.demandSnapshot.findUnique({
-          where: { day_dimension_key: { day, dimension, key } },
-        });
-        // Never overwrite a live measurement with a reconstruction.
+        const existing = await findSnapshot(day, dimension, key);
         if (existing && existing.origin === LIVE) continue;
-
-        await prisma.demandSnapshot.upsert({
-          where: { day_dimension_key: { day, dimension, key } },
-          create: { day, dimension, key, created, active: null, origin: BACKFILL },
-          update: { created, active: null, origin: BACKFILL },
-        });
+        await saveSnapshot({ id: "", day, dimension, key, created, active: null, origin: BACKFILL });
         rows += 1;
       }
     }
@@ -191,29 +144,14 @@ export async function getSeries(
 ): Promise<SeriesPoint[]> {
   const days = options.days ?? 120;
   const from = addDays(startOfUtcDay(new Date()), -days);
-
-  const rows = await prisma.demandSnapshot.findMany({
-    where: {
-      dimension,
-      key,
-      day: { gte: from },
-      ...(options.liveOnly === false ? {} : { origin: LIVE }),
-    },
-    orderBy: { day: "asc" },
-    select: { day: true, created: true },
-  });
-
+  const rows = await querySnapshots({ dimension, key, from, ...(options.liveOnly === false ? {} : { origin: LIVE }) });
   return rows.map((row) => ({ day: row.day, created: row.created }));
 }
 
 /** How many distinct days of live capture exist — i.e. can we talk about trends yet? */
 export async function liveHistoryDays(): Promise<number> {
-  const rows = await prisma.demandSnapshot.findMany({
-    where: { dimension: "total", origin: LIVE },
-    select: { day: true },
-    distinct: ["day"],
-  });
-  return rows.length;
+  const rows = await querySnapshots({ dimension: "total", origin: LIVE });
+  return new Set(rows.map((row) => row.day.toISOString())).size;
 }
 
 export interface Mover extends GrowthResult {
@@ -234,17 +172,10 @@ export async function topMovers(
   const limit = options.limit ?? 20;
   const liveDays = await liveHistoryDays();
   const daysNeeded = windowDays * 2;
-
-  if (liveDays < daysNeeded) {
-    return { movers: [], liveDays, daysNeeded, ready: false };
-  }
+  if (liveDays < daysNeeded) return { movers: [], liveDays, daysNeeded, ready: false };
 
   const from = addDays(startOfUtcDay(new Date()), -daysNeeded);
-  const rows = await prisma.demandSnapshot.findMany({
-    where: { dimension, origin: LIVE, day: { gte: from } },
-    select: { key: true, day: true, created: true },
-  });
-
+  const rows = await querySnapshots({ dimension, origin: LIVE, from });
   const byKey = new Map<string, SeriesPoint[]>();
   for (const row of rows) {
     const series = byKey.get(row.key) ?? [];
@@ -261,7 +192,6 @@ export async function topMovers(
     if (growth.insufficientData) continue;
     movers.push({ key, ...growth });
   }
-
   movers.sort((a, b) => (b.changePct ?? Number.POSITIVE_INFINITY) - (a.changePct ?? Number.POSITIVE_INFINITY));
   return { movers: movers.slice(0, limit), liveDays, daysNeeded, ready: true };
 }
@@ -273,12 +203,7 @@ export async function topMovers(
 export async function publicationAgeProfile(weeks = 12): Promise<Array<{ weekStart: string; postings: number }>> {
   const today = startOfUtcDay(new Date());
   const from = addDays(today, -weeks * 7);
-
-  const postings = await prisma.jobPosting.findMany({
-    where: { postedAt: { gte: from } },
-    select: { postedAt: true },
-  });
-
+  const postings = await findJobs({ postedAfter: from });
   const buckets = new Map<string, number>();
   for (const posting of postings) {
     if (!posting.postedAt) continue;
@@ -287,7 +212,6 @@ export async function publicationAgeProfile(weeks = 12): Promise<Array<{ weekSta
     const key = weekStart.toISOString().slice(0, 10);
     buckets.set(key, (buckets.get(key) ?? 0) + 1);
   }
-
   return [...buckets.entries()]
     .map(([weekStart, postings2]) => ({ weekStart, postings: postings2 }))
     .sort((a, b) => a.weekStart.localeCompare(b.weekStart));

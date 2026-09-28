@@ -1,7 +1,8 @@
+import { randomUUID } from "node:crypto";
 import type { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { requireUser } from "../auth/guard.js";
-import { prisma } from "../db.js";
+import { deleteRoadmap, roadmapList, roleById, roleBySlug, saveRoadmap } from "../store.js";
 
 const createRoadmap = z.object({
   from: z.string().min(1),
@@ -30,16 +31,7 @@ export async function meRoutes(app: FastifyInstance): Promise<void> {
   app.get("/api/me/roadmaps", async (request, reply) => {
     const user = requireUser(request, reply);
     if (!user) return;
-
-    const roadmaps = await prisma.savedRoadmap.findMany({
-      where: { userId: user.id },
-      orderBy: { createdAt: "desc" },
-      include: {
-        from: { select: { slug: true, name: true } },
-        to: { select: { slug: true, name: true } },
-      },
-    });
-
+    const roadmaps = await roadmapList(user.id);
     return {
       roadmaps: roadmaps.map((roadmap) => ({
         id: roadmap.id,
@@ -48,7 +40,7 @@ export async function meRoutes(app: FastifyInstance): Promise<void> {
         createdAt: roadmap.createdAt,
         from: roadmap.from,
         to: roadmap.to,
-        path: safeParsePath(roadmap.pathJson),
+        path: roadmap.path,
       })),
     };
   });
@@ -62,26 +54,26 @@ export async function meRoutes(app: FastifyInstance): Promise<void> {
       return reply.code(400).send({ error: "Invalid roadmap", details: parsed.error.flatten().fieldErrors });
     }
     const { from, to, title, notes, path } = parsed.data;
-
     const [fromRole, toRole] = await Promise.all([
-      prisma.role.findFirst({ where: { OR: [{ slug: from }, { id: from }] }, select: { id: true, name: true } }),
-      prisma.role.findFirst({ where: { OR: [{ slug: to }, { id: to }] }, select: { id: true, name: true } }),
+      roleBySlug(from).then((role) => role ?? roleById(from)),
+      roleBySlug(to).then((role) => role ?? roleById(to)),
     ]);
     if (!fromRole || !toRole) return reply.code(404).send({ error: "Start or destination role not found" });
 
-    const roadmap = await prisma.savedRoadmap.create({
-      data: {
-        userId: user.id,
-        fromId: fromRole.id,
-        toId: toRole.id,
-        title: title ?? `${fromRole.name} → ${toRole.name}`,
-        notes: notes ?? null,
-        pathJson: JSON.stringify(path),
-      },
-      select: { id: true, title: true, createdAt: true },
-    });
-
-    return reply.code(201).send({ roadmap });
+    const roadmap = {
+      id: randomUUID(),
+      userId: user.id,
+      fromId: fromRole.id,
+      toId: toRole.id,
+      from: { slug: fromRole.slug, name: fromRole.name },
+      to: { slug: toRole.slug, name: toRole.name },
+      title: title ?? `${fromRole.name} → ${toRole.name}`,
+      notes: notes ?? null,
+      path,
+      createdAt: new Date(),
+    };
+    await saveRoadmap(roadmap);
+    return reply.code(201).send({ roadmap: { id: roadmap.id, title: roadmap.title, createdAt: roadmap.createdAt } });
   });
 
   app.delete("/api/me/roadmaps/:id", async (request, reply) => {
@@ -90,16 +82,7 @@ export async function meRoutes(app: FastifyInstance): Promise<void> {
     const { id } = request.params as { id: string };
 
     // Scope the delete by userId so one account cannot remove another's roadmap.
-    const { count } = await prisma.savedRoadmap.deleteMany({ where: { id, userId: user.id } });
-    if (count === 0) return reply.code(404).send({ error: "Roadmap not found" });
+    if (!(await deleteRoadmap(id, user.id))) return reply.code(404).send({ error: "Roadmap not found" });
     return { ok: true };
   });
-}
-
-function safeParsePath(json: string): unknown {
-  try {
-    return JSON.parse(json);
-  } catch {
-    return null;
-  }
 }

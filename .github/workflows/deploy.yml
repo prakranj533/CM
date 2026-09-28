@@ -1,0 +1,97 @@
+name: Deploy to Firebase and Cloud Run
+
+on:
+  push:
+    branches: [master, main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      PROJECT_ID: careermaps-d6f9e
+      REGION: asia-south1
+      IMAGE: asia-south1-docker.pkg.dev/careermaps-d6f9e/careermaps/careermaps-api
+      RUNTIME_SERVICE_ACCOUNT: ${{ vars.CLOUD_RUN_SERVICE_ACCOUNT }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build core and web
+        run: |
+          npm run build -w @career-maps/core
+          npm run build -w @career-maps/web
+
+      - name: Validate deployment settings
+        run: |
+          test -n "$RUNTIME_SERVICE_ACCOUNT" || { echo "Set the CLOUD_RUN_SERVICE_ACCOUNT repository variable."; exit 1; }
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
+          service_account: ${{ secrets.GCP_DEPLOY_SERVICE_ACCOUNT }}
+          project_id: careermaps-d6f9e
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v3
+        with:
+          version: ">= 363.0.0"
+          project_id: careermaps-d6f9e
+
+      - name: Build and push API image
+        run: |
+          gcloud artifacts repositories describe careermaps --location="$REGION" --project="$PROJECT_ID" >/dev/null 2>&1 || \
+            gcloud artifacts repositories create careermaps --repository-format=docker --location="$REGION" --project="$PROJECT_ID" --description="Career Maps API images"
+          gcloud auth configure-docker "$REGION-docker.pkg.dev" --quiet
+          docker build --tag "$IMAGE:$GITHUB_SHA" .
+          docker push "$IMAGE:$GITHUB_SHA"
+
+      - name: Seed Firestore career graph
+        run: |
+          gcloud run jobs deploy careermaps-seed \
+            --image "$IMAGE:$GITHUB_SHA" \
+            --region "$REGION" \
+            --project "$PROJECT_ID" \
+            --service-account "$RUNTIME_SERVICE_ACCOUNT" \
+            --set-env-vars "NODE_ENV=production,FIREBASE_PROJECT_ID=$PROJECT_ID" \
+            --command node \
+            --args apps/api/dist/cli/seed.js \
+            --max-retries 1 \
+            --task-timeout 30m
+          gcloud run jobs execute careermaps-seed --region "$REGION" --project "$PROJECT_ID" --wait
+
+      - name: Deploy API to Cloud Run
+        run: |
+          gcloud run deploy careermaps-api \
+            --image "$IMAGE:$GITHUB_SHA" \
+            --region "$REGION" \
+            --project "$PROJECT_ID" \
+            --service-account "$RUNTIME_SERVICE_ACCOUNT" \
+            --allow-unauthenticated \
+            --port 8080 \
+            --max 3 \
+            --set-env-vars "NODE_ENV=production,HOST=0.0.0.0,PORT=8080,FIREBASE_PROJECT_ID=$PROJECT_ID,WEB_ORIGIN=https://careermaps-d6f9e.web.app,API_PUBLIC_URL=https://careermaps-d6f9e.web.app,INGEST_CRON=" \
+            --set-secrets "SESSION_SECRET=SESSION_SECRET:latest"
+
+      - name: Deploy Firestore rules, indexes, and frontend
+        run: npx --yes firebase-tools@15.30.2 deploy --only firestore:rules,firestore:indexes,hosting --project "$PROJECT_ID" --non-interactive

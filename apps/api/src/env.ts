@@ -7,7 +7,7 @@ const schema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   PORT: z.coerce.number().default(4000),
   HOST: z.string().default("127.0.0.1"),
-  DATABASE_URL: z.string().default("file:./dev.db"),
+  FIREBASE_PROJECT_ID: z.string().default("careermaps-d6f9e"),
   WEB_ORIGIN: z.string().default("http://localhost:5173"),
   /// Signs session cookies. Generate with: openssl rand -hex 32
   SESSION_SECRET: z.string().min(16).default("dev-only-insecure-secret-change-me"),

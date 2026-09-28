@@ -3,7 +3,7 @@
 ## Layout
 
 npm workspaces monorepo. `packages/core` (domain logic, unit tested) →
-`apps/api` (Fastify + Prisma) → `apps/web` (Vue 3 + Vite + Vuetify 3).
+`apps/api` (Fastify + Firebase Admin SDK/Firestore) → `apps/web` (Vue 3 + Vite + Vuetify 3).
 `legacy/` holds the original Vue 2 app for reference; it is not part of the workspace
 build and is not expected to run.
 
@@ -26,6 +26,8 @@ npm run build -w @career-maps/core && npm test -w @career-maps/core
 End-to-end smoke test:
 
 ```bash
+npm run dev:firestore                              # separate terminal
+npm run setup                                       # seeds the emulator
 npm run dev
 curl -s http://localhost:5173/api/health          # via the Vite proxy
 curl -s http://127.0.0.1:4000/api/graph           # direct
@@ -33,9 +35,10 @@ curl -s http://127.0.0.1:4000/api/graph           # direct
 
 ## Environment quirks (Windows / Node 22)
 
-- **`prisma generate` fails while the API is running.** The dev server holds the query
-  engine DLL. Stop `npm run dev` (and check for orphaned `node.exe` processes) before
-  `npm run db:push`.
+- **Run the Firestore emulator for local API work.** Set `FIRESTORE_EMULATOR_HOST`
+  in `apps/api/.env`; Cloud Run uses its runtime service account via Application Default
+  Credentials instead of a downloaded key.
+- The Firestore emulator requires a JDK available on `PATH`; production Cloud Run does not.
 - **`tsx watch` and Vite leave orphaned processes** after a killed shell, which then lock
   files (`EBUSY`/`EPERM` on directory renames). Inspect with
   `Get-CimInstance Win32_Process -Filter "Name='node.exe'"` and check `CommandLine`
@@ -54,9 +57,10 @@ curl -s http://127.0.0.1:4000/api/graph           # direct
 - Domain logic belongs in `packages/core` so it can be unit tested; `apps/api` should be
   glue (DB access, HTTP) around it.
 - Comments explain *why*, not *what*. Don't add narration.
-- SQLite has no enums/arrays: string columns plus JSON-in-text (`skillsJson`, `pathJson`).
-- Prisma on SQLite does **not** support `mode: "insensitive"`. `contains` is already
-  case-insensitive for ASCII there — adding `mode` throws at runtime.
+- Firestore collections and denormalized document shapes are maintained through
+  `apps/api/src/store.ts`; keep indexes in `firestore.indexes.json` aligned with queries.
+- Firestore Security Rules deny direct client access. The API uses the Admin SDK with
+  the Cloud Run service account; never add service-account keys to the repository.
 
 ## Data-quality rules that are easy to break
 

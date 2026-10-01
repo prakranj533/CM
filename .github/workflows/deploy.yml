@@ -90,7 +90,7 @@ jobs:
             --allow-unauthenticated \
             --port 8080 \
             --max 3 \
-            --set-env-vars "NODE_ENV=production,HOST=0.0.0.0,PORT=8080,FIREBASE_PROJECT_ID=$PROJECT_ID,WEB_ORIGIN=https://careermaps-d6f9e.web.app,API_PUBLIC_URL=https://careermaps-d6f9e.web.app,INGEST_CRON=" \
+            --set-env-vars "NODE_ENV=production,HOST=0.0.0.0,FIREBASE_PROJECT_ID=$PROJECT_ID,WEB_ORIGIN=https://careermaps-d6f9e.web.app,API_PUBLIC_URL=https://careermaps-d6f9e.web.app,INGEST_CRON=" \
             --set-secrets "SESSION_SECRET=SESSION_SECRET:latest"
 
       - name: Deploy Firestore rules, indexes, and frontend

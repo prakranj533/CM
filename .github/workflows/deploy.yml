@@ -80,6 +80,21 @@ jobs:
             --task-timeout 30m
           gcloud run jobs execute careermaps-seed --region "$REGION" --project "$PROJECT_ID" --wait
 
+      - name: Import NCO-2015 career catalog
+        run: |
+          gcloud run jobs deploy careermaps-catalog \
+            --image "$IMAGE:$GITHUB_SHA" \
+            --region "$REGION" \
+            --project "$PROJECT_ID" \
+            --service-account "$RUNTIME_SERVICE_ACCOUNT" \
+            --set-env-vars "NODE_ENV=production,FIREBASE_PROJECT_ID=$PROJECT_ID" \
+            --command node \
+            --args apps/api/dist/cli/catalog.js \
+            --memory 1Gi \
+            --max-retries 1 \
+            --task-timeout 30m
+          gcloud run jobs execute careermaps-catalog --region "$REGION" --project "$PROJECT_ID" --wait
+
       - name: Deploy API to Cloud Run
         run: |
           gcloud run deploy careermaps-api \

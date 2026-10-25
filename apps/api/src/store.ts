@@ -1,4 +1,4 @@
-import { collection, firestore, queryDocuments, readDocument, stableId, writeBatch, deleteBatch, type DemandSnapshotRecord, type IngestRunRecord, type JobRecord, type OAuthAccountRecord, type RoleEdgeRecord, type RoleRecord, type RoadmapRecord, type SessionRecord, type SourceRecord, type UserRecord } from "./firestore.js";
+import { collection, firestore, queryDocuments, readDocument, stableId, writeBatch, deleteBatch, type DemandSnapshotRecord, type IngestRunRecord, type JobRecord, type JobSkillRecord, type OAuthAccountRecord, type RoleEdgeRecord, type RoleRecord, type RoadmapRecord, type SessionRecord, type SourceRecord, type UserRecord } from "./firestore.js";
 
 let roleCache: { expiresAt: number; records: RoleRecord[] } | null = null;
 let roleLoad: Promise<RoleRecord[]> | null = null;
@@ -59,7 +59,11 @@ export interface JobFilter {
   search?: string;
 }
 
-export async function findJobs(filter: JobFilter = {}): Promise<JobRecord[]> {
+/**
+ * Firestore only supports one selective where per query shape here, so the first
+ * matching filter goes into the query and the rest stay in memory.
+ */
+function jobsQuery(filter: JobFilter = {}) {
   const tokens = searchTokens(filter.search ?? "");
   let query = collection("jobs");
   if (filter.roleId) query = query.where("roleId", "==", filter.roleId) as typeof query;
@@ -72,8 +76,17 @@ export async function findJobs(filter: JobFilter = {}): Promise<JobRecord[]> {
   else if (filter.lastSeenBefore) query = query.where("lastSeenAt", "<", filter.lastSeenBefore) as typeof query;
   else if (filter.postedAfter) query = query.where("postedAt", ">=", filter.postedAfter) as typeof query;
   else if (tokens.length) query = query.where("searchTokens", "array-contains-any", tokens) as typeof query;
+  return query;
+}
 
-  let jobs = await queryDocuments<JobRecord>(query);
+/** True when more than the primary where is active, so an aggregate count would overcount. */
+function hasSecondaryFilters(filter: JobFilter): boolean {
+  const set = [filter.roleId, filter.roleSlug, filter.skill, filter.sourceKey, filter.seniority, filter.remote !== undefined ? true : undefined, filter.lastSeenAfter, filter.lastSeenBefore, filter.postedAfter, filter.search];
+  return set.filter((value) => value !== undefined && value !== "").length > 1;
+}
+
+export async function findJobs(filter: JobFilter = {}): Promise<JobRecord[]> {
+  let jobs = await queryDocuments<JobRecord>(jobsQuery(filter));
   if (filter.roleId) jobs = jobs.filter((job) => job.roleId === filter.roleId);
   if (filter.roleSlug) jobs = jobs.filter((job) => job.roleSlug === filter.roleSlug);
   if (filter.skill) jobs = jobs.filter((job) => job.skillNames.includes(filter.skill!));
@@ -289,7 +302,35 @@ export async function matchedJobCount(): Promise<number> {
 }
 
 export async function countJobs(filter: JobFilter = {}): Promise<number> {
-  return (await findJobs(filter)).length;
+  // Aggregation reads no documents — findJobs materialises the whole collection,
+  // which is what made /api/status time out once the board grew past ~6k postings.
+  if (hasSecondaryFilters(filter)) return (await findJobs(filter)).length;
+  return (await jobsQuery(filter).count().get()).data().count;
+}
+
+/** Unfiltered listing: page straight from Firestore instead of sorting in memory. */
+export async function listJobsPage(page: number, perPage: number): Promise<{ total: number; jobs: JobRecord[] }> {
+  const base = collection("jobs").orderBy("firstSeenAt", "desc");
+  const [count, snapshot] = await Promise.all([
+    base.count().get(),
+    base.offset((page - 1) * perPage).limit(perPage).get(),
+  ]);
+  return {
+    total: count.data().count,
+    jobs: snapshot.docs.map((document) => readDocument<JobRecord>(document.data(), document.id)),
+  };
+}
+
+/** Skill tally across every posting — projection keeps a 6k-doc read small. */
+export async function allJobSkills(): Promise<Array<{ skills: JobSkillRecord[] }>> {
+  const snapshot = await collection("jobs").select("skills").get();
+  return snapshot.docs.map((document) => document.data() as { skills: JobSkillRecord[] });
+}
+
+/** Publish dates only, for the freshness profile. */
+export async function jobPostDatesAfter(from: Date): Promise<Array<Pick<JobRecord, "postedAt">>> {
+  const snapshot = await collection("jobs").where("postedAt", ">=", from).select("postedAt").get();
+  return snapshot.docs.map((document) => readDocument<Pick<JobRecord, "postedAt">>(document.data(), document.id));
 }
 
 export async function setBatch<T extends { id: string }>(name: string, documents: T[]): Promise<void> {

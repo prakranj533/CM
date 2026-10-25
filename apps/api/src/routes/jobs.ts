@@ -1,6 +1,7 @@
 import type { FastifyInstance } from "fastify";
 import { z } from "zod";
-import { allJobs, findJobs, jobById, sourceByKey } from "../store.js";
+import { allJobSkills, findJobs, jobById, listJobsPage, sourceByKey } from "../store.js";
+import type { JobRecord } from "../firestore.js";
 
 const query = z.object({
   search: z.string().trim().max(160).optional(),
@@ -26,10 +27,18 @@ export async function jobRoutes(app: FastifyInstance): Promise<void> {
       ...(remote ? { remote: remote === "true" } : {}),
       ...(source ? { sourceKey: source } : {}),
     };
-    const matches = await findJobs(filter);
-    const total = matches.length;
-    matches.sort((a, b) => (b.postedAt?.getTime() ?? 0) - (a.postedAt?.getTime() ?? 0) || b.firstSeenAt.getTime() - a.firstSeenAt.getTime());
-    const jobs = matches.slice((page - 1) * perPage, page * perPage);
+    // Unfiltered listing pages straight from Firestore; loading every posting
+    // to sort in memory blows the request budget on Cloud Run.
+    let total: number;
+    let jobs: JobRecord[];
+    if (Object.keys(filter).length === 0) {
+      ({ total, jobs } = await listJobsPage(page, perPage));
+    } else {
+      const matches = await findJobs(filter);
+      total = matches.length;
+      matches.sort((a, b) => (b.postedAt?.getTime() ?? 0) - (a.postedAt?.getTime() ?? 0) || b.firstSeenAt.getTime() - a.firstSeenAt.getTime());
+      jobs = matches.slice((page - 1) * perPage, page * perPage);
+    }
 
     return {
       total,
@@ -77,7 +86,7 @@ export async function jobRoutes(app: FastifyInstance): Promise<void> {
   app.get("/api/skills/trending", async (request) => {
     const limit = Math.min(Number((request.query as { limit?: string }).limit ?? 25) || 25, 100);
     const counts = new Map<string, { name: string; category: string; postings: number }>();
-    for (const job of await allJobs()) {
+    for (const job of await allJobSkills()) {
       for (const skill of job.skills) {
         const current = counts.get(skill.name) ?? { name: skill.name, category: skill.category, postings: 0 };
         current.postings += 1;

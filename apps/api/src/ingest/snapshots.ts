@@ -1,5 +1,5 @@
 import { addDays, growthFor, startOfUtcDay, type GrowthResult, type SeriesPoint } from "@career-maps/core";
-import { allJobs, findJobs, findSnapshot, querySnapshots, saveSnapshot } from "../store.js";
+import { allJobs, findJobs, findSnapshot, jobPostDatesAfter, querySnapshots, saveSnapshot } from "../store.js";
 
 type Logger = (message: string) => void;
 
@@ -203,7 +203,7 @@ export async function topMovers(
 export async function publicationAgeProfile(weeks = 12): Promise<Array<{ weekStart: string; postings: number }>> {
   const today = startOfUtcDay(new Date());
   const from = addDays(today, -weeks * 7);
-  const postings = await findJobs({ postedAfter: from });
+  const postings = await jobPostDatesAfter(from);
   const buckets = new Map<string, number>();
   for (const posting of postings) {
     if (!posting.postedAt) continue;

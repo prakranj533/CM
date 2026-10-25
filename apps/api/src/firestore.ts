@@ -68,6 +68,7 @@ export interface JobRecord {
   company: string;
   location: string | null;
   isRemote: boolean;
+  inIndia: boolean;
   description: string;
   salaryMin: number | null;
   salaryMax: number | null;

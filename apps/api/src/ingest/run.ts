@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { extractSkills, detectSeniority, matchRole, type RoleIndexEntry } from "@career-maps/core";
+import { extractSkills, detectSeniority, isIndiaLocation, matchRole, type RoleIndexEntry } from "@career-maps/core";
 import { allJobs, allRoles, deleteJobs, findJobs, jobById, jobIdForExternal, saveJob, saveIngestRun, saveRoles, sourceByKey, searchTokens, upsertSource } from "../store.js";
 import type { IngestRunRecord, JobRecord, RoleRecord } from "../firestore.js";
 import { closeBrowser } from "../scraper/browser.js";
@@ -166,6 +166,7 @@ async function persistJob(
     company,
     location: raw.location?.trim().slice(0, 200) ?? null,
     isRemote: raw.isRemote ?? false,
+    inIndia: isIndiaLocation(raw.location),
     description,
     salaryMin: raw.salaryMin ?? null,
     salaryMax: raw.salaryMax ?? null,
@@ -266,6 +267,7 @@ export async function rematchJobs(
     if ((match?.roleId ?? null) !== job.roleId || (match?.reason ?? null) !== job.matchReason) changed += 1;
     await saveJob({
       ...job,
+      inIndia: isIndiaLocation(job.location),
       roleId: match?.roleId ?? null,
       roleSlug: role?.slug ?? null,
       roleName: role?.name ?? null,

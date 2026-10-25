@@ -53,6 +53,7 @@ export interface JobFilter {
   seniority?: string;
   remote?: boolean;
   sourceKey?: string;
+  india?: boolean;
   lastSeenAfter?: Date;
   lastSeenBefore?: Date;
   postedAfter?: Date;
@@ -71,6 +72,7 @@ function jobsQuery(filter: JobFilter = {}) {
   else if (filter.skill) query = query.where("skillNames", "array-contains", filter.skill) as typeof query;
   else if (filter.sourceKey) query = query.where("sourceKey", "==", filter.sourceKey) as typeof query;
   else if (filter.seniority) query = query.where("seniority", "==", filter.seniority) as typeof query;
+  else if (filter.india !== undefined) query = query.where("inIndia", "==", filter.india) as typeof query;
   else if (filter.remote !== undefined) query = query.where("isRemote", "==", filter.remote) as typeof query;
   else if (filter.lastSeenAfter) query = query.where("lastSeenAt", ">=", filter.lastSeenAfter) as typeof query;
   else if (filter.lastSeenBefore) query = query.where("lastSeenAt", "<", filter.lastSeenBefore) as typeof query;
@@ -81,7 +83,7 @@ function jobsQuery(filter: JobFilter = {}) {
 
 /** True when more than the primary where is active, so an aggregate count would overcount. */
 function hasSecondaryFilters(filter: JobFilter): boolean {
-  const set = [filter.roleId, filter.roleSlug, filter.skill, filter.sourceKey, filter.seniority, filter.remote !== undefined ? true : undefined, filter.lastSeenAfter, filter.lastSeenBefore, filter.postedAfter, filter.search];
+  const set = [filter.roleId, filter.roleSlug, filter.skill, filter.sourceKey, filter.seniority, filter.india !== undefined ? true : undefined, filter.remote !== undefined ? true : undefined, filter.lastSeenAfter, filter.lastSeenBefore, filter.postedAfter, filter.search];
   return set.filter((value) => value !== undefined && value !== "").length > 1;
 }
 
@@ -91,6 +93,8 @@ export async function findJobs(filter: JobFilter = {}): Promise<JobRecord[]> {
   if (filter.roleSlug) jobs = jobs.filter((job) => job.roleSlug === filter.roleSlug);
   if (filter.skill) jobs = jobs.filter((job) => job.skillNames.includes(filter.skill!));
   if (filter.seniority) jobs = jobs.filter((job) => job.seniority === filter.seniority);
+  // Docs predating the field count as not-India until the backfill runs.
+  if (filter.india !== undefined) jobs = jobs.filter((job) => (job.inIndia ?? false) === filter.india);
   if (filter.remote !== undefined) jobs = jobs.filter((job) => job.isRemote === filter.remote);
   if (filter.sourceKey) jobs = jobs.filter((job) => job.sourceKey === filter.sourceKey);
   if (filter.lastSeenAfter) jobs = jobs.filter((job) => job.lastSeenAt >= filter.lastSeenAfter!);

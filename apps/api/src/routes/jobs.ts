@@ -10,6 +10,7 @@ const query = z.object({
   seniority: z.enum(["intern", "entry", "mid", "senior", "lead", "executive"]).optional(),
   remote: z.enum(["true", "false"]).optional(),
   source: z.string().trim().optional(),
+  country: z.enum(["india", "other"]).optional(),
   page: z.coerce.number().min(1).default(1),
   perPage: z.coerce.number().min(1).max(100).default(20),
 });
@@ -18,7 +19,7 @@ export async function jobRoutes(app: FastifyInstance): Promise<void> {
   app.get("/api/jobs", async (request, reply) => {
     const parsed = query.safeParse(request.query);
     if (!parsed.success) return reply.code(400).send({ error: "Invalid query", details: parsed.error.flatten() });
-    const { search, role, skill, seniority, remote, source, page, perPage } = parsed.data;
+    const { search, role, skill, seniority, remote, source, country, page, perPage } = parsed.data;
     const filter = {
       ...(search ? { search } : {}),
       ...(role ? { roleSlug: role } : {}),
@@ -26,6 +27,7 @@ export async function jobRoutes(app: FastifyInstance): Promise<void> {
       ...(seniority ? { seniority } : {}),
       ...(remote ? { remote: remote === "true" } : {}),
       ...(source ? { sourceKey: source } : {}),
+      ...(country ? { india: country === "india" } : {}),
     };
     // Unfiltered listing pages straight from Firestore; loading every posting
     // to sort in memory blows the request budget on Cloud Run.

@@ -166,6 +166,7 @@ async function load(): Promise<void> {
       source: filters.value.source ?? undefined,
       role: filters.value.role ?? undefined,
       skill: filters.value.skill ?? undefined,
+      country: "india",
       page: page.value,
       perPage: 18,
     });

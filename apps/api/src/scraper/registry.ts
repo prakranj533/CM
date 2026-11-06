@@ -1,6 +1,7 @@
 import { fetchJson, fetchText } from "./http.js";
 import { renderHtml } from "./browser.js";
 import { adzunaSource } from "./sources/adzuna.js";
+import { apnaSource } from "./sources/apna.js";
 import { ashbySource } from "./sources/ashby.js";
 import { greenhouseSource } from "./sources/greenhouse.js";
 import { himalayasSource } from "./sources/himalayas.js";
@@ -23,7 +24,9 @@ import type { JobSource, ScrapeContext } from "./types.js";
  *   - Jooble: sits behind a Cloudflare challenge.
  *   - Arbeitnow: verified zero Indian postings and German-language descriptions,
  *     which would pollute skill extraction for this audience.
- *   - NCS (ncs.gov.in): JavaScript single-page app with no documented public API.
+ *   - NCS (ncs.gov.in): JavaScript single-page app; its Azure backend API
+ *     (ncsapi.centralindia.cloudapp.azure.com) answers 401 without a session.
+ *   - Internshala: robots.txt disallows /job/search/ and /job/details/.
  *   - SmartRecruiters: its robots.txt is "User-agent: * / Disallow: /" (only
  *     LinkedInBot is granted /v1/companies/), so despite being the richest
  *     keyless India source we must not crawl it.
@@ -31,6 +34,7 @@ import type { JobSource, ScrapeContext } from "./types.js";
 export const SOURCES: JobSource[] = [
   // India coverage
   adzunaSource,
+  apnaSource,
   ashbySource,
   greenhouseSource,
   leverSource,

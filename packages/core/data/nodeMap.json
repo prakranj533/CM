@@ -1912,6 +1912,11 @@
         "to": "f859f935-76d1-4bb7-8143-a6ff8193085e",
         "duration": "4",
         "skills": ""
+      },
+      {
+        "to": "2f433ef1-6750-410f-8421-ab061b8aa00f",
+        "duration": "",
+        "skills": "Ayurvedic medicine, Patient care"
       }
     ]
   },
@@ -1923,6 +1928,11 @@
         "to": "836a0226-bd90-4a70-a400-992ca7472a18",
         "duration": "2",
         "skills": "You should have MBBS, DHMS, BDS, BHMS or DMS, \r\nAncillary Acupuncture, Internal Medicine (Western) etc"
+      },
+      {
+        "to": "2f433ef1-6750-410f-8421-ab061b8aa00f",
+        "duration": "",
+        "skills": "Homeopathic medicine, Patient care"
       }
     ]
   },
@@ -1960,6 +1970,11 @@
         "to": "adda8e74-e608-4211-827e-56d367cb0077",
         "duration": "3",
         "skills": ""
+      },
+      {
+        "to": "2f433ef1-6750-410f-8421-ab061b8aa00f",
+        "duration": "",
+        "skills": "Clinical practice, Patient care"
       }
     ]
   },
@@ -2141,7 +2156,13 @@
   "f859f935-76d1-4bb7-8143-a6ff8193085e": {
     "id": "f859f935-76d1-4bb7-8143-a6ff8193085e",
     "name": "M.D.",
-    "paths": []
+    "paths": [
+      {
+        "to": "2f433ef1-6750-410f-8421-ab061b8aa00f",
+        "duration": "",
+        "skills": "Specialist diagnosis, Patient care"
+      }
+    ]
   },
   "836a0226-bd90-4a70-a400-992ca7472a18": {
     "id": "836a0226-bd90-4a70-a400-992ca7472a18",
@@ -2156,7 +2177,13 @@
   "1e42ae92-0859-410e-b96c-5a48ded86f9c": {
     "id": "1e42ae92-0859-410e-b96c-5a48ded86f9c",
     "name": "M.S.",
-    "paths": []
+    "paths": [
+      {
+        "to": "2f433ef1-6750-410f-8421-ab061b8aa00f",
+        "duration": "",
+        "skills": "Surgery, Patient care"
+      }
+    ]
   },
   "adda8e74-e608-4211-827e-56d367cb0077": {
     "id": "adda8e74-e608-4211-827e-56d367cb0077",
@@ -2469,6 +2496,11 @@
   "eb22133f-e187-4105-870f-2798b803fbc6": {
     "id": "eb22133f-e187-4105-870f-2798b803fbc6",
     "name": "Commercial Pilot Licence",
+    "paths": []
+  },
+  "2f433ef1-6750-410f-8421-ab061b8aa00f": {
+    "id": "2f433ef1-6750-410f-8421-ab061b8aa00f",
+    "name": "Doctor",
     "paths": []
   }
 }

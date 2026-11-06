@@ -210,7 +210,13 @@
   "0bd4f199-41e6-45be-8b62-1f90baa4f94c": {
     "id": "0bd4f199-41e6-45be-8b62-1f90baa4f94c",
     "name": "Degree Engineering (B.E.)",
-    "paths": []
+    "paths": [
+      {
+        "to": "4bf16294-54d1-4d99-a861-629833756035",
+        "duration": "",
+        "skills": ""
+      }
+    ]
   },
   "39e97242-495e-479e-8736-87665bcfed03": {
     "id": "39e97242-495e-479e-8736-87665bcfed03",
@@ -295,6 +301,11 @@
       },
       {
         "to": "a4cb810f-4f14-4f5e-8490-4d98f07c9bc6",
+        "duration": "",
+        "skills": ""
+      },
+      {
+        "to": "4f57424a-ece8-4b5a-8d56-c63f82d0fb6e",
         "duration": "",
         "skills": ""
       }
@@ -1106,6 +1117,11 @@
         "to": "f00f8084-fffd-4fea-86a5-f0d432e167cd",
         "duration": "2",
         "skills": "B.Ed / BA B.Ed / B.Sc B.Ed / B.El.Ed. / D.El.Ed"
+      },
+      {
+        "to": "cf9e9259-dca3-4a13-ac1e-008c30d614eb",
+        "duration": "",
+        "skills": ""
       }
     ]
   },
@@ -1303,7 +1319,13 @@
   "1540cb8e-fcbd-408d-ab27-7145ff38b5e5": {
     "id": "1540cb8e-fcbd-408d-ab27-7145ff38b5e5",
     "name": "Indian Military Academy",
-    "paths": []
+    "paths": [
+      {
+        "to": "721b7429-5c89-407f-b4c0-3c3ddf7e051c",
+        "duration": "",
+        "skills": ""
+      }
+    ]
   },
   "f89eadc8-430c-4f17-98ed-a89a8dc6b9b4": {
     "id": "f89eadc8-430c-4f17-98ed-a89a8dc6b9b4",
@@ -1530,6 +1552,11 @@
         "to": "a3e9e118-303a-45fa-94ba-5d8664cef6b0",
         "duration": "1.41",
         "skills": ""
+      },
+      {
+        "to": "721b7429-5c89-407f-b4c0-3c3ddf7e051c",
+        "duration": "",
+        "skills": ""
       }
     ]
   },
@@ -1557,7 +1584,13 @@
   "2a6e5a3c-59c5-40b7-8d14-817c72dc3440": {
     "id": "2a6e5a3c-59c5-40b7-8d14-817c72dc3440",
     "name": "Technical Entry in Indian Army",
-    "paths": []
+    "paths": [
+      {
+        "to": "721b7429-5c89-407f-b4c0-3c3ddf7e051c",
+        "duration": "",
+        "skills": ""
+      }
+    ]
   },
   "e74a28bd-d7c9-4fbe-acb2-8df5d4c0aa6e": {
     "id": "e74a28bd-d7c9-4fbe-acb2-8df5d4c0aa6e",
@@ -1612,13 +1645,24 @@
         "to": "34825a9f-121a-4154-9ce3-256ef910ed61",
         "duration": "",
         "skills": ""
+      },
+      {
+        "to": "4bf16294-54d1-4d99-a861-629833756035",
+        "duration": "",
+        "skills": ""
       }
     ]
   },
   "e75f9b61-da75-49b5-8292-ba5fe0d8fe62": {
     "id": "e75f9b61-da75-49b5-8292-ba5fe0d8fe62",
     "name": "B.Tech",
-    "paths": []
+    "paths": [
+      {
+        "to": "4bf16294-54d1-4d99-a861-629833756035",
+        "duration": "",
+        "skills": ""
+      }
+    ]
   },
   "e1b4f068-822a-4119-a8d8-e726dfc2a808": {
     "id": "e1b4f068-822a-4119-a8d8-e726dfc2a808",
@@ -1785,6 +1829,11 @@
         "to": "a3e9e118-303a-45fa-94ba-5d8664cef6b0",
         "duration": "",
         "skills": ""
+      },
+      {
+        "to": "721b7429-5c89-407f-b4c0-3c3ddf7e051c",
+        "duration": "",
+        "skills": ""
       }
     ]
   },
@@ -1796,7 +1845,13 @@
   "e6a48faf-c091-4bb1-a6e3-f8602adc563e": {
     "id": "e6a48faf-c091-4bb1-a6e3-f8602adc563e",
     "name": "M.Tech (IIT)",
-    "paths": []
+    "paths": [
+      {
+        "to": "9f661773-4f00-4314-ae48-1960e1decb1f",
+        "duration": "",
+        "skills": ""
+      }
+    ]
   },
   "34825a9f-121a-4154-9ce3-256ef910ed61": {
     "id": "34825a9f-121a-4154-9ce3-256ef910ed61",
@@ -2118,6 +2173,11 @@
         "to": "603fbaa5-bd3b-4a4c-8e1a-4077d316a19a",
         "duration": "1",
         "skills": ""
+      },
+      {
+        "to": "9f661773-4f00-4314-ae48-1960e1decb1f",
+        "duration": "",
+        "skills": ""
       }
     ]
   },
@@ -2146,7 +2206,13 @@
   "e455d13d-e612-45e4-ba85-a34ccd7bea47": {
     "id": "e455d13d-e612-45e4-ba85-a34ccd7bea47",
     "name": "Ph.D.",
-    "paths": []
+    "paths": [
+      {
+        "to": "9f661773-4f00-4314-ae48-1960e1decb1f",
+        "duration": "",
+        "skills": ""
+      }
+    ]
   },
   "ed01b0ce-bc9a-483f-8a14-0c74ebbd9473": {
     "id": "ed01b0ce-bc9a-483f-8a14-0c74ebbd9473",
@@ -2418,17 +2484,35 @@
   "3d3e6539-3681-4b08-8685-62673109438d": {
     "id": "3d3e6539-3681-4b08-8685-62673109438d",
     "name": "Sub Inspector Exam for BSF",
-    "paths": []
+    "paths": [
+      {
+        "to": "4f57424a-ece8-4b5a-8d56-c63f82d0fb6e",
+        "duration": "",
+        "skills": ""
+      }
+    ]
   },
   "55b4e214-473d-4f7b-a2ee-1fc81161b12c": {
     "id": "55b4e214-473d-4f7b-a2ee-1fc81161b12c",
     "name": "Sub Inspector Exam for CRPF",
-    "paths": []
+    "paths": [
+      {
+        "to": "4f57424a-ece8-4b5a-8d56-c63f82d0fb6e",
+        "duration": "",
+        "skills": ""
+      }
+    ]
   },
   "3b238dc8-59b4-4289-a30e-996752f888c5": {
     "id": "3b238dc8-59b4-4289-a30e-996752f888c5",
     "name": "Sub Inspector Exam for CISF",
-    "paths": []
+    "paths": [
+      {
+        "to": "4f57424a-ece8-4b5a-8d56-c63f82d0fb6e",
+        "duration": "",
+        "skills": ""
+      }
+    ]
   },
   "04646c3d-f16c-4d60-b48e-0a32db2b40d8": {
     "id": "04646c3d-f16c-4d60-b48e-0a32db2b40d8",
@@ -2501,6 +2585,21 @@
   "2f433ef1-6750-410f-8421-ab061b8aa00f": {
     "id": "2f433ef1-6750-410f-8421-ab061b8aa00f",
     "name": "Doctor",
+    "paths": []
+  },
+  "4f57424a-ece8-4b5a-8d56-c63f82d0fb6e": {
+    "id": "4f57424a-ece8-4b5a-8d56-c63f82d0fb6e",
+    "name": "Police Officer",
+    "paths": []
+  },
+  "721b7429-5c89-407f-b4c0-3c3ddf7e051c": {
+    "id": "721b7429-5c89-407f-b4c0-3c3ddf7e051c",
+    "name": "Army Officer",
+    "paths": []
+  },
+  "9f661773-4f00-4314-ae48-1960e1decb1f": {
+    "id": "9f661773-4f00-4314-ae48-1960e1decb1f",
+    "name": "Scientist",
     "paths": []
   }
 }
